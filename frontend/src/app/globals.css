@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0E1B3A;
+  --foreground: #F7F3EC;
+}
+
+body {
+  background-color: #0E1B3A;
+  color: #F7F3EC;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070D20;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8A24B;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E7C977;
+}
+
+/* Glassmorphism helpers */
+.glass-gold {
+  background: rgba(8, 14, 28, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 162, 75, 0.25);
+}
+
+.glass-panel {
+  background: rgba(14, 27, 58, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F0D88A 0%, #C8A24B 50%, #A8842F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-btn {
+  background: linear-gradient(135deg, #E0BC66 0%, #C8A24B 52%, #A8842F 100%);
+  color: #0E1B3A;
+  box-shadow: 0 10px 25px -8px rgba(200, 162, 75, 0.5);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-gradient-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px -8px rgba(200, 162, 75, 0.7);
+}
+
+.gold-border-glow {
+  box-shadow: 0 0 0 1px rgba(200, 162, 75, 0.3), 0 8px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* Luxury animations */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+
+@keyframes pulseSubtleGlow {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.04); }
+}
+
+@keyframes shimmerEffect {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseSubtleGlow 8s ease-in-out infinite;
+}
+
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #F0D88A 0%, #FFFFFF 50%, #C8A24B 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerEffect 4s linear infinite;
+}
+
+
