@@ -71,3 +71,4 @@ Frontend runs on: `http://localhost:3000`
 3. **Dynamic Digital Invitation Studio**: Real-time canvas typography rendering, color swatches, dynamic share slugs (`/invite/[slug]`), automated RSVP tracking, and WhatsApp sharing.
 4. **AI Concierge Chatbot & WhatsApp**: Instant responses, inventory dimensions lookup, pricing breakdown, and 1-tap WhatsApp handoff.
 5. **Admin Operations Suite**: Full CRUD management of Inventory, Bookings, Inquiries, Digital Templates, Services, Portfolio, and live Google SEO previews.
+

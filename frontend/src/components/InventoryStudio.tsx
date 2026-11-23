@@ -102,11 +102,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setViewMode(viewMode === 'grid' ? 'builder' : 'grid')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all ${
-                viewMode === 'builder'
+              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all ${viewMode === 'builder'
                   ? 'bg-fs-gold text-fs-navy shadow-lg font-bold'
                   : 'bg-white/5 border border-fs-gold/30 text-fs-gold-light hover:bg-white/10'
-              }`}
+                }`}
             >
               <Sparkles className="w-4 h-4" />
               <span>{viewMode === 'builder' ? 'Back to Full Catalog' : 'Open Combination Builder'}</span>
@@ -145,11 +144,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                 <button
                   key={t}
                   onClick={() => setSelectedTheme(t)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
-                    selectedTheme === t
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${selectedTheme === t
                       ? 'bg-fs-gold text-fs-navy font-bold shadow-sm'
                       : 'bg-white/5 text-fs-cream/70 hover:bg-white/10'
-                  }`}
+                    }`}
                 >
                   {t}
                 </button>
@@ -161,11 +159,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
           <div className="pt-2 border-t border-white/5 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             <button
               onClick={() => setSelectedCategory('All')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedCategory === 'All'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${selectedCategory === 'All'
                   ? 'bg-fs-gold text-fs-navy font-bold'
                   : 'bg-white/5 border border-white/10 text-fs-cream/80 hover:bg-white/10'
-              }`}
+                }`}
             >
               All Collections
             </button>
@@ -173,11 +170,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
               <button
                 key={c.id}
                 onClick={() => setSelectedCategory(c.name)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedCategory === c.name
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${selectedCategory === c.name
                     ? 'bg-fs-gold text-fs-navy font-bold shadow-sm'
                     : 'bg-white/5 border border-white/10 text-fs-cream/80 hover:bg-white/10'
-                }`}
+                  }`}
               >
                 {c.name}
               </button>
@@ -208,9 +204,8 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                   <button
                     onClick={() => onTriggerAiGeneration(cartItems)}
                     disabled={cartItems.length === 0}
-                    className={`gold-gradient-btn px-6 py-3.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-xl ${
-                      cartItems.length === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-105'
-                    }`}
+                    className={`gold-gradient-btn px-6 py-3.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-xl ${cartItems.length === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-105'
+                      }`}
                   >
                     <Sparkles className="w-4 h-4 text-fs-navy" />
                     <span>Generate 4K AI Render</span>
@@ -333,11 +328,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                         {item.category?.name || 'Décor'}
                       </span>
                       <span
-                        className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                          item.status === 'AVAILABLE'
+                        className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${item.status === 'AVAILABLE'
                             ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                             : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                        }`}
+                          }`}
                       >
                         {item.status}
                       </span>
@@ -384,11 +378,10 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
 
                         <button
                           onClick={() => (inCart ? removeFromCart(item.id) : addToCart(item))}
-                          className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-                            inCart
+                          className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${inCart
                               ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                               : 'gold-gradient-btn'
-                          }`}
+                            }`}
                         >
                           {inCart ? (
                             <>
