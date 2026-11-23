@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build && node -e \"const fs = require('fs'); fs.cpSync('frontend/.next', '.next', {recursive: true}); fs.cpSync('frontend/public', 'public', {recursive: true});\"",
+  "buildCommand": "node build-vercel.js",
   "outputDirectory": ".next",
   "framework": "nextjs"
 }

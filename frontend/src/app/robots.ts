@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/'],
       },
     ],
-    sitemap: 'https://fourseasonsstudio.ae/sitemap.xml',
+    sitemap: 'https://fourseasons.events/sitemap.xml',
   };
 }
 
