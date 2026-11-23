@@ -9,7 +9,7 @@ console.log('==============================================');
 try {
   // 1. Install frontend dependencies
   console.log('> Installing frontend dependencies...');
-  execSync('npm install --prefer-offline --no-audit', {
+  execSync('npm install --legacy-peer-deps --no-audit', {
     cwd: path.join(__dirname, 'frontend'),
     stdio: 'inherit',
   });
@@ -44,3 +44,4 @@ try {
   console.error('Build failed:', error);
   process.exit(1);
 }
+

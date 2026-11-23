@@ -10,15 +10,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const defaultUrl = "https://fourseasons.events";
 
   let seoData: Record<string, string> = {};
-  try {
-    const res = await fetch("http://localhost:4000/api/settings/seo", {
-      next: { revalidate: 60 },
-    });
-    if (res.ok) {
-      seoData = await res.json();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (apiUrl && !apiUrl.includes("localhost")) {
+    try {
+      const res = await fetch(`${apiUrl}/settings/seo`, {
+        next: { revalidate: 60 },
+      });
+      if (res.ok) {
+        seoData = await res.json();
+      }
+    } catch {
+      // Graceful fallback to default luxury settings
     }
-  } catch {
-    // Graceful fallback to default luxury settings
   }
 
   const title = seoData.meta_title || defaultTitle;
