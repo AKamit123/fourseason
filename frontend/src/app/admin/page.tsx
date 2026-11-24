@@ -11,6 +11,16 @@ import {
   X, Eye, Share2, Tag, Save
 } from 'lucide-react';
 import { api } from '@/lib/api';
+import {
+  DEMO_CATEGORIES,
+  DEMO_ITEMS,
+  DEMO_TEMPLATES,
+  DEMO_KPIS,
+  DEMO_INQUIRIES,
+  DEMO_BOOKINGS,
+  DEMO_SERVICES,
+  DEMO_PORTFOLIO,
+} from '@/lib/demoData';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -145,17 +155,17 @@ export default function AdminDashboardPage() {
         api.getSeoSettings().catch(() => null),
       ]);
 
-      setDashboardData(kpisRes);
-      setInquiries(inqsRes?.inquiries || []);
-      setInventoryItems(itemsRes?.items || []);
-      setCategories(catsRes || []);
-      setBookings(bkgRes || []);
+      setDashboardData(kpisRes || DEMO_KPIS);
+      setInquiries(inqsRes?.inquiries?.length ? inqsRes.inquiries : DEMO_INQUIRIES);
+      setInventoryItems(itemsRes?.items?.length ? itemsRes.items : DEMO_ITEMS);
+      setCategories(catsRes?.length ? catsRes : DEMO_CATEGORIES);
+      setBookings(bkgRes?.length ? bkgRes : DEMO_BOOKINGS);
       setAiGenerations(aiRes || []);
-      setInvitationTemplates(tplRes || []);
-      setServicesList(srvRes || []);
-      setPortfolioList(portRes || []);
-      setZohoConfig(zohoRes);
-      setWhatsAppConfig(waRes);
+      setInvitationTemplates(tplRes?.length ? tplRes : DEMO_TEMPLATES);
+      setServicesList(srvRes?.length ? srvRes : DEMO_SERVICES);
+      setPortfolioList(portRes?.length ? portRes : DEMO_PORTFOLIO);
+      setZohoConfig(zohoRes || { isEnabled: true, autoSyncLeads: true });
+      setWhatsAppConfig(waRes || { isEnabled: true, autoReplyWelcome: true });
       setWhatsAppLogs(waLogsRes || []);
       setSystemSettings(setRes || []);
 

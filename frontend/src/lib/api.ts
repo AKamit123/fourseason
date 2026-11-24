@@ -1,4 +1,12 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+export const getApiBase = () => {
+  if (typeof window !== 'undefined') {
+    // When running in production browser (like *.vercel.app), use relative '/api'
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return '/api';
+    }
+  }
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+};
 
 export async function fetchApi<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('fs_auth_token') : null;
@@ -11,7 +19,8 @@ export async function fetchApi<T = any>(endpoint: string, options: RequestInit =
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+  const apiBase = getApiBase();
+  const url = endpoint.startsWith('http') ? endpoint : `${apiBase}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
   const response = await fetch(url, {
     ...options,
     headers,

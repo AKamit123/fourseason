@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Sparkles, Download, Share2, Check, RefreshCw, Palette, Type, Calendar, MapPin, Users, Heart } from 'lucide-react';
 import { api } from '@/lib/api';
+import { DEMO_TEMPLATES } from '@/lib/demoData';
 
 export const DynamicInvitationBuilder: React.FC = () => {
   const [templates, setTemplates] = useState<any[]>([]);
@@ -34,12 +35,13 @@ export const DynamicInvitationBuilder: React.FC = () => {
   const loadTemplates = async () => {
     try {
       setLoading(true);
-      const res = await api.getTemplates();
-      setTemplates(res || []);
-      if (res && res.length > 0) {
-        setSelectedTemplate(res[0]);
-        if (res[0].defaultSettings) {
-          const s = res[0].defaultSettings;
+      const res = await api.getTemplates().catch(() => DEMO_TEMPLATES);
+      const list = res?.length ? res : DEMO_TEMPLATES;
+      setTemplates(list);
+      if (list && list.length > 0) {
+        setSelectedTemplate(list[0]);
+        if (list[0].defaultSettings) {
+          const s = list[0].defaultSettings;
           if (s.coupleNames) setCoupleNames(s.coupleNames);
           if (s.eventName) setEventName(s.eventName);
           if (s.eventDate) setEventDate(s.eventDate);
@@ -52,6 +54,7 @@ export const DynamicInvitationBuilder: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load invitation templates:', err);
+      setTemplates(DEMO_TEMPLATES);
     } finally {
       setLoading(false);
     }

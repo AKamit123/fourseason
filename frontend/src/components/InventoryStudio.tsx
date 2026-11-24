@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Plus, Check, Eye, Trash2, ArrowRight, Filter, Search, SlidersHorizontal, Layers, ShoppingBag, Info, X } from 'lucide-react';
 import { api } from '@/lib/api';
+import { DEMO_CATEGORIES, DEMO_ITEMS } from '@/lib/demoData';
 
 interface InventoryStudioProps {
   onTriggerAiGeneration: (selectedItems: any[]) => void;
@@ -38,18 +39,20 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
     try {
       setLoading(true);
       const [catsRes, itemsRes] = await Promise.all([
-        api.getCategories(),
+        api.getCategories().catch(() => DEMO_CATEGORIES),
         api.getItems({
           category: selectedCategory !== 'All' ? selectedCategory : undefined,
           theme: selectedTheme !== 'All' ? selectedTheme : undefined,
           search: searchQuery || undefined,
           limit: 100,
-        }),
+        }).catch(() => ({ items: DEMO_ITEMS })),
       ]);
-      setCategories(catsRes || []);
-      setItems(itemsRes.items || []);
+      setCategories(catsRes?.length ? catsRes : DEMO_CATEGORIES);
+      setItems(itemsRes?.items?.length ? itemsRes.items : DEMO_ITEMS);
     } catch (err) {
       console.error('Failed to load inventory:', err);
+      setCategories(DEMO_CATEGORIES);
+      setItems(DEMO_ITEMS);
     } finally {
       setLoading(false);
     }
