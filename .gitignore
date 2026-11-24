@@ -38,3 +38,8 @@ scratch/
 # Root copy of public and .next
 /public/
 /.next/
+
+# Screenshots
+*screenshot*
+*.png
+!frontend/public/favicon.ico
