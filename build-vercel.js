@@ -6,25 +6,35 @@ console.log('==============================================');
 console.log('  Four Seasons: Building Frontend for Vercel');
 console.log('==============================================');
 
+const env = {
+  ...process.env,
+  CI: '1',
+  NEXT_TELEMETRY_DISABLED: '1',
+  NODE_ENV: 'production',
+};
+
+const frontendDir = path.join(__dirname, 'frontend');
+
 try {
   // 1. Install frontend dependencies
   console.log('> Installing frontend dependencies...');
-  execSync('npm install --legacy-peer-deps --no-audit', {
-    cwd: path.join(__dirname, 'frontend'),
+  execSync('npm install --include=dev --legacy-peer-deps --no-audit', {
+    cwd: frontendDir,
     stdio: 'inherit',
   });
 
   // 2. Build Next.js
   console.log('> Building Next.js application...');
-  execSync('npm run build', {
-    cwd: path.join(__dirname, 'frontend'),
+  execSync('npx next build', {
+    cwd: frontendDir,
     stdio: 'inherit',
+    env,
   });
 
   // 3. Mirror .next and public to root
-  const srcNext = path.join(__dirname, 'frontend', '.next');
+  const srcNext = path.join(frontendDir, '.next');
   const destNext = path.join(__dirname, '.next');
-  const srcPublic = path.join(__dirname, 'frontend', 'public');
+  const srcPublic = path.join(frontendDir, 'public');
   const destPublic = path.join(__dirname, 'public');
 
   if (fs.existsSync(srcNext)) {
@@ -41,7 +51,6 @@ try {
   console.log('✓ Four Seasons Vercel build completed successfully!');
   console.log('==============================================');
 } catch (error) {
-  console.error('Build failed:', error);
+  console.error('Build execution failed:', error.message || error);
   process.exit(1);
 }
-
