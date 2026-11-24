@@ -631,3 +631,4 @@ export const DEMO_PORTFOLIO = [
     description: 'Mediterranean-inspired open-air courtyard celebration with sculpted Roman pillars, fresh citrus centerpieces, and traditional marigold water cascades.'
   }
 ];
+

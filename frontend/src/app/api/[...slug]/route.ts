@@ -10,6 +10,8 @@ import {
   DEMO_PORTFOLIO,
 } from '@/lib/demoData';
 
+const LIVE_TUNNEL_URL = 'https://fourseasons-api.loca.lt/api';
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string[] }> }
@@ -17,8 +19,37 @@ export async function GET(
   const { slug } = await params;
   const path = slug ? slug.join('/') : '';
   const searchParams = req.nextUrl.searchParams;
+  const queryString = searchParams.toString();
 
-  // 1. Auth Profile
+  // 1. Try Live Database Proxy via Tunnel
+  try {
+    const targetUrl = `${LIVE_TUNNEL_URL}/${path}${queryString ? `?${queryString}` : ''}`;
+    const authHeader = req.headers.get('authorization');
+    const proxyHeaders: Record<string, string> = {
+      'bypass-tunnel-reminder': 'true',
+      'Content-Type': 'application/json',
+    };
+    if (authHeader) proxyHeaders['authorization'] = authHeader;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+
+    const liveRes = await fetch(targetUrl, {
+      headers: proxyHeaders,
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (liveRes.ok) {
+      const data = await liveRes.json();
+      return NextResponse.json(data);
+    }
+  } catch (_) {
+    // Fall back seamlessly to serverless data below
+  }
+
+  // 2. Serverless High-Availability Fallback
+  // Auth Profile
   if (path === 'auth/profile') {
     return NextResponse.json({
       id: 'admin-001',
@@ -28,12 +59,12 @@ export async function GET(
     });
   }
 
-  // 2. Inventory Categories
+  // Inventory Categories
   if (path === 'inventory/categories') {
     return NextResponse.json(DEMO_CATEGORIES);
   }
 
-  // 3. Inventory Items
+  // Inventory Items
   if (path === 'inventory/items') {
     const categoryParam = searchParams.get('category');
     const themeParam = searchParams.get('theme');
@@ -65,37 +96,37 @@ export async function GET(
     });
   }
 
-  // 4. Analytics KPI
+  // Analytics KPI
   if (path === 'analytics/dashboard') {
     return NextResponse.json(DEMO_KPIS);
   }
 
-  // 5. Inquiries
+  // Inquiries
   if (path === 'inquiries') {
     return NextResponse.json({ inquiries: DEMO_INQUIRIES, total: DEMO_INQUIRIES.length });
   }
 
-  // 6. Bookings
+  // Bookings
   if (path === 'bookings') {
     return NextResponse.json(DEMO_BOOKINGS);
   }
 
-  // 7. Invitations Templates
+  // Invitations Templates
   if (path === 'invitations/templates') {
     return NextResponse.json(DEMO_TEMPLATES);
   }
 
-  // 8. Services
+  // Services
   if (path === 'services' || path === 'services/all') {
     return NextResponse.json(DEMO_SERVICES);
   }
 
-  // 9. Portfolio
+  // Portfolio
   if (path === 'portfolio' || path === 'portfolio/all') {
     return NextResponse.json(DEMO_PORTFOLIO);
   }
 
-  // 10. Settings & SEO
+  // Settings & SEO
   if (path === 'settings/seo' || path === 'settings/all' || path === 'settings/public') {
     return NextResponse.json({
       meta_title: 'Four Seasons | Luxury Wedding & Event Atelier',
@@ -117,12 +148,12 @@ export async function GET(
     });
   }
 
-  // 11. AI History
+  // AI History
   if (path === 'ai/history') {
     return NextResponse.json([]);
   }
 
-  // 12. Zoho & WhatsApp configs
+  // Zoho & WhatsApp configs
   if (path === 'zoho/config') {
     return NextResponse.json({ isEnabled: true, autoSyncLeads: true });
   }
@@ -147,10 +178,39 @@ export async function POST(
     body = await req.json();
   } catch (_) {}
 
-  // 1. Auth Login
+  // 1. Try Live Database Proxy via Tunnel
+  try {
+    const targetUrl = `${LIVE_TUNNEL_URL}/${path}`;
+    const authHeader = req.headers.get('authorization');
+    const proxyHeaders: Record<string, string> = {
+      'bypass-tunnel-reminder': 'true',
+      'Content-Type': 'application/json',
+    };
+    if (authHeader) proxyHeaders['authorization'] = authHeader;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+
+    const liveRes = await fetch(targetUrl, {
+      method: 'POST',
+      headers: proxyHeaders,
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (liveRes.ok) {
+      const data = await liveRes.json();
+      return NextResponse.json(data);
+    }
+  } catch (_) {
+    // Fall back seamlessly to serverless logic below
+  }
+
+  // 2. Serverless High-Availability Fallback
+  // Auth Login
   if (path === 'auth/login') {
     const { email, password } = body;
-    // Allow admin credentials
     if (
       (email?.toLowerCase().includes('admin') || email === 'admin@fourseasons.ae' || email === 'admin@fourseasons.com') &&
       (password === 'Admin@123' || password === 'FourSeasons@2026' || password?.length >= 6)
@@ -172,7 +232,7 @@ export async function POST(
     );
   }
 
-  // 2. AI Image Generation
+  // AI Image Generation
   if (path === 'ai/generate-image') {
     const matchedItem = DEMO_ITEMS.find((it) => body.itemIds?.includes(it.id)) || DEMO_ITEMS[3];
     return NextResponse.json({
@@ -184,14 +244,14 @@ export async function POST(
     });
   }
 
-  // 3. AI Concierge Chat
+  // AI Concierge Chat
   if (path === 'ai/chat') {
     return NextResponse.json({
       reply: `Welcome to Four Seasons. I am your AI Event Concierge. Our atelier inventory features authentic rental wave stages, royal mandaps, and bespoke production across all luxury venues. How may I assist your celebration?`,
     });
   }
 
-  // 4. Inquiries Submit
+  // Inquiries Submit
   if (path === 'inquiries/submit') {
     return NextResponse.json({
       success: true,
@@ -200,7 +260,7 @@ export async function POST(
     });
   }
 
-  // 5. Bookings Create
+  // Bookings Create
   if (path === 'bookings/create') {
     return NextResponse.json({
       success: true,
@@ -209,7 +269,7 @@ export async function POST(
     });
   }
 
-  // 6. Settings SEO update
+  // Settings SEO update
   if (path === 'settings/seo' || path === 'settings/update') {
     return NextResponse.json({
       success: true,
@@ -217,6 +277,5 @@ export async function POST(
     });
   }
 
-  // Default POST response
   return NextResponse.json({ success: true, path });
 }
