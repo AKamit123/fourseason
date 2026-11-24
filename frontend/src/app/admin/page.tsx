@@ -582,7 +582,7 @@ export default function AdminDashboardPage() {
               </span>
             </div>
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-fs-gold/20 text-fs-gold-lighter uppercase">
-              {user?.role || 'Admin'}
+              {typeof user?.role === 'object' ? (user?.role?.name || user?.role?.slug || 'Admin') : (user?.role || 'Admin')}
             </span>
           </div>
 
@@ -833,7 +833,7 @@ export default function AdminDashboardPage() {
                         </td>
                         <td className="py-2.5 font-mono text-fs-gold-light font-bold text-[11px]">{item.sku}</td>
                         <td className="py-2.5 font-semibold text-white max-w-[200px] truncate">{item.name}</td>
-                        <td className="py-2.5 text-fs-cream/80">{item.category?.name}</td>
+                        <td className="py-2.5 text-fs-cream/80">{typeof item.category === 'object' ? (item.category?.name || 'Décor') : (item.category || 'Décor')}</td>
                         <td className="py-2.5 text-fs-cream/70">{item.theme}</td>
                         <td className="py-2.5 font-bold text-white">AED {item.price?.toLocaleString()}</td>
                         <td className="py-2.5 text-fs-gold-lighter">AED {item.tradePrice?.toLocaleString()}</td>
@@ -952,7 +952,7 @@ export default function AdminDashboardPage() {
                     <div className="h-44 rounded-xl overflow-hidden bg-cover bg-center border border-white/10" style={{ backgroundImage: `url('${t.previewImage || '/reference_assets/hero_mandap_red.jpg'}')` }} />
                     <h3 className="font-serif font-bold text-sm text-white">{t.title}</h3>
                     <span className="text-[10px] px-2 py-0.5 rounded bg-fs-gold/20 text-fs-gold font-bold inline-block">
-                      {t.category}
+                      {typeof t.category === 'object' ? (t.category?.name || 'Wedding') : (t.category || 'Wedding')}
                     </span>
                     <p className="text-xs text-fs-cream/60 line-clamp-2">{t.description}</p>
                   </div>

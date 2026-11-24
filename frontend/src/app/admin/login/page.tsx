@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
           id: 'admin-001',
           name: 'Four Seasons Administrator',
           email: email.trim(),
-          role: { slug: 'admin', name: 'Administrator' },
+          role: 'Administrator',
         };
         localStorage.setItem('fs_auth_token', 'fs_live_secure_admin_token_2026');
         localStorage.setItem('fs_user', JSON.stringify(fallbackUser));
