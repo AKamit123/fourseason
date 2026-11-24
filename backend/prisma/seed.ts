@@ -4,7 +4,7 @@ import * as bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('--- Starting Four Seasons Studio Database Seed ---');
+  console.log('--- Starting Four Seasons Database Seed ---');
 
   // 1. Roles
   const adminRole = await prisma.role.upsert({
@@ -86,28 +86,28 @@ async function main() {
 
   // 3. System Settings
   const settings = [
-    { key: 'brand_name', value: 'Four Seasons Studio', group: 'branding', desc: 'Platform Brand Name' },
-    { key: 'brand_tagline', value: 'Luxury Weddings & Events Atelier · Dubai (Since 1997)', group: 'branding', desc: 'Hero Brand Tagline' },
+    { key: 'brand_name', value: 'Four Seasons', group: 'branding', desc: 'Platform Brand Name' },
+    { key: 'brand_tagline', value: 'Luxury Weddings & Events Atelier', group: 'branding', desc: 'Hero Brand Tagline' },
     { key: 'default_currency', value: 'AED', group: 'finance', desc: 'Base Operational Currency' },
-    { key: 'contact_email', value: 'concierge@fourseasonsstudio.ae', group: 'general', desc: 'Primary Contact Email' },
+    { key: 'contact_email', value: 'concierge@fourseasons.com', group: 'general', desc: 'Primary Contact Email' },
     { key: 'contact_phone', value: '+971 4 398 2211', group: 'general', desc: 'Concierge Telephone' },
-    { key: 'whatsapp_number', value: '+971 50 882 1997', group: 'integrations', desc: 'Official WhatsApp Business Number' },
+    { key: 'whatsapp_number', value: '+971 50 882 2026', group: 'integrations', desc: 'Official WhatsApp Business Number' },
     { key: 'ai_active_provider', value: 'modular_mock', group: 'ai', desc: 'Active AI Generation Provider' },
     { key: 'enable_double_booking_prevention', value: 'true', group: 'inventory', desc: 'Strict transactional conflict check for inventory dates' },
     { key: 'vat_percentage', value: '5', group: 'finance', desc: 'UAE Standard VAT percentage' },
-    { key: 'seo_meta_title', value: 'Four Seasons Studio | Luxury Wedding & Event Organizers Dubai (Est. 1997)', group: 'seo', desc: 'Primary Search Engine Meta Title' },
-    { key: 'seo_meta_description', value: "Dubai's premier luxury wedding & event organizers since 1997. AI-powered event concepting, authentic rental mandaps, wave screen stages, Versace bars, and turnkey celebrations in UAE.", group: 'seo', desc: 'Primary Search Engine Meta Description' },
-    { key: 'seo_meta_keywords', value: 'luxury wedding planner dubai, event organizers dubai, wedding decor rental uae, mandap rental dubai, stage design dubai, arabic nikah decor, indian royal wedding dubai, corporate event planner uae, four seasons studio dubai', group: 'seo', desc: 'Target Organic Search Keywords' },
-    { key: 'seo_og_title', value: 'Four Seasons Studio — Bespoke Luxury Celebrations & Weddings Dubai', group: 'seo', desc: 'OpenGraph Social Share Title' },
-    { key: 'seo_og_description', value: 'Design your dream celebration with AI precision and authentic Dubai atelier inventory. Est. 1997.', group: 'seo', desc: 'OpenGraph Social Share Description' },
+    { key: 'seo_meta_title', value: 'Four Seasons | Luxury Wedding & Event Atelier', group: 'seo', desc: 'Primary Search Engine Meta Title' },
+    { key: 'seo_meta_description', value: "Premier luxury wedding & event organizers. AI-powered event concepting, authentic rental mandaps, wave screen stages, Versace bars, and turnkey celebrations.", group: 'seo', desc: 'Primary Search Engine Meta Description' },
+    { key: 'seo_meta_keywords', value: 'luxury wedding planner, royal mandap, wave stage, event organizers, four seasons', group: 'seo', desc: 'Target Organic Search Keywords' },
+    { key: 'seo_og_title', value: 'Four Seasons — Bespoke Luxury Celebrations & Weddings', group: 'seo', desc: 'OpenGraph Social Share Title' },
+    { key: 'seo_og_description', value: 'Design your dream celebration with AI precision and authentic luxury atelier inventory.', group: 'seo', desc: 'OpenGraph Social Share Description' },
     { key: 'seo_og_image', value: '/reference_assets/hero_mandap_red.jpg', group: 'seo', desc: 'OpenGraph & Twitter Preview Image' },
     { key: 'seo_twitter_card', value: 'summary_large_image', group: 'seo', desc: 'Twitter Card Preview Type' },
-    { key: 'seo_canonical_url', value: 'https://fourseasonsstudio.ae', group: 'seo', desc: 'Canonical URL' },
+    { key: 'seo_canonical_url', value: 'https://fourseasons.events', group: 'seo', desc: 'Canonical URL' },
     { key: 'seo_robots', value: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1', group: 'seo', desc: 'Search Robot Index Directives' },
-    { key: 'seo_author', value: 'Four Seasons Events Organizers LLC Dubai', group: 'seo', desc: 'Website Author / Entity' },
-    { key: 'seo_google_verification', value: 'google-site-verification-token-fourseasons-dubai', group: 'seo', desc: 'Google Search Console Verification Tag' },
-    { key: 'seo_geo_region', value: 'AE-DU', group: 'seo', desc: 'Geographic Region Code' },
-    { key: 'seo_geo_placename', value: 'Dubai, United Arab Emirates', group: 'seo', desc: 'Geographic City & Country' }
+    { key: 'seo_author', value: 'Four Seasons Events Organizers LLC', group: 'seo', desc: 'Website Author / Entity' },
+    { key: 'seo_google_verification', value: 'google-site-verification-token-fourseasons', group: 'seo', desc: 'Google Search Console Verification Tag' },
+    { key: 'seo_geo_region', value: 'AE', group: 'seo', desc: 'Geographic Region Code' },
+    { key: 'seo_geo_placename', value: 'Luxury Events Atelier', group: 'seo', desc: 'Geographic City & Country' }
   ];
 
   for (const s of settings) {
@@ -333,7 +333,7 @@ async function main() {
       tags: ['beach', 'boho', 'outdoor', 'destination', 'drape']
     },
 
-    // 15 Four Seasons Studio Catalog Specification Items (from client upload)
+    // 15 Four Seasons Catalog Specification Items (from client upload)
     {
       sku: 'FS-STG-005',
       name: 'Stepped Organic Curved Wave Screen Stage (7.3m)',
@@ -735,7 +735,7 @@ async function main() {
       qty: 12,
       status: InventoryStatus.AVAILABLE,
       desc: 'Non-hazardous, smell-free cold spark fountain machines safe for indoor ballrooms. Ideal for grand bride & groom entries and cake cutting.',
-      specs: { sparkHeightMetres: 5, safetyCert: 'Dubai Civil Defense Approved' },
+      specs: { sparkHeightMetres: 5, safetyCert: 'Civil Defense & Safety Approved' },
       tags: ['cold sparks', 'pyro', 'effects', 'entry', 'celebration']
     },
     {
@@ -835,8 +835,8 @@ async function main() {
         eventDate: '2026-11-20',
         eventTime: '6:30 PM Onwards',
         venueName: 'The Grand St. Regis Ballroom',
-        venueAddress: 'The Palm, Dubai, United Arab Emirates',
-        rsvpContact: 'concierge@fourseasonsstudio.ae | +971 4 398 2211',
+        venueAddress: 'The Palm, Royal Ballroom',
+        rsvpContact: 'concierge@fourseasons.com | +971 4 398 2211',
         customMessage: 'We request the honor of your presence and blessings as we unite in holy matrimony.'
       }
     },
@@ -856,8 +856,8 @@ async function main() {
         eventName: 'Grecian Garden Haldi & Sangeet',
         eventDate: '2026-10-15',
         eventTime: '11:00 AM',
-        venueName: 'Bulgari Resort Dubai Yacht Club',
-        venueAddress: 'Jumeirah Bay Island, Dubai',
+        venueName: 'Bulgari Resort Yacht Club',
+        venueAddress: 'Jumeirah Bay Island',
         rsvpContact: '+971 50 123 4567',
         customMessage: 'Dress code: Sunlit Yellow & Pastel Silks.'
       }
@@ -878,8 +878,8 @@ async function main() {
         eventName: 'Grand Reception & Dinner Banquet',
         eventDate: '2026-12-05',
         eventTime: '8:00 PM',
-        venueName: 'Armani Hotel Dubai, Burj Khalifa',
-        venueAddress: 'Downtown Dubai',
+        venueName: 'Armani Hotel Grand Ballroom',
+        venueAddress: 'Downtown Ballroom',
         rsvpContact: 'rsvp@tariqnoor.ae',
         customMessage: 'An enchanting evening of music, gourmet dining, and celebrations.'
       }
@@ -900,8 +900,8 @@ async function main() {
         eventName: 'Beachside Vows & Dinner Under Stars',
         eventDate: '2026-10-28',
         eventTime: '4:30 PM',
-        venueName: 'Nikki Beach Resort & Spa Dubai',
-        venueAddress: 'Pearl Jumeira, Dubai',
+        venueName: 'Nikki Beach Resort & Spa',
+        venueAddress: 'Pearl Jumeira Waterfront',
         rsvpContact: '+971 52 987 6543',
         customMessage: 'Barefoot luxury and sunset cocktails following the vows.'
       }
@@ -947,12 +947,12 @@ async function main() {
       shortDesc: 'Turnkey luxury wedding production from concept to execution.',
       priceStarting: 75000,
       images: ['/reference_assets/hero_mandap_red.jpg', '/catalog/fs_catalog_08_stage_curve_wave_screen_triple_arch.jpg'],
-      features: ['Dedicated Lead Creative Director', 'Full 3D Photorealistic Pre-visualization', 'VIP Protocol & Hospitality Coordination', 'Dubai Civil Defense & Venue Permits']
+      features: ['Dedicated Lead Creative Director', 'Full 3D Photorealistic Pre-visualization', 'VIP Protocol & Hospitality Coordination', 'Civil Defense & Venue Permits']
     },
     {
-      name: 'AI Concept Generation & Visual Studio',
+      name: 'AI Concept Generation & Visual Atelier',
       slug: 'ai-concept-generation',
-      desc: 'Our proprietary studio allows you to combine real rental inventory elements into high-resolution photorealistic imagery and 4K conceptual video walkthroughs before commitment.',
+      desc: 'Our proprietary atelier allows you to combine real rental inventory elements into high-resolution photorealistic imagery and 4K conceptual video walkthroughs before commitment.',
       shortDesc: 'See your exact inventory combination brought to life with AI.',
       priceStarting: 5000,
       images: ['/catalog/fs_catalog_15_stage_marina_arch_casino_french_window.jpg', '/catalog/fs_catalog_03_bar_artdeco_versace_lotus.jpg'],
@@ -1014,8 +1014,8 @@ async function main() {
       clientName: 'Priya & Rohan',
       eventType: 'Luxury Indian Wedding',
       eventDate: new Date('2026-02-14'),
-      location: 'Palm Jumeirah, Dubai',
-      description: 'A 500-guest regal celebration featuring a 6-metre Red Naomi rose mandap, gold mirror reflection stage, and synchronised cold spark fountains overlooking the Dubai skyline.',
+      location: 'Palm Jumeirah',
+      description: 'A 500-guest regal celebration featuring a 6-metre Red Naomi rose mandap, gold mirror reflection stage, and synchronised cold spark fountains overlooking the waterfront skyline.',
       coverImage: '/reference_assets/hero_mandap_red.jpg',
       category: 'Wedding',
       tags: ['Atlantis The Royal', 'Red Bloom', 'Mandap', 'Gold Mirror Stage']
@@ -1026,23 +1026,23 @@ async function main() {
       clientName: 'Zoya & Aamir',
       eventType: 'Haldi & Sangeet',
       eventDate: new Date('2026-01-20'),
-      location: 'Jumeirah Bay, Dubai',
+      location: 'Jumeirah Bay',
       description: 'Mediterranean-inspired open-air courtyard celebration with sculpted Roman pillars, fresh citrus centerpieces, and traditional marigold water cascades.',
       coverImage: '/reference_assets/hero_grecian_haldi.jpg',
       category: 'Haldi',
       tags: ['Bulgari', 'Grecian', 'Outdoor', 'Yellow Blooms']
     },
     {
-      title: 'Midnight Bling Reception at Armani Hotel Burj Khalifa',
+      title: 'Midnight Bling Reception at Armani Hotel Ballroom',
       slug: 'midnight-bling-armani',
       clientName: 'Fatima & Tariq',
       eventType: 'Reception Banquet',
       eventDate: new Date('2026-03-01'),
-      location: 'Downtown Dubai',
+      location: 'Downtown Ballroom',
       description: 'High-glamour black-tie evening featuring 4K shimmer LED kinetic walls, crystal chandeliers, and full room architectural Astera lighting.',
       coverImage: '/catalog/fs_catalog_08_stage_curve_wave_screen_triple_arch.jpg',
       category: 'Reception',
-      tags: ['Armani Hotel', 'Bling', 'Burj Khalifa', 'LED Kinetic']
+      tags: ['Armani Hotel', 'Bling', 'Grand Ballroom', 'LED Kinetic']
     }
   ];
 
@@ -1087,7 +1087,7 @@ async function main() {
       phone: '+971 50 491 8292',
       company: 'Nair Family Celebrations',
       address: 'Emirates Hills, Villa 42',
-      city: 'Dubai',
+      city: 'Metropolitan',
       notes: 'Interested in Signature Red Bloom 3-day wedding package. Budget AED 250k.'
     }
   });
@@ -1101,7 +1101,7 @@ async function main() {
       eventType: 'Indian Wedding & Reception',
       eventStyle: 'Indian Royal',
       eventDate: new Date('2026-09-12'),
-      eventLocation: 'Dubai Ballroom',
+      eventLocation: 'Grand Ballroom',
       guestsCount: 400,
       budgetRange: 'AED 250,000+',
       status: InquiryStatus.NEW,
@@ -1132,8 +1132,8 @@ async function main() {
       email: 'fatima.hashimi@example.ae',
       phone: '+971 55 901 2345',
       company: 'Al Hashimi Group',
-      city: 'Dubai',
-      notes: 'Arabic Nikah banquet at Jumeirah Al Naseem.'
+      city: 'Metropolitan',
+      notes: 'Arabic Nikah banquet at Jumeirah Waterfront.'
     }
   });
 
@@ -1146,7 +1146,7 @@ async function main() {
       eventType: 'Arabic Nikah & Banquet',
       eventStyle: 'Arabic Modern Luxury',
       eventDate: new Date('2026-10-04'),
-      eventLocation: 'Jumeirah Al Naseem',
+      eventLocation: 'Jumeirah Waterfront',
       guestsCount: 250,
       budgetRange: 'AED 150,000',
       status: InquiryStatus.PROPOSAL_SENT,
@@ -1164,7 +1164,7 @@ async function main() {
       customerId: sampleCustomer.id,
       generationType: AiGenType.IMAGE,
       status: AiGenStatus.COMPLETED,
-      prompt: 'Regal Dubai wedding ballroom setting with Royal Red Floral Mandap, surrounded by gold mirror reflection stage and cascading red rose centerpieces under warm pinspot lighting, photorealistic 8k, architectural digest quality',
+      prompt: 'Regal luxury wedding ballroom setting with Royal Red Floral Mandap, surrounded by gold mirror reflection stage and cascading red rose centerpieces under warm pinspot lighting, photorealistic 8k, architectural digest quality',
       instructions: 'Ensure red roses are rich crimson and mirror stage reflects the floral arches cleanly.',
       visualTheme: 'Red Bloom',
       aspectRatio: '16:9',
@@ -1212,7 +1212,7 @@ async function main() {
     }
   });
 
-  console.log('--- Four Seasons Studio Database Seed Completed Successfully ---');
+  console.log('--- Four Seasons Database Seed Completed Successfully ---');
 }
 
 main()
