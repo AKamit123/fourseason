@@ -32,7 +32,7 @@ export async function GET(
     if (authHeader) proxyHeaders['authorization'] = authHeader;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
+    const timeout = setTimeout(() => controller.abort(), 1500);
 
     const liveRes = await fetch(targetUrl, {
       headers: proxyHeaders,
@@ -189,7 +189,7 @@ export async function POST(
     if (authHeader) proxyHeaders['authorization'] = authHeader;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
+    const timeout = setTimeout(() => controller.abort(), 1500);
 
     const liveRes = await fetch(targetUrl, {
       method: 'POST',
