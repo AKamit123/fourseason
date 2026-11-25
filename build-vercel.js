@@ -14,8 +14,21 @@ const env = {
 };
 
 const frontendDir = path.join(__dirname, 'frontend');
+const srcNext = path.join(frontendDir, '.next');
+const destNext = path.join(__dirname, '.next');
+const srcPublic = path.join(frontendDir, 'public');
+const destPublic = path.join(__dirname, 'public');
 
 try {
+  // 0. Clean prior cache to prevent stale hash / route-cache mismatch
+  console.log('> Cleaning previous build cache...');
+  if (fs.existsSync(srcNext)) {
+    fs.rmSync(srcNext, { recursive: true, force: true });
+  }
+  if (fs.existsSync(destNext)) {
+    fs.rmSync(destNext, { recursive: true, force: true });
+  }
+
   // 1. Install frontend dependencies
   console.log('> Installing frontend dependencies...');
   execSync('npm install --include=dev --legacy-peer-deps --no-audit', {
@@ -31,18 +44,19 @@ try {
     env,
   });
 
-  // 3. Mirror .next and public to root
-  const srcNext = path.join(frontendDir, '.next');
-  const destNext = path.join(__dirname, '.next');
-  const srcPublic = path.join(frontendDir, 'public');
-  const destPublic = path.join(__dirname, 'public');
-
+  // 3. Clean and mirror fresh .next and public to root
+  if (fs.existsSync(destNext)) {
+    fs.rmSync(destNext, { recursive: true, force: true });
+  }
   if (fs.existsSync(srcNext)) {
     fs.cpSync(srcNext, destNext, { recursive: true });
     console.log('> Copied frontend/.next -> .next');
   }
 
   if (fs.existsSync(srcPublic)) {
+    if (fs.existsSync(destPublic)) {
+      fs.rmSync(destPublic, { recursive: true, force: true });
+    }
     fs.cpSync(srcPublic, destPublic, { recursive: true });
     console.log('> Copied frontend/public -> public');
   }
