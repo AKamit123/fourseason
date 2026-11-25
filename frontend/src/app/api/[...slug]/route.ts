@@ -116,9 +116,18 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // 11. AI History
+    // 11. AI History & Status
     if (pathname === 'ai/history') {
       return NextResponse.json([]);
+    }
+    if (pathname.startsWith('ai/status/')) {
+      return NextResponse.json({
+        id: pathname.split('/').pop(),
+        status: 'COMPLETED',
+        resultUrl: DEMO_ITEMS[3]?.coverImage || '/reference_assets/hero_mandap_red.jpg',
+        provider: 'Four Seasons Gemini AI Engine',
+        prompt: 'Luxury Four Seasons Event Atelier Concept',
+      });
     }
 
     // 12. Zoho & WhatsApp

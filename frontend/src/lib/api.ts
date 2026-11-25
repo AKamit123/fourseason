@@ -21,10 +21,24 @@ export async function fetchApi<T = any>(endpoint: string, options: RequestInit =
 
   const apiBase = getApiBase();
   const url = endpoint.startsWith('http') ? endpoint : `${apiBase}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers,
+    });
+  } catch (networkErr) {
+    // If localhost:4000 is unreachable, gracefully fall back to Next.js internal /api route
+    if (typeof window !== 'undefined' && apiBase.startsWith('http://localhost')) {
+      const fallbackUrl = `/api${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+      response = await fetch(fallbackUrl, {
+        ...options,
+        headers,
+      });
+    } else {
+      throw networkErr;
+    }
+  }
 
   if (!response.ok) {
     let errorMsg = `API Request failed with status ${response.status}`;

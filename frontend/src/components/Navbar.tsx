@@ -18,6 +18,18 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveSection,
 }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [lang, setLang] = useState<'en' | 'ar' | 'ru'>('en');
+
+  const handleLanguageChange = (nextLang: 'en' | 'ar' | 'ru') => {
+    setLang(nextLang);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = nextLang;
+      document.documentElement.dir = nextLang === 'ar' ? 'rtl' : 'ltr';
+    }
+    try {
+      localStorage.setItem('fs_lang', nextLang);
+    } catch (_) {}
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -141,6 +153,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               <FileText className="w-3 h-3 text-[#B38E36] flex-shrink-0" />
               <span className="hidden sm:inline">Get Quote</span>
             </button>
+
+            {/* Language Switcher (EN | AR RTL | RU) */}
+            <div className="hidden lg:flex items-center bg-[#F5EFE6] border border-[#E2D8C6] rounded-xl p-0.5 text-[10px] font-bold">
+              {(['en', 'ar', 'ru'] as const).map((code) => (
+                <button
+                  key={code}
+                  onClick={() => handleLanguageChange(code)}
+                  className={`px-2 py-1 rounded-lg uppercase transition-all ${
+                    lang === code
+                      ? 'bg-[#B38E36] text-white shadow-xs'
+                      : 'text-[#474036] hover:text-[#1E1A16]'
+                  }`}
+                  title={code === 'ar' ? 'Arabic (RTL)' : code === 'ru' ? 'Russian' : 'English'}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
 
             {/* Admin Portal Shortcut */}
             <Link

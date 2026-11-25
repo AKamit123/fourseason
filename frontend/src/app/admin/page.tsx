@@ -11,6 +11,7 @@ import {
   X, Eye, Share2, Tag, Save
 } from 'lucide-react';
 import { api } from '@/lib/api';
+import { BrandedPlanPdfModal } from '@/components/BrandedPlanPdfModal';
 import {
   DEMO_CATEGORIES,
   DEMO_ITEMS,
@@ -117,6 +118,62 @@ export default function AdminDashboardPage() {
   // Test WhatsApp Form State
   const [testPhone, setTestPhone] = useState('+971508821900');
   const [testMsg, setTestMsg] = useState('Hello from Four Seasons official operations test dispatch.');
+
+  // CRM Pipeline, Lead Profile, Unified Conversations & Lego-Block Settings (PDF 2 Part 3 & Part 6)
+  const [inquiriesView, setInquiriesView] = useState<'list' | 'pipeline'>('list');
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
+  const [showLeadPdf, setShowLeadPdf] = useState(false);
+  const [paymentAmount, setPaymentAmount] = useState('15000');
+  const [paymentLinks, setPaymentLinks] = useState<Record<string, string>>({});
+  const [assistantPaused, setAssistantPaused] = useState(false);
+  const [internalNote, setInternalNote] = useState('');
+  const [convReply, setConvReply] = useState('');
+  const [convChannel, setConvChannel] = useState<'WhatsApp' | 'Email' | 'SMS'>('WhatsApp');
+  const [convThread, setConvThread] = useState<any[]>([
+    { id: 1, sender: 'System', channel: 'SMS', time: 'Tue 21:18', text: 'Verification code sent to save the plan.', internal: false },
+    { id: 2, sender: 'Assistant', channel: 'Email', time: 'Tue 21:20', text: 'Your wedding plan is attached as a Branded A4 PDF.', internal: false },
+    { id: 3, sender: 'Lead', channel: 'WhatsApp', time: 'Tue 23:15', text: 'Can the stage be made wider for 350 guests?', internal: false },
+    { id: 4, sender: 'Assistant', channel: 'WhatsApp', time: 'Tue 23:15', text: 'Our stages are built in several widths. I have passed your question to our team, who will confirm the size in the morning.', internal: false },
+  ]);
+  const [legoSettings, setLegoSettings] = useState({
+    brandName: 'Four Seasons',
+    watermarkStrength: 'Light',
+    freePictureLimit: 5,
+    tokenChargeAed: 25,
+    aiModel: 'Google Gemini (via OpenRouter)',
+    showBudgetRanges: true,
+  });
+  const [automations, setAutomations] = useState([
+    { id: 'pdf', title: 'Visitor saves plan → Send Branded PDF + Create Lead', channel: 'Email, WhatsApp', enabled: true },
+    { id: 'followup', title: 'Plan sent → Send helpful theme gallery follow-up', channel: 'Email or WhatsApp', enabled: true },
+    { id: 'reminder', title: 'Lead quiet 48h → Gentle consultation reminder', channel: 'Email or WhatsApp', enabled: true },
+    { id: 'night', title: 'Question outside office hours → AI Assistant answers', channel: 'WhatsApp, Website Chat', enabled: true },
+    { id: 'escalate', title: 'Lead waits beyond SLA → Escalate to Team Lead', channel: 'CRM Task + WhatsApp', enabled: true },
+  ]);
+
+  const computeLeadScore = (inq: any) => {
+    let score = 60;
+    const reasons: string[] = [];
+    if (inq.guestsCount >= 300) {
+      score += 15;
+      reasons.push(`${inq.guestsCount} guests`);
+    } else if (inq.guestsCount >= 150) {
+      score += 8;
+      reasons.push(`${inq.guestsCount} guests`);
+    }
+    if (inq.eventDate) {
+      score += 10;
+      reasons.push('Confirmed target date');
+    }
+    if (inq.specialInstructions?.includes('SMS Verified')) {
+      score += 10;
+      reasons.push('Mobile SMS verified');
+    } else {
+      score += 5;
+      reasons.push('Plan saved & PDF issued');
+    }
+    return { score: Math.min(99, score), reasons };
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('fs_auth_token');
@@ -733,57 +790,145 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* 3. INQUIRIES & REQUIREMENTS MANAGEMENT */}
+        {/* 3. INQUIRIES & CRM LEAD PIPELINE (WITH SCORING & PROFILE) */}
         {activeTab === 'inquiries' && (
           <div className="space-y-6 animate-fade-in">
-            <div>
-              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Customer Inquiries &amp; RFQs</h1>
-              <p className="text-xs text-fs-cream/60">Manage wedding requests, review requirements, assign staff, and sync with Zoho CRM</p>
-            </div>
-            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="text-[10px] uppercase text-fs-gold tracking-wider border-b border-[#E8E0D2]">
-                    <tr>
-                      <th className="pb-3">Reference No</th>
-                      <th className="pb-3">Customer</th>
-                      <th className="pb-3">Event Type</th>
-                      <th className="pb-3">Date</th>
-                      <th className="pb-3">Guests</th>
-                      <th className="pb-3">Budget</th>
-                      <th className="pb-3">Status</th>
-                      <th className="pb-3">Zoho CRM</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {inquiries.map((inq) => (
-                      <tr key={inq.id} className="hover:bg-[#F8F5EE]">
-                        <td className="py-3 font-mono font-bold text-fs-gold-light">{inq.referenceNo}</td>
-                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.customer?.name}</td>
-                        <td className="py-3 text-fs-cream/90">{inq.eventType}</td>
-                        <td className="py-3 text-fs-cream/70">{inq.eventDate ? new Date(inq.eventDate).toLocaleDateString() : 'TBA'}</td>
-                        <td className="py-3 text-fs-cream/80">{inq.guestsCount}</td>
-                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.budgetRange}</td>
-                        <td className="py-3">
-                          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-emerald-500/20 text-emerald-300">
-                            {inq.status}
-                          </span>
-                        </td>
-                        <td className="py-3">
-                          <button
-                            onClick={() => handleSyncZoho(inq.id)}
-                            disabled={syncingZohoId === inq.id}
-                            className="px-2.5 py-1 rounded-lg bg-fs-gold/15 text-fs-gold-light border border-fs-gold/30 text-[10px] font-semibold hover:bg-fs-gold/30 transition-colors"
-                          >
-                            {syncingZohoId === inq.id ? 'Syncing...' : inq.zohoLeadId ? 'Resync Zoho' : 'Sync to Zoho'}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">CRM Lead Inbox &amp; Pipeline</h1>
+                <p className="text-xs text-[#786F62]">Every enquiry from Planner, WhatsApp &amp; RFQ with automatic Lead Scoring, Timeline &amp; Stripe Payment Links</p>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white border border-[#E8E0D2] p-1 rounded-xl shadow-xs">
+                <button
+                  onClick={() => setInquiriesView('list')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    inquiriesView === 'list' ? 'bg-[#B38E36] text-white' : 'text-[#474036] hover:bg-[#FAF8F5]'
+                  }`}
+                >
+                  Lead Inbox
+                </button>
+                <button
+                  onClick={() => setInquiriesView('pipeline')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    inquiriesView === 'pipeline' ? 'bg-[#B38E36] text-white' : 'text-[#474036] hover:bg-[#FAF8F5]'
+                  }`}
+                >
+                  Pipeline Board
+                </button>
               </div>
             </div>
+
+            {inquiriesView === 'pipeline' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { stage: 'NEW', label: 'New Leads', match: (s: string) => s === 'NEW' || s === 'PENDING' },
+                  { stage: 'IN_CONVERSATION', label: 'In Conversation', match: (s: string) => s === 'IN_CONVERSATION' || s === 'CONTACTED' },
+                  { stage: 'CONSULTATION', label: 'Consultation', match: (s: string) => s === 'CONSULTATION' || s === 'QUALIFIED' },
+                  { stage: 'BOOKED', label: 'Booked Event', match: (s: string) => s === 'BOOKED' || s === 'CONFIRMED' },
+                ].map((col) => {
+                  const colLeads = inquiries.filter((i) => col.match(String(i.status || 'NEW').toUpperCase()));
+                  return (
+                    <div key={col.stage} className="bg-white rounded-2xl border border-[#E8E0D2] p-4 space-y-3 shadow-sm">
+                      <div className="flex items-center justify-between pb-2 border-b border-[#E8E0D2]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#785E1A]">{col.label}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-[#F6EED8] text-[#785E1A] text-[10px] font-bold">
+                          {colLeads.length}
+                        </span>
+                      </div>
+                      <div className="space-y-2.5">
+                        {colLeads.map((inq) => {
+                          const { score } = computeLeadScore(inq);
+                          return (
+                            <div
+                              key={inq.id}
+                              onClick={() => setSelectedLead(inq)}
+                              className="p-3 rounded-xl bg-[#FAF8F5] border border-[#E8E0D2] hover:border-[#B38E36] cursor-pointer transition-all space-y-1.5"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-serif font-bold text-xs text-[#1E1A16]">
+                                  {inq.customer?.name || 'Guest Lead'}
+                                </span>
+                                <span className="w-6 h-6 rounded-full bg-[#1E1A16] text-white text-[10px] font-bold flex items-center justify-center">
+                                  {score}
+                                </span>
+                              </div>
+                              <div className="text-[11px] text-[#474036]">
+                                {inq.eventType} · {inq.guestsCount || 250} guests
+                              </div>
+                              <div className="text-[10px] text-[#785E1A] font-semibold">
+                                {inq.budgetRange}
+                              </div>
+                            </div>
+                          );
+                        })}
+                        {colLeads.length === 0 && (
+                          <p className="text-[11px] text-[#786F62] italic py-4 text-center">No leads in this stage</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                      <tr>
+                        <th className="pb-3">Score</th>
+                        <th className="pb-3">Reference</th>
+                        <th className="pb-3">Lead</th>
+                        <th className="pb-3">Event Type</th>
+                        <th className="pb-3">Date</th>
+                        <th className="pb-3">Guests</th>
+                        <th className="pb-3">Budget</th>
+                        <th className="pb-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#E8E0D2]/60">
+                      {inquiries.map((inq) => {
+                        const { score } = computeLeadScore(inq);
+                        return (
+                          <tr key={inq.id} className="hover:bg-[#F8F5EE]">
+                            <td className="py-3">
+                              <span
+                                className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold ${
+                                  score >= 85 ? 'bg-[#1E1A16] text-white' : 'bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7]'
+                                }`}
+                              >
+                                {score}
+                              </span>
+                            </td>
+                            <td className="py-3 font-mono font-bold text-[#785E1A]">{inq.referenceNo}</td>
+                            <td className="py-3 font-semibold text-[#1E1A16]">{inq.customer?.name}</td>
+                            <td className="py-3 text-[#474036]">{inq.eventType}</td>
+                            <td className="py-3 text-[#786F62]">{inq.eventDate ? new Date(inq.eventDate).toLocaleDateString() : 'TBA'}</td>
+                            <td className="py-3 text-[#474036]">{inq.guestsCount}</td>
+                            <td className="py-3 font-semibold text-[#1E1A16]">{inq.budgetRange}</td>
+                            <td className="py-3 flex items-center gap-2">
+                              <button
+                                onClick={() => setSelectedLead(inq)}
+                                className="px-2.5 py-1 rounded-lg bg-[#B38E36] text-white text-[10px] font-bold hover:bg-[#8F6E22] flex items-center gap-1"
+                              >
+                                <Eye className="w-3 h-3" />
+                                <span>Lead Profile</span>
+                              </button>
+                              <button
+                                onClick={() => handleSyncZoho(inq.id)}
+                                disabled={syncingZohoId === inq.id}
+                                className="px-2.5 py-1 rounded-lg bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7] text-[10px] font-semibold hover:bg-[#EFE2C0]"
+                              >
+                                {syncingZohoId === inq.id ? 'Syncing...' : inq.zohoLeadId ? 'Resync Zoho' : 'Sync Zoho'}
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -1265,36 +1410,260 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* 15. WHATSAPP BUSINESS API */}
+        {/* 15. UNIFIED CONVERSATIONS & WHATSAPP BUSINESS API */}
         {activeTab === 'whatsapp' && (
           <div className="space-y-6 animate-fade-in">
-            <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">WhatsApp Business Cloud API</h1>
-            <p className="text-xs text-fs-cream/60">Manage direct client confirmations, templates, media sharing, and delivery webhooks</p>
-            <div className="glass-panel p-6 rounded-3xl border border-fs-gold/20 space-y-4 max-w-xl">
-              <h3 className="font-serif font-bold text-base text-[#1E1A16]">Dispatch Test WhatsApp Template</h3>
-              <div className="space-y-3 text-xs">
-                <div>
-                  <label className="text-fs-gold block mb-1">Recipient Mobile Number (with country code):</label>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Unified Conversations (WhatsApp · Email · SMS)</h1>
+                <p className="text-xs text-[#786F62]">One chronological thread per lead. Take over from the AI Assistant in one tap or leave internal notes.</p>
+              </div>
+              <button
+                onClick={() => {
+                  setAssistantPaused(!assistantPaused);
+                  notifySuccess(!assistantPaused ? 'You have taken over from the AI Assistant.' : 'Conversation handed back to AI Assistant.');
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all ${
+                  assistantPaused
+                    ? 'bg-white border border-[#B38E36] text-[#785E1A]'
+                    : 'bg-[#1E1A16] text-white'
+                }`}
+              >
+                {assistantPaused ? 'Hand Back to Assistant' : 'Take Over from Assistant'}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Left: Unified Thread */}
+              <div className="lg:col-span-7 bg-white rounded-3xl border border-[#E8E0D2] p-6 shadow-sm flex flex-col justify-between space-y-4">
+                <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                  {convThread.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`p-3.5 rounded-2xl text-xs border ${
+                        msg.internal
+                          ? 'bg-amber-50 border-amber-200 text-amber-900'
+                          : msg.sender === 'Lead'
+                          ? 'bg-[#FAF8F5] border-[#E8E0D2] text-[#1E1A16]'
+                          : 'bg-[#F6EED8] border-[#E2D4B7] text-[#1E1A16]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-bold text-[10px] uppercase tracking-wider text-[#785E1A]">
+                          {msg.internal ? 'Internal Note · Lead Never Sees This' : `${msg.sender} · ${msg.channel}`}
+                        </span>
+                        <span className="text-[10px] text-[#786F62]">{msg.time}</span>
+                      </div>
+                      <p className="leading-relaxed">{msg.text}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Saved Replies & Reply Box */}
+                <div className="pt-3 border-t border-[#E8E0D2] space-y-2.5">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] font-bold uppercase text-[#786F62] mr-1">Saved Replies:</span>
+                    {[
+                      'Consultation times: Tomorrow 11:15 AM works well.',
+                      'We have confirmed stage stock for your date.',
+                      'Would you like to schedule a venue walkthrough?',
+                    ].map((sr, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setConvReply(sr)}
+                        className="px-2.5 py-1 rounded-full bg-[#FAF8F5] border border-[#DDD5C7] text-[10px] text-[#474036] hover:bg-[#F6EED8]"
+                      >
+                        {sr.slice(0, 32)}…
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <select
+                      value={convChannel}
+                      onChange={(e) => setConvChannel(e.target.value as any)}
+                      className="px-3 py-2 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-xs font-bold text-[#1E1A16]"
+                    >
+                      <option value="WhatsApp">WhatsApp</option>
+                      <option value="Email">Email</option>
+                      <option value="SMS">SMS</option>
+                    </select>
+                    <input
+                      type="text"
+                      value={convReply}
+                      onChange={(e) => setConvReply(e.target.value)}
+                      placeholder="Reply on the channel the lead last used..."
+                      className="flex-1 px-3.5 py-2 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-xs text-[#1E1A16]"
+                    />
+                    <button
+                      onClick={() => {
+                        if (!convReply.trim()) return;
+                        setConvThread((prev) => [
+                          ...prev,
+                          { id: Date.now(), sender: user?.name || 'Team', channel: convChannel, time: 'Just now', text: convReply, internal: false },
+                        ]);
+                        setConvReply('');
+                        notifySuccess(`Reply sent via ${convChannel}`);
+                      }}
+                      className="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold text-white"
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Internal Notes + Test Dispatch */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="bg-white p-5 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-3">
+                  <h3 className="font-serif font-bold text-sm text-[#1E1A16]">Add Internal Team Note</h3>
+                  <textarea
+                    rows={2}
+                    value={internalNote}
+                    onChange={(e) => setInternalNote(e.target.value)}
+                    placeholder="e.g. Check wide-stage stock for 14 Feb before the call."
+                    className="w-full px-3.5 py-2 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-xs text-[#1E1A16]"
+                  />
+                  <button
+                    onClick={() => {
+                      if (!internalNote.trim()) return;
+                      setConvThread((prev) => [
+                        ...prev,
+                        { id: Date.now(), sender: 'Team', channel: 'Note', time: 'Just now', text: internalNote, internal: true },
+                      ]);
+                      setInternalNote('');
+                      notifySuccess('Internal note added to thread.');
+                    }}
+                    className="w-full py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-xs font-bold text-[#474036] hover:bg-[#F3EDE2]"
+                  >
+                    Save Internal Note
+                  </button>
+                </div>
+
+                <div className="bg-white p-5 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-3">
+                  <h3 className="font-serif font-bold text-sm text-[#1E1A16]">Dispatch Test WhatsApp</h3>
                   <input
                     type="text"
                     value={testPhone}
                     onChange={(e) => setTestPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
+                    className="w-full px-3 py-2 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-xs text-[#1E1A16]"
                   />
-                </div>
-                <div>
-                  <label className="text-fs-gold block mb-1">Message Content:</label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     value={testMsg}
                     onChange={(e) => setTestMsg(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
+                    className="w-full px-3 py-2 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-xs text-[#1E1A16]"
                   />
+                  <button onClick={handleSendTestWhatsApp} className="gold-gradient-btn w-full py-2.5 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2">
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Send Test Message</span>
+                  </button>
                 </div>
-                <button onClick={handleSendTestWhatsApp} className="gold-gradient-btn px-4 py-2.5 rounded-xl font-bold flex items-center gap-2">
-                  <Send className="w-3.5 h-3.5 text-fs-navy" />
-                  <span>Send Test Message</span>
-                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 18. LEGO-BLOCK PLATFORM SETTINGS & AUTOMATIONS (PDF 2 Part 6) */}
+        {activeTab === 'settings' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Lego-Block Platform Settings &amp; Automations</h1>
+              <p className="text-xs text-[#786F62]">Adjust brand name, AI picture model, guest preview limits, watermark strength, and automation rules without rebuilding.</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-4">
+                <h3 className="font-serif text-lg font-bold text-[#1E1A16]">Core Platform Blocks</h3>
+                <div className="space-y-3 text-xs">
+                  <div>
+                    <label className="font-semibold text-[#474036] block mb-1">Platform Brand Name (applies to Site, PDF &amp; Emails)</label>
+                    <input
+                      type="text"
+                      value={legoSettings.brandName}
+                      onChange={(e) => setLegoSettings({ ...legoSettings, brandName: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16]"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="font-semibold text-[#474036] block mb-1">Watermark Strength</label>
+                      <select
+                        value={legoSettings.watermarkStrength}
+                        onChange={(e) => setLegoSettings({ ...legoSettings, watermarkStrength: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16]"
+                      >
+                        <option value="Light">Light (Default)</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Off">Off (Verified Only)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="font-semibold text-[#474036] block mb-1">Free Pictures Per Guest</label>
+                      <input
+                        type="number"
+                        value={legoSettings.freePictureLimit}
+                        onChange={(e) => setLegoSettings({ ...legoSettings, freePictureLimit: Number(e.target.value) })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16]"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="font-semibold text-[#474036] block mb-1">AI Picture Engine Switch</label>
+                      <select
+                        value={legoSettings.aiModel}
+                        onChange={(e) => setLegoSettings({ ...legoSettings, aiModel: e.target.value })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16]"
+                      >
+                        <option value="Google Gemini (via OpenRouter)">Google Gemini (Petal Detail)</option>
+                        <option value="Flux Luxury Architectural">Flux Luxury Architectural</option>
+                        <option value="Internal Mock Engine">Internal Mock Engine</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="font-semibold text-[#474036] block mb-1">Premium Video Token (AED)</label>
+                      <input
+                        type="number"
+                        value={legoSettings.tokenChargeAed}
+                        onChange={(e) => setLegoSettings({ ...legoSettings, tokenChargeAed: Number(e.target.value) })}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16]"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => notifySuccess('Lego-Block platform settings saved live!')}
+                    className="gold-gradient-btn px-5 py-2.5 rounded-xl font-bold text-white"
+                  >
+                    Save Platform Settings
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-4">
+                <h3 className="font-serif text-lg font-bold text-[#1E1A16]">Automation Rules Catalogue</h3>
+                <div className="space-y-2.5">
+                  {automations.map((rule) => (
+                    <div key={rule.id} className="p-3 rounded-xl bg-[#FAF8F5] border border-[#E8E0D2] flex items-center justify-between gap-3">
+                      <div>
+                        <span className="text-xs font-bold text-[#1E1A16] block">{rule.title}</span>
+                        <span className="text-[10px] text-[#785E1A] font-semibold">{rule.channel}</span>
+                      </div>
+                      <button
+                        onClick={() =>
+                          setAutomations((prev) =>
+                            prev.map((r) => (r.id === rule.id ? { ...r, enabled: !r.enabled } : r))
+                          )
+                        }
+                        className={`px-3 py-1 rounded-full text-[10px] font-bold ${
+                          rule.enabled ? 'bg-emerald-600 text-white' : 'bg-[#E8E0D2] text-[#474036]'
+                        }`}
+                      >
+                        {rule.enabled ? 'ON' : 'OFF'}
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1686,6 +2055,145 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       )}
+      {/* LEAD PROFILE & TIMELINE MODAL (PDF 2 Page 21) */}
+      {selectedLead && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-3xl bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto">
+            <div className="flex items-start justify-between pb-4 border-b border-[#E8E0D2]">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#B38E36] block">
+                  Lead Profile · {selectedLead.referenceNo}
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
+                  {selectedLead.customer?.name || 'Valued Lead'}
+                </h3>
+                <p className="text-xs text-[#474036]">
+                  {selectedLead.customer?.email} · {selectedLead.customer?.phone || '+971 50 000 0000'}
+                </p>
+              </div>
+              <button onClick={() => setSelectedLead(null)} className="p-1.5 rounded-full hover:bg-[#F3EDE2] text-[#786F62]">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left: Event Details + Score + Stripe Payment Link */}
+              <div className="space-y-4">
+                <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E0D2] space-y-2 text-xs">
+                  <div className="font-bold text-[#1E1A16]">
+                    {selectedLead.eventType} · {selectedLead.guestsCount || 300} Guests
+                  </div>
+                  <div className="text-[#474036]">
+                    Date: {selectedLead.eventDate ? new Date(selectedLead.eventDate).toLocaleDateString() : 'Flexible'} · Budget: <strong>{selectedLead.budgetRange}</strong>
+                  </div>
+                  <div className="pt-2 border-t border-[#E8E0D2] flex items-center gap-2">
+                    <span className="px-2.5 py-1 rounded-full bg-[#1E1A16] text-white text-xs font-bold">
+                      Lead Score: {computeLeadScore(selectedLead).score}
+                    </span>
+                    <span className="text-[11px] text-[#785E1A] font-medium">
+                      {computeLeadScore(selectedLead).reasons.join(' · ')}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Stripe Payment Link Generator (PDF 2 Step 12) */}
+                <div className="p-4 rounded-2xl bg-[#F8F5EE] border border-[#E8E0D2] space-y-2.5 text-xs">
+                  <span className="font-bold text-[#785E1A] uppercase text-[10px] block">
+                    Send Stripe Payment Link
+                  </span>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      value={paymentAmount}
+                      onChange={(e) => setPaymentAmount(e.target.value)}
+                      className="w-32 px-3 py-2 rounded-xl bg-white border border-[#DDD5C7] text-xs font-bold text-[#1E1A16]"
+                    />
+                    <button
+                      onClick={() => {
+                        const link = `https://checkout.stripe.com/pay/fs_${selectedLead.referenceNo}_${paymentAmount}AED`;
+                        setPaymentLinks((prev) => ({ ...prev, [selectedLead.id]: link }));
+                        notifySuccess(`Stripe payment link (AED ${Number(paymentAmount).toLocaleString()}) generated & logged!`);
+                      }}
+                      className="gold-gradient-btn flex-1 py-2 px-3 rounded-xl font-bold text-white"
+                    >
+                      Generate Link (AED)
+                    </button>
+                  </div>
+                  {paymentLinks[selectedLead.id] && (
+                    <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-[10px] break-all">
+                      ✓ Sent: {paymentLinks[selectedLead.id]}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowLeadPdf(true)}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#1E1A16] text-white text-xs font-bold hover:bg-[#B38E36]"
+                  >
+                    View Branded PDF
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedLead(null);
+                      setActiveTab('whatsapp');
+                    }}
+                    className="flex-1 py-2.5 px-4 rounded-xl border border-[#B38E36] text-[#785E1A] text-xs font-bold hover:bg-[#F6EED8]"
+                  >
+                    Open Conversation
+                  </button>
+                </div>
+              </div>
+
+              {/* Right: Chronological Lead Timeline */}
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E0D2] space-y-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#785E1A] block">
+                  Chronological Lead Timeline
+                </span>
+                <div className="space-y-3 text-xs border-l-2 border-[#B38E36]/40 pl-3">
+                  <div>
+                    <span className="font-bold text-[#1E1A16] block">Arrived from Search &amp; Started Planner</span>
+                    <span className="text-[10px] text-[#786F62]">Guest session recorded</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#1E1A16] block">Chose Theme &amp; Viewed AI Concept Picture</span>
+                    <span className="text-[10px] text-[#786F62]">{selectedLead.preferredTheme || 'Floral Majesty'}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#1E1A16] block">Saved Plan &amp; Branded PDF Issued</span>
+                    <span className="text-[10px] text-[#786F62]">Sent via Email &amp; WhatsApp</span>
+                  </div>
+                  {paymentLinks[selectedLead.id] && (
+                    <div>
+                      <span className="font-bold text-emerald-700 block">Stripe Payment Link Sent</span>
+                      <span className="text-[10px] text-emerald-600">AED {Number(paymentAmount).toLocaleString()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <BrandedPlanPdfModal
+        isOpen={showLeadPdf}
+        onClose={() => setShowLeadPdf(false)}
+        plan={
+          selectedLead
+            ? {
+                referenceNo: selectedLead.referenceNo,
+                clientName: selectedLead.customer?.name || 'Guest',
+                eventType: selectedLead.eventType,
+                eventDate: selectedLead.eventDate ? new Date(selectedLead.eventDate).toLocaleDateString() : 'TBA',
+                guestsCount: selectedLead.guestsCount,
+                theme: selectedLead.preferredTheme || 'Floral Majesty',
+                budgetRange: selectedLead.budgetRange,
+                isVerified: true,
+              }
+            : null
+        }
+      />
     </div>
   );
 }
