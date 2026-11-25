@@ -1,0 +1,14 @@
+'use client';
+
+import React from 'react';
+import { PageLayout } from '@/components/PageLayout';
+import { PortfolioSection } from '@/components/PortfolioSection';
+
+export default function PortfolioPage() {
+  return (
+    <PageLayout>
+      {() => <PortfolioSection />}
+    </PageLayout>
+  );
+}
+

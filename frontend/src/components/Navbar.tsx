@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Sparkles, Shield, FileText } from 'lucide-react';
 
 interface NavbarProps {
@@ -14,9 +15,8 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenPlanner,
   onOpenRfq,
-  activeSection = 'home',
-  setActiveSection,
 }) => {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState<'en' | 'ar' | 'ru'>('en');
 
@@ -40,32 +40,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'studio', label: 'Inventory Studio' },
-    { id: 'builder', label: 'AI Generator', badge: 'AI' },
-    { id: 'packages', label: 'Packages' },
-    { id: 'invitations', label: 'Invitations' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'services', label: 'Services' },
+    { href: '/', label: 'Home' },
+    { href: '/studio', label: 'Inventory Studio', badge: 'AI' },
+    { href: '/packages', label: 'Packages' },
+    { href: '/invitations', label: 'Invitations' },
+    { href: '/portfolio', label: 'Portfolio' },
+    { href: '/services', label: 'Services' },
   ];
-
-  const handleNavClick = (id: string) => {
-    if (setActiveSection) {
-      setActiveSection(id);
-    }
-    const el = document.getElementById(id);
-    if (el) {
-      const navOffset = 95;
-      const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    } else if (id === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
 
   return (
     <header
@@ -79,8 +60,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Main Desktop & Tablet Row */}
         <div className="flex items-center justify-between gap-2 lg:gap-4">
           {/* 1. Brand Logo */}
-          <button
-            onClick={() => handleNavClick('home')}
+          <Link
+            href="/"
             className="flex items-center gap-2 sm:gap-2.5 text-left focus:outline-none group flex-shrink-0"
             aria-label="Four Seasons"
           >
@@ -88,29 +69,27 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-serif font-bold text-lg sm:text-xl text-white tracking-tight">4S</span>
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-serif font-bold text-sm sm:text-base lg:text-lg tracking-wider text-[#1E1A16] whitespace-nowrap">
-                  FOUR SEASONS
-                </span>
-              </div>
+              <span className="font-serif font-bold text-sm sm:text-base lg:text-lg tracking-wider text-[#1E1A16] whitespace-nowrap">
+                FOUR SEASONS
+              </span>
               <span className="text-[7.5px] sm:text-[8.5px] tracking-[0.18em] text-[#8F6E22] font-semibold uppercase truncate hidden min-[360px]:block">
                 Luxury Events Atelier
               </span>
             </div>
-          </button>
+          </Link>
 
-          {/* 2. Desktop & Tablet Inline Menu Capsule (Visible on md & above) */}
+          {/* 2. Desktop & Tablet Inline Menu Capsule */}
           <nav
             aria-label="Main Navigation"
             className="hidden md:flex items-center bg-[#F5EFE6]/90 border border-[#E2D8C6] rounded-full px-2 py-1 shadow-sm backdrop-blur-sm gap-0.5 lg:gap-1 flex-shrink-0"
           >
             {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
+              const isActive = pathname === link.href;
               return (
-                <button
-                  key={link.id}
-                  onClick={() => handleNavClick(link.id)}
-                  className={`px-2.5 lg:px-3 py-1 rounded-full text-[11px] lg:text-[12.5px] font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap ${
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-2.5 lg:px-3.5 py-1 rounded-full text-[11px] lg:text-[12.5px] font-medium transition-all duration-200 flex items-center gap-1 whitespace-nowrap ${
                     isActive
                       ? 'bg-[#B38E36] text-white font-bold shadow-sm shadow-[#B38E36]/30 scale-[1.02]'
                       : 'text-[#474036] hover:text-[#1E1A16] hover:bg-white/80'
@@ -128,14 +107,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {link.badge}
                     </span>
                   )}
-                </button>
+                </Link>
               );
             })}
           </nav>
 
           {/* 3. Action CTAs */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            {/* Plan with AI button */}
             <button
               onClick={onOpenPlanner}
               className="gold-gradient-btn px-2.5 sm:px-3.5 py-1.5 sm:py-1.8 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#B38E36]/20 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap text-white"
@@ -145,7 +123,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="min-[420px]:hidden">AI</span>
             </button>
 
-            {/* Get Quote button */}
             <button
               onClick={onOpenRfq}
               className="px-2 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border border-[#B38E36]/40 text-[#785E1A] bg-[#FAF5E8] hover:bg-[#F3E7CA] transition-colors flex items-center gap-1 whitespace-nowrap"
@@ -172,7 +149,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               ))}
             </div>
 
-            {/* Admin Portal Shortcut */}
             <Link
               href="/admin"
               className="p-1.5 sm:p-2 rounded-xl text-[#786F62] hover:text-[#1E1A16] hover:bg-[#F5EFE6] transition-colors border border-[#E8E0D2]"
@@ -191,11 +167,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth px-0.5 py-1 border-t border-[#E8E0D2]"
           >
             {navLinks.map((link) => {
-              const isActive = activeSection === link.id;
+              const isActive = pathname === link.href;
               return (
-                <button
-                  key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                <Link
+                  key={link.href}
+                  href={link.href}
                   className={`px-3 py-1 rounded-full text-[11px] font-medium transition-all duration-200 flex-shrink-0 flex items-center gap-1 whitespace-nowrap border ${
                     isActive
                       ? 'bg-[#B38E36] text-white font-bold border-[#B38E36] shadow-sm shadow-[#B38E36]/30'
@@ -212,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {link.badge}
                     </span>
                   )}
-                </button>
+                </Link>
               );
             })}
           </nav>

@@ -34,12 +34,12 @@ export const Footer: React.FC = () => {
               AI Creative Platform
             </h4>
             <ul className="space-y-2 text-xs">
-              <li><a href="#planner" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">AI Wedding Planner Wizard</a></li>
-              <li><a href="#studio" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Dynamic Rental Inventory</a></li>
-              <li><a href="#builder" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">AI Combination Image & Video Studio</a></li>
-              <li><a href="#invitations" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Dynamic Digital Invitations</a></li>
-              <li><a href="#packages" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Curated Luxury Packages</a></li>
-              <li><a href="#portfolio" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Real Celebrations</a></li>
+              <li><Link href="/" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Atelier Home</Link></li>
+              <li><Link href="/studio" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Dynamic Rental Inventory Studio</Link></li>
+              <li><Link href="/invitations" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Dynamic Digital Invitations</Link></li>
+              <li><Link href="/packages" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Curated Luxury Packages</Link></li>
+              <li><Link href="/portfolio" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Real Celebrations</Link></li>
+              <li><Link href="/services" className="text-[#5C5346] hover:text-[#B38E36] transition-colors">Turnkey Services</Link></li>
             </ul>
           </div>
 
