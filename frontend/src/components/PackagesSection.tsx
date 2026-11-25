@@ -72,18 +72,18 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
   ];
 
   return (
-    <section id="packages" className="py-20 bg-fs-navy relative border-t border-fs-gold/20">
+    <section id="packages" className="py-24 bg-[#FAF8F5] relative border-t border-[#E8E0D2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fs-gold/15 border border-fs-gold/30 text-fs-gold-light text-xs font-semibold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F6EED8] border border-[#E2D4B7] text-[#785E1A] text-xs font-semibold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" />
             Curated Atelier Packages
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1E1A16]">
             Pre-Curated Luxury Bundles
           </h2>
-          <p className="text-sm text-fs-cream/70 font-light mt-2">
+          <p className="text-sm text-[#474036] font-normal mt-3 leading-relaxed">
             Engineered from authentic Four Seasons catalog inventory with bundled production savings. Customize every single element in our AI Studio.
           </p>
         </div>
@@ -93,51 +93,51 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
           {packages.map((pkg) => (
             <div
               key={pkg.id}
-              className={`relative glass-panel rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 ${
+              className={`relative rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 ${
                 pkg.star
-                  ? 'border-2 border-fs-gold bg-fs-navy-surface shadow-2xl scale-[1.03] lg:-translate-y-2'
-                  : 'border border-white/10 hover:border-fs-gold/50'
+                  ? 'border-2 border-[#B38E36] bg-[#FDFAF4] shadow-2xl scale-[1.03] lg:-translate-y-2'
+                  : 'bg-white border border-[#E8E0D2] shadow-md hover:shadow-xl hover:border-[#B38E36]/40'
               }`}
             >
               {pkg.star && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-fs-gold-light to-fs-gold text-fs-navy text-xs font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5">
-                  <Star className="w-3.5 h-3.5 fill-fs-navy" />
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B38E36] text-white text-xs font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                  <Star className="w-3.5 h-3.5 fill-white" />
                   Most Popular Choice
                 </div>
               )}
 
               <div>
                 {/* Header */}
-                <div className="pb-6 border-b border-white/10">
-                  <span className="text-xs font-bold uppercase tracking-widest text-fs-gold block mb-1">
+                <div className="pb-6 border-b border-[#E8E0D2]">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#B38E36] block mb-1">
                     {pkg.tag}
                   </span>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1A16] mb-2">
                     {pkg.name}
                   </h3>
-                  <p className="text-xs text-fs-cream/70 font-light leading-relaxed min-h-[48px]">
+                  <p className="text-xs text-[#474036] leading-relaxed min-h-[48px]">
                     {pkg.blurb}
                   </p>
                   <div className="mt-4 flex items-baseline gap-2">
-                    <span className="font-serif text-3xl sm:text-4xl font-bold text-white">
+                    <span className="font-serif text-3xl sm:text-4xl font-bold text-[#1E1A16]">
                       AED {pkg.price.toLocaleString()}
                     </span>
-                    <span className="text-xs text-fs-cream/50">starting bundle</span>
+                    <span className="text-xs text-[#786F62]">starting bundle</span>
                   </div>
-                  <div className="mt-1 text-xs text-emerald-400 font-semibold">
+                  <div className="mt-1 text-xs text-emerald-700 font-semibold">
                     {pkg.savings} vs individual item rental
                   </div>
                 </div>
 
                 {/* Inclusions List */}
                 <div className="py-6 space-y-3">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-fs-gold-light block">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#785E1A] block">
                     Curated Inclusions:
                   </span>
-                  <ul className="space-y-2.5 text-xs text-fs-cream/85">
+                  <ul className="space-y-2.5 text-xs text-[#2D261E]">
                     {pkg.items.map((it, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-fs-gold flex-shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-[#B38E36] flex-shrink-0 mt-0.5" />
                         <span>{it}</span>
                       </li>
                     ))}
@@ -146,11 +146,13 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-6 border-t border-white/10 space-y-2">
+              <div className="pt-6 border-t border-[#E8E0D2] space-y-2.5">
                 <button
                   onClick={() => onOpenRfq(pkg.name)}
                   className={`w-full py-3.5 rounded-xl font-bold text-sm text-center transition-all ${
-                    pkg.star ? 'gold-gradient-btn shadow-lg' : 'bg-white/10 text-white hover:bg-fs-gold hover:text-fs-navy'
+                    pkg.star
+                      ? 'gold-gradient-btn text-white shadow-lg hover:opacity-95'
+                      : 'bg-[#1E1A16] text-white hover:bg-[#B38E36] transition-colors shadow-sm'
                   }`}
                 >
                   Book Package Consultation
@@ -160,7 +162,7 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
                     const el = document.getElementById('studio');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full py-2.5 rounded-xl border border-fs-gold/30 text-fs-gold-light hover:bg-fs-gold/10 text-xs font-semibold text-center transition-colors block"
+                  className="w-full py-2.5 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-[#474036] hover:bg-[#F3EDE2] text-xs font-semibold text-center transition-colors block"
                 >
                   Customize Elements in Studio →
                 </button>
@@ -172,4 +174,3 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
     </section>
   );
 };
-

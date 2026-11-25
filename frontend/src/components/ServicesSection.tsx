@@ -60,18 +60,18 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenRfq }) =
   ];
 
   return (
-    <section id="services" className="py-20 bg-fs-navy relative border-t border-fs-gold/20">
+    <section id="services" className="py-24 bg-[#FAF8F5] relative border-t border-[#E8E0D2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fs-gold/15 border border-fs-gold/30 text-fs-gold-light text-xs font-semibold uppercase tracking-wider mb-2">
-            <HeartHandshake className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F6EED8] border border-[#E2D4B7] text-[#785E1A] text-xs font-semibold uppercase tracking-wider mb-3">
+            <HeartHandshake className="w-3.5 h-3.5 text-[#B38E36]" />
             Our Atelier Services
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1E1A16]">
             Turnkey Luxury Event Services
           </h2>
-          <p className="text-sm text-fs-cream/70 font-light mt-2">
+          <p className="text-sm text-[#474036] font-normal mt-3 leading-relaxed">
             From architectural staging and bespoke Dutch florals to AI visual simulation and automated WhatsApp guest concierge.
           </p>
         </div>
@@ -81,37 +81,37 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenRfq }) =
           {services.map((svc, idx) => (
             <div
               key={idx}
-              className="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-fs-gold/50 transition-all duration-300 flex flex-col justify-between group"
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E0D2] hover:border-[#B38E36]/50 transition-all duration-300 flex flex-col justify-between group shadow-sm hover:shadow-xl"
             >
               <div className="space-y-4">
-                <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden border border-white/10">
+                <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden border border-[#E8E0D2]">
                   <img
                     src={svc.image}
                     alt={svc.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-fs-navy/90 text-xs font-bold text-fs-gold border border-fs-gold/30 backdrop-blur-md">
+                  <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-white/95 text-xs font-bold text-[#785E1A] border border-[#E2D4B7] shadow-sm backdrop-blur-md">
                     {svc.price}
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-white group-hover:text-fs-gold-lighter transition-colors">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#1E1A16] group-hover:text-[#8F6E22] transition-colors">
                     {svc.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-fs-cream/75 font-light leading-relaxed mt-2">
+                  <p className="text-xs sm:text-sm text-[#474036] leading-relaxed mt-2.5">
                     {svc.desc}
                   </p>
                 </div>
 
                 <div className="pt-2 space-y-2">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-fs-gold block">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-[#785E1A] block">
                     Key Deliverables:
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {svc.features.map((f, i) => (
-                      <div key={i} className="flex items-center gap-2 text-fs-cream/90">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-fs-gold flex-shrink-0" />
+                      <div key={i} className="flex items-center gap-2 text-[#2D261E]">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#B38E36] flex-shrink-0" />
                         <span>{f}</span>
                       </div>
                     ))}
@@ -119,18 +119,18 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenRfq }) =
                 </div>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
+              <div className="pt-6 mt-6 border-t border-[#E8E0D2] flex items-center justify-between">
                 <button
                   onClick={() => onOpenRfq(svc.title)}
-                  className="gold-gradient-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2"
+                  className="gold-gradient-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white flex items-center gap-2 shadow-md hover:opacity-95"
                 >
                   <span>Book Consultation</span>
-                  <ArrowRight className="w-4 h-4 text-fs-navy" />
+                  <ArrowRight className="w-4 h-4 text-white" />
                 </button>
 
                 <a
                   href="#studio"
-                  className="text-xs text-fs-cream/60 hover:text-fs-gold font-medium transition-colors"
+                  className="text-xs text-[#786F62] hover:text-[#B38E36] font-semibold transition-colors"
                 >
                   Explore Rental Catalog →
                 </a>
@@ -142,4 +142,3 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenRfq }) =
     </section>
   );
 };
-

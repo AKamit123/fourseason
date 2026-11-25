@@ -11,23 +11,37 @@ const config: Config = {
       colors: {
         fs: {
           navy: {
-            DEFAULT: "#0E1B3A",
-            dark: "#070D20",
-            light: "#16264E",
-            surface: "#101F42"
+            DEFAULT: "#FAF8F5", // Soft luxury alabaster / warm ivory
+            dark: "#F3EDE2",    // Subtle cashmere beige for contrasting sections
+            light: "#FFFFFF",   // Pure white
+            surface: "#FFFFFF", // Card and modal surface
+            subtle: "#F7F3EB",  // Soft subtle warm tint
+            border: "#E8E0D2",  // Delicate warm neutral border
           },
           gold: {
-            DEFAULT: "#C8A24B",
-            light: "#E7C977",
-            lighter: "#F0D88A",
-            dark: "#A8842F",
-            darker: "#7A5E1C"
+            DEFAULT: "#B38E36", // Rich champagne gold
+            light: "#C9A64C",
+            lighter: "#785E1A", // High-contrast readable gold for light mode text
+            dark: "#8F6E22",
+            darker: "#6A5016",
+            pill: "#F6EED8",    // Soft pastel gold pill background
           },
           cream: {
-            DEFAULT: "#F7F3EC",
-            light: "#FFFFFF",
-            dark: "#EDE6D8",
-            muted: "#E0D7C6"
+            DEFAULT: "#1E1A16", // Primary luxury text: deep warm charcoal
+            light: "#110F0D",   // Deepest luxury headline text
+            dark: "#474036",    // Secondary body text
+            muted: "#786F62",   // Subtle stone / caption text
+          },
+          pastel: {
+            beige: "#F5EFE6",
+            cream: "#FAF8F5",
+            almond: "#EFE8DC",
+            sand: "#ECE3D4",
+            linen: "#F8F5EE",
+            pearl: "#FFFFFF",
+            blush: "#FAF1EC",
+            stone: "#E5DFD5",
+            taupe: "#8A8073",
           }
         }
       },

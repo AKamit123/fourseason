@@ -169,26 +169,26 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
         {/* AI Concierge Chatbot Launcher Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative flex items-center gap-2 px-4 py-3 rounded-full bg-fs-navy-dark border border-fs-gold/60 text-white text-xs font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all backdrop-blur-md group"
+          className="relative flex items-center gap-2 px-4 py-3 rounded-full bg-white border border-[#B38E36] text-[#1E1A16] text-xs font-bold shadow-xl hover:scale-105 active:scale-95 transition-all group"
           aria-label="Open Four Seasons AI Concierge Chatbot"
         >
           {/* Animated Gold Ring Glow */}
-          <div className="absolute inset-0 rounded-full bg-fs-gold/20 animate-ping opacity-40 pointer-events-none" />
+          <div className="absolute inset-0 rounded-full bg-[#B38E36]/20 animate-ping opacity-40 pointer-events-none" />
 
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-fs-gold-light via-fs-gold to-fs-gold-dark flex items-center justify-center text-fs-navy shadow-md">
-            <Sparkles className="w-4 h-4 fill-fs-navy text-fs-navy" />
+          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#D4AF37] via-[#B38E36] to-[#8F6E22] flex items-center justify-center text-white shadow-md">
+            <Sparkles className="w-4 h-4 fill-white text-white" />
           </div>
 
           <div className="flex flex-col text-left">
-            <span className="text-[11px] font-bold text-white leading-tight">AI Concierge</span>
-            <span className="text-[9px] text-emerald-400 font-medium flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[11px] font-bold text-[#1E1A16] leading-tight">AI Concierge</span>
+            <span className="text-[9px] text-emerald-700 font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
               Online 24/7
             </span>
           </div>
 
           {unreadCount > 0 && !isOpen && (
-            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-fs-gold text-fs-navy font-bold text-[10px] flex items-center justify-center shadow-md">
+            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#B38E36] text-white font-bold text-[10px] flex items-center justify-center shadow-md">
               {unreadCount}
             </span>
           )}
@@ -197,19 +197,19 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
 
       {/* Floating Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-20 right-3 sm:right-6 z-50 w-[calc(100vw-24px)] sm:w-[400px] h-[560px] max-h-[82vh] bg-fs-navy-dark/95 border border-fs-gold/35 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col overflow-hidden animate-fade-in">
+        <div className="fixed bottom-20 right-3 sm:right-6 z-50 w-[calc(100vw-24px)] sm:w-[400px] h-[560px] max-h-[82vh] bg-[#FAF8F5] border border-[#E8E0D2] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
           {/* Chat Window Header */}
-          <div className="px-5 py-3.5 bg-fs-navy border-b border-fs-gold/20 flex items-center justify-between">
+          <div className="px-5 py-3.5 bg-white border-b border-[#E8E0D2] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-fs-gold-light via-fs-gold to-fs-gold-dark flex items-center justify-center text-fs-navy font-serif font-bold text-sm shadow-md">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#D4AF37] via-[#B38E36] to-[#8F6E22] flex items-center justify-center text-white font-serif font-bold text-sm shadow-md">
                 4S
               </div>
               <div className="flex flex-col">
-                <span className="font-serif font-bold text-sm text-white flex items-center gap-1.5">
+                <span className="font-serif font-bold text-sm text-[#1E1A16] flex items-center gap-1.5">
                   Four Seasons AI Concierge
                 </span>
-                <span className="text-[10px] text-fs-gold-light flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] text-[#785E1A] font-semibold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
                   Luxury Atelier · Instant Reply
                 </span>
               </div>
@@ -220,14 +220,14 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
                 href={directWhatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 hover:text-white hover:bg-emerald-600 transition-colors"
+                className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 hover:text-white hover:bg-emerald-600 transition-colors"
                 title="Switch to WhatsApp"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-fs-cream/60 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-lg text-[#786F62] hover:text-[#1E1A16] hover:bg-[#F3EDE2] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -235,7 +235,7 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
           </div>
 
           {/* Messages Scroll Area */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs bg-[#FAF8F5]">
             {messages.map((m) => (
               <div
                 key={m.id}
@@ -244,16 +244,16 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-3 leading-relaxed ${
                     m.sender === 'user'
-                      ? 'bg-fs-gold text-fs-navy font-medium shadow-md shadow-fs-gold/20 rounded-br-none'
-                      : 'bg-fs-navy border border-fs-gold/20 text-fs-cream shadow-md rounded-bl-none'
+                      ? 'bg-[#B38E36] text-white font-medium shadow-sm rounded-br-none'
+                      : 'bg-white border border-[#E8E0D2] text-[#1E1A16] shadow-sm rounded-bl-none'
                   }`}
                 >
                   <p className="whitespace-pre-line text-xs font-normal">{m.text}</p>
 
                   {/* Inquiry Registration Badge */}
                   {m.inquiryCreated && (
-                    <div className="mt-2.5 p-2 rounded-xl bg-emerald-950/80 border border-emerald-400/40 text-emerald-300 text-[11px] font-semibold flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <div className="mt-2.5 p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                       <span>
                         Inquiry Reference: <strong>{m.inquiryCreated.referenceNo}</strong>
                       </span>
@@ -261,7 +261,7 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
                   )}
                 </div>
 
-                <span className="text-[9px] text-fs-cream/40 mt-1 px-1">{m.time}</span>
+                <span className="text-[9px] text-[#786F62] mt-1 px-1">{m.time}</span>
 
                 {/* Suggestions Chips below Bot Message */}
                 {m.sender === 'bot' && m.suggestions && m.suggestions.length > 0 && (
@@ -270,7 +270,7 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
                       <button
                         key={i}
                         onClick={() => handleSuggestionClick(sug)}
-                        className="px-2.5 py-1 rounded-full bg-fs-gold/10 hover:bg-fs-gold/25 border border-fs-gold/30 text-[10px] text-fs-gold-lighter font-medium transition-all hover:scale-[1.02] text-left"
+                        className="px-2.5 py-1 rounded-full bg-white hover:bg-[#F6EED8] border border-[#DDD5C7] text-[10px] text-[#785E1A] font-semibold transition-all hover:scale-[1.02] text-left shadow-xs"
                       >
                         {sug}
                       </button>
@@ -281,8 +281,8 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
             ))}
 
             {loading && (
-              <div className="flex items-center gap-2 p-3 rounded-2xl bg-fs-navy border border-fs-gold/20 text-fs-cream/70 text-xs w-max animate-pulse">
-                <Sparkles className="w-3.5 h-3.5 text-fs-gold animate-spin" />
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-[#E8E0D2] text-[#474036] text-xs w-max shadow-sm animate-pulse">
+                <Sparkles className="w-3.5 h-3.5 text-[#B38E36] animate-spin" />
                 <span>Four Seasons Concierge is typing...</span>
               </div>
             )}
@@ -290,16 +290,16 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
           </div>
 
           {/* Quick WhatsApp Switch Banner */}
-          <div className="px-4 py-1.5 bg-emerald-950/30 border-t border-emerald-500/20 flex items-center justify-between text-[11px]">
-            <span className="text-emerald-400 flex items-center gap-1 font-medium">
-              <Phone className="w-3 h-3" />
+          <div className="px-4 py-1.5 bg-[#F6EED8] border-t border-[#E2D4B7] flex items-center justify-between text-[11px]">
+            <span className="text-[#785E1A] flex items-center gap-1 font-semibold">
+              <Phone className="w-3 h-3 text-[#B38E36]" />
               Prefer human WhatsApp chat?
             </span>
             <a
               href={directWhatsAppUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-300 hover:text-white font-bold underline flex items-center gap-0.5"
+              className="text-[#785E1A] hover:text-[#1E1A16] font-bold underline flex items-center gap-0.5"
             >
               <span>+971 50 882 1900</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -312,20 +312,20 @@ export const WhatsAppChatbotWidget: React.FC<WhatsAppChatbotWidgetProps> = ({
               e.preventDefault();
               handleSendMessage(inputMsg);
             }}
-            className="p-3 bg-fs-navy-dark border-t border-fs-gold/20 flex items-center gap-2"
+            className="p-3 bg-white border-t border-[#E8E0D2] flex items-center gap-2"
           >
             <input
               type="text"
               value={inputMsg}
               onChange={(e) => setInputMsg(e.target.value)}
               placeholder="Ask about stages, bars, packages, or pricing..."
-              className="flex-1 px-3.5 py-2.5 rounded-xl bg-fs-navy border border-white/15 text-white text-xs placeholder:text-fs-cream/40 focus:outline-none focus:border-fs-gold"
+              className="flex-1 px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-xs placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={!inputMsg.trim() || loading}
-              className="p-2.5 rounded-xl bg-fs-gold text-fs-navy hover:bg-fs-gold-light disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md shrink-0"
+              className="p-2.5 rounded-xl bg-[#B38E36] text-white hover:bg-[#8F6E22] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm shrink-0"
               aria-label="Send Message"
             >
               <Send className="w-4 h-4" />

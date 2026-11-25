@@ -119,18 +119,18 @@ export const DynamicInvitationBuilder: React.FC = () => {
   };
 
   return (
-    <section id="invitations" className="py-20 bg-fs-navy-dark relative border-t border-fs-gold/20">
+    <section id="invitations" className="py-24 bg-[#F5EFE6] relative border-t border-[#E8E0D2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fs-gold/15 border border-fs-gold/30 text-fs-gold-light text-xs font-semibold uppercase tracking-wider mb-2">
-            <Mail className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F6EED8] border border-[#E2D4B7] text-[#785E1A] text-xs font-semibold uppercase tracking-wider mb-3">
+            <Mail className="w-3.5 h-3.5 text-[#B38E36]" />
             Dynamic Digital Invitation Atelier
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1E1A16]">
             Bespoke Interactive Invitations
           </h2>
-          <p className="text-sm text-fs-cream/70 font-light mt-2">
+          <p className="text-sm text-[#474036] font-normal mt-3 leading-relaxed">
             Customize typography, regal color palettes, event venues, and personal messages in real-time. Share instantly via WhatsApp with live RSVP tracking.
           </p>
         </div>
@@ -138,10 +138,10 @@ export const DynamicInvitationBuilder: React.FC = () => {
         {/* Template Selector Ribbon */}
         <div className="mb-10">
           <div className="flex items-center justify-between mb-3 px-1">
-            <span className="text-xs uppercase font-bold text-fs-gold tracking-wider">
+            <span className="text-xs uppercase font-bold text-[#785E1A] tracking-wider">
               Choose an Invitation Aesthetic:
             </span>
-            <span className="text-xs text-fs-cream/50">
+            <span className="text-xs text-[#786F62]">
               {templates.length} Atelier Templates Available
             </span>
           </div>
@@ -155,8 +155,8 @@ export const DynamicInvitationBuilder: React.FC = () => {
                   onClick={() => handleTemplateSelect(tpl)}
                   className={`group relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all p-2 ${
                     isSelected
-                      ? 'border-fs-gold bg-fs-gold/15 shadow-xl scale-[1.02]'
-                      : 'border-white/10 hover:border-fs-gold/40 bg-white/5'
+                      ? 'border-[#B38E36] bg-[#FDF9F2] shadow-md scale-[1.02]'
+                      : 'border-[#E8E0D2] hover:border-[#B38E36]/40 bg-white'
                   }`}
                 >
                   <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden mb-2">
@@ -165,12 +165,12 @@ export const DynamicInvitationBuilder: React.FC = () => {
                       alt={tpl.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     <span className="absolute bottom-2 left-2 text-[10px] font-bold text-white">
                       {tpl.category}
                     </span>
                   </div>
-                  <span className="font-serif font-semibold text-xs sm:text-sm text-white block truncate">
+                  <span className="font-serif font-semibold text-xs sm:text-sm text-[#1E1A16] block truncate">
                     {tpl.title}
                   </span>
                 </div>
@@ -182,13 +182,13 @@ export const DynamicInvitationBuilder: React.FC = () => {
         {/* Main Interactive Studio Grid: Form (Left) & Live Canvas (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT: Customizer Form (7 Cols) */}
-          <div className="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-8 border border-fs-gold/30 space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
-              <h3 className="font-serif text-xl font-bold text-white flex items-center gap-2">
-                <Palette className="w-5 h-5 text-fs-gold" />
+          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E0D2] shadow-md space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-xl font-bold text-[#1E1A16] flex items-center gap-2">
+                <Palette className="w-5 h-5 text-[#B38E36]" />
                 Customize Invitation Details
               </h3>
-              <span className="text-[11px] text-fs-gold-light bg-fs-gold/10 px-2 py-0.5 rounded border border-fs-gold/20 font-medium">
+              <span className="text-[11px] text-[#785E1A] bg-[#F6EED8] px-2.5 py-1 rounded-full border border-[#E2D4B7] font-semibold">
                 Live Dynamic Sync
               </span>
             </div>
@@ -196,52 +196,52 @@ export const DynamicInvitationBuilder: React.FC = () => {
             <div className="space-y-4">
               {/* Couple Names */}
               <div>
-                <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                <label className="text-xs font-semibold text-[#474036] block mb-1">
                   Couple / Celebrant Names
                 </label>
                 <input
                   type="text"
                   value={coupleNames}
                   onChange={(e) => setCoupleNames(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold font-serif"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white font-serif"
                 />
               </div>
 
               {/* Event Title */}
               <div>
-                <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                <label className="text-xs font-semibold text-[#474036] block mb-1">
                   Event Title &amp; Occasion
                 </label>
                 <input
                   type="text"
                   value={eventName}
                   onChange={(e) => setEventName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                 />
               </div>
 
               {/* Date & Time */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                  <label className="text-xs font-semibold text-[#474036] block mb-1">
                     Celebration Date
                   </label>
                   <input
                     type="date"
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                  <label className="text-xs font-semibold text-[#474036] block mb-1">
                     Ceremony Time
                   </label>
                   <input
                     type="text"
                     value={eventTime}
                     onChange={(e) => setEventTime(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                   />
                 </div>
               </div>
@@ -249,66 +249,66 @@ export const DynamicInvitationBuilder: React.FC = () => {
               {/* Venue & Address */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                  <label className="text-xs font-semibold text-[#474036] block mb-1">
                     Venue Name
                   </label>
                   <input
                     type="text"
                     value={venueName}
                     onChange={(e) => setVenueName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                  <label className="text-xs font-semibold text-[#474036] block mb-1">
                     Address / City
                   </label>
                   <input
                     type="text"
                     value={venueAddress}
                     onChange={(e) => setVenueAddress(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                   />
                 </div>
               </div>
 
               {/* Custom Message */}
               <div>
-                <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                <label className="text-xs font-semibold text-[#474036] block mb-1">
                   Personal Blessing / Invitation Message
                 </label>
                 <textarea
                   rows={2}
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                 />
               </div>
 
               {/* RSVP Contact */}
               <div>
-                <label className="text-xs font-semibold text-fs-cream/80 block mb-1">
+                <label className="text-xs font-semibold text-[#474036] block mb-1">
                   RSVP &amp; Concierge Contact
                 </label>
                 <input
                   type="text"
                   value={rsvpContact}
                   onChange={(e) => setRsvpContact(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                 />
               </div>
 
               {/* Styling: Typography & Accent Colors */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1 flex items-center gap-1.5">
-                    <Type className="w-3.5 h-3.5 text-fs-gold" />
+                  <label className="text-xs font-semibold text-[#474036] block mb-1 flex items-center gap-1.5">
+                    <Type className="w-3.5 h-3.5 text-[#B38E36]" />
                     Font Family
                   </label>
                   <select
                     value={fontFamily}
                     onChange={(e) => setFontFamily(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] text-sm focus:outline-none focus:border-[#B38E36] focus:bg-white"
                   >
                     <option value="Playfair Display">Playfair Display (Royal Classic)</option>
                     <option value="Georgia">Georgia (Timeless Editorial)</option>
@@ -318,8 +318,8 @@ export const DynamicInvitationBuilder: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-fs-cream/80 block mb-1 flex items-center gap-1.5">
-                    <Palette className="w-3.5 h-3.5 text-fs-gold" />
+                  <label className="text-xs font-semibold text-[#474036] block mb-1 flex items-center gap-1.5">
+                    <Palette className="w-3.5 h-3.5 text-[#B38E36]" />
                     Palette Preset
                   </label>
                   <div className="flex gap-2">
@@ -337,8 +337,8 @@ export const DynamicInvitationBuilder: React.FC = () => {
                         }}
                         className={`flex-1 py-2 rounded-lg border text-[11px] font-medium flex items-center justify-center gap-1.5 ${
                           primaryColor === preset.p
-                            ? 'border-fs-gold bg-fs-gold/15 text-white font-bold'
-                            : 'border-white/10 bg-white/5 text-fs-cream/70 hover:bg-white/10'
+                            ? 'border-[#B38E36] bg-[#F6EED8] text-[#1E1A16] font-bold shadow-sm'
+                            : 'border-[#DDD5C7] bg-[#FAF8F5] text-[#474036] hover:bg-[#F3EDE2]'
                         }`}
                       >
                         <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: preset.s }} />
@@ -351,13 +351,13 @@ export const DynamicInvitationBuilder: React.FC = () => {
             </div>
 
             {/* Actions: Save & Generate Shareable Link */}
-            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+            <div className="pt-4 border-t border-[#E8E0D2] flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleSaveInvitation}
                 disabled={saving}
-                className="gold-gradient-btn flex-1 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl"
+                className="gold-gradient-btn flex-1 py-3.5 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 shadow-lg hover:opacity-95"
               >
-                <Sparkles className="w-4 h-4 text-fs-navy" />
+                <Sparkles className="w-4 h-4 text-white" />
                 <span>{saving ? 'Generating Digital Canvas…' : 'Generate & Save Invitation'}</span>
               </button>
 
@@ -365,15 +365,15 @@ export const DynamicInvitationBuilder: React.FC = () => {
                 <>
                   <button
                     onClick={handleCopyLink}
-                    className="py-3 px-4 rounded-xl border border-fs-gold/40 text-fs-gold-light hover:bg-fs-gold/10 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
+                    className="py-3 px-4 rounded-xl border border-[#B38E36] text-[#785E1A] hover:bg-[#F6EED8] text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
                   >
-                    {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+                    {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
                     <span>{copied ? 'Link Copied!' : 'Copy Link'}</span>
                   </button>
 
                   <button
                     onClick={handleWhatsAppShare}
-                    className="py-3 px-4 rounded-xl bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/50 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
+                    className="py-3 px-4 rounded-xl bg-emerald-700 text-white hover:bg-emerald-800 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors"
                   >
                     <span>Share on WhatsApp</span>
                   </button>
@@ -384,15 +384,15 @@ export const DynamicInvitationBuilder: React.FC = () => {
 
           {/* RIGHT: Live Interactive Preview Canvas (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <span className="text-xs uppercase font-bold text-fs-gold tracking-widest mb-3 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5" /> Live Mobile &amp; Canvas Preview
+            <span className="text-xs uppercase font-bold text-[#785E1A] tracking-widest mb-3 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" /> Live Mobile &amp; Canvas Preview
             </span>
 
             {/* Phone Bezel Frame */}
-            <div className="relative w-full max-w-[340px] aspect-[9/16] rounded-[42px] p-3.5 bg-fs-navy-dark border-4 border-fs-gold/40 shadow-2xl overflow-hidden gold-border-glow">
+            <div className="relative w-full max-w-[340px] aspect-[9/16] rounded-[42px] p-3.5 bg-[#1E1A16] border-4 border-[#B38E36] shadow-2xl overflow-hidden">
               {/* Dynamic Invitation Card Canvas */}
               <div
-                className="w-full h-full rounded-[30px] overflow-hidden flex flex-col justify-between p-6 text-center relative border border-fs-gold/30"
+                className="w-full h-full rounded-[30px] overflow-hidden flex flex-col justify-between p-6 text-center relative border border-white/20"
                 style={{
                   backgroundColor: primaryColor,
                   color: '#FFFFFF',
@@ -474,7 +474,7 @@ export const DynamicInvitationBuilder: React.FC = () => {
                   href={`/invite/${createdSlug}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs text-fs-gold hover:underline font-semibold"
+                  className="text-xs text-[#785E1A] hover:underline font-semibold"
                 >
                   Open Full Screen Public Invitation Page →
                 </a>
@@ -486,4 +486,3 @@ export const DynamicInvitationBuilder: React.FC = () => {
     </section>
   );
 };
-

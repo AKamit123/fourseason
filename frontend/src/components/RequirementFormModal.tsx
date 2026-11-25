@@ -68,16 +68,16 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-2xl bg-fs-navy-surface border border-fs-gold/40 rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-2xl bg-white border border-[#E8E0D2] rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-fs-gold/20">
+        <div className="flex items-center justify-between pb-4 border-b border-[#E8E0D2]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-fs-gold flex items-center justify-center font-serif font-bold text-fs-navy text-lg shadow-lg">
               4S
             </div>
             <div>
-              <span className="font-serif font-bold text-xl text-white block">
+              <span className="font-serif font-bold text-xl text-[#1E1A16] block">
                 Atelier Requirement Gathering
               </span>
               <span className="text-[10px] text-fs-gold-lighter tracking-widest uppercase block">
@@ -104,7 +104,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
               </div>
 
               <div className="space-y-2">
-                <h3 className="font-serif text-2xl font-bold text-white">
+                <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
                   Inquiry Received with Privilege
                 </h3>
                 <p className="text-xs text-fs-cream/80 max-w-md mx-auto">
@@ -154,7 +154,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     placeholder="e.g. Priya Nair"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                   />
                 </div>
 
@@ -168,7 +168,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     placeholder="e.g. priya.nair@example.ae"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     placeholder="e.g. +971 50 123 4567"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                   />
                 </div>
 
@@ -197,7 +197,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     placeholder="e.g. Nair Celebrations"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                   />
                 </div>
               </div>
@@ -211,7 +211,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                   <select
                     value={eventType}
                     onChange={(e) => setEventType(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs focus:outline-none focus:border-fs-gold"
                   >
                     <option value="Wedding">Indian Wedding</option>
                     <option value="Arabic Nikah">Arabic Nikah Banquet</option>
@@ -230,7 +230,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     type="date"
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs focus:outline-none focus:border-fs-gold"
                   />
                 </div>
 
@@ -242,7 +242,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                     type="number"
                     value={guestsCount}
                     onChange={(e) => setGuestsCount(Number(e.target.value))}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs focus:outline-none focus:border-fs-gold"
                   />
                 </div>
               </div>
@@ -255,7 +255,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                   <select
                     value={budgetRange}
                     onChange={(e) => setBudgetRange(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs focus:outline-none focus:border-fs-gold"
                   >
                     <option value="AED 50,000–75,000">AED 50,000–75,000</option>
                     <option value="AED 75,000–150,000">AED 75,000–150,000</option>
@@ -271,7 +271,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                   <select
                     value={preferredTheme}
                     onChange={(e) => setPreferredTheme(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs focus:outline-none focus:border-fs-gold"
                   >
                     <option value="Red Bloom">Red Bloom (Dutch Naomi Roses)</option>
                     <option value="Bling">Bling (Gold Mirrors &amp; Kinetic Stage)</option>
@@ -293,7 +293,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
                   value={specialInstructions}
                   onChange={(e) => setSpecialInstructions(e.target.value)}
                   placeholder="e.g. Venue is Atlantis The Royal ballroom. Need cold sparkular entry at 8:00 PM and floral chandelier over the dance floor."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white placeholder-fs-cream/40 text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white placeholder-fs-cream/40 text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                 />
               </div>
 

@@ -197,16 +197,16 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
       };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-2xl bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-2xl bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-fs-gold/20 bg-fs-navy-dark/70">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8E0D2] bg-[#FAF8F5]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-fs-gold flex items-center justify-center font-serif font-bold text-fs-navy text-sm">
               4S
             </div>
             <div>
-              <span className="font-serif font-semibold text-white text-sm block">AI Event Planning Concierge</span>
+              <span className="font-serif font-semibold text-[#1E1A16] text-sm block font-bold">AI Event Planning Concierge</span>
               <span className="text-[10px] text-fs-gold-light block tracking-widest uppercase">Four Seasons</span>
             </div>
           </div>
@@ -231,7 +231,7 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
                 </div>
               </div>
               <div className="space-y-3">
-                <h3 className="font-serif text-2xl text-white font-semibold">
+                <h3 className="font-serif text-2xl text-[#1E1A16] font-semibold">
                   Curating Your Masterpiece
                 </h3>
                 <p className="text-fs-gold-lighter text-base font-medium h-6 transition-all duration-300">
@@ -253,7 +253,7 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
                   <Sparkles className="w-3.5 h-3.5" />
                   AI Recommended Match
                 </div>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1A16]">
                   {recommendedPackage.name}
                 </h3>
                 <p className="text-xs text-fs-cream/70">
@@ -263,12 +263,12 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
 
               {/* Package Card */}
               <div className="glass-gold rounded-2xl p-6 border border-fs-gold/40 relative overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-fs-gold/20 gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#E8E0D2] gap-3">
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-wider text-fs-gold block">
                       {recommendedPackage.tag}
                     </span>
-                    <span className="text-2xl font-serif font-bold text-white">
+                    <span className="text-2xl font-serif font-bold text-[#1E1A16]">
                       AED {recommendedPackage.price.toLocaleString()}
                     </span>
                     <span className="text-xs text-fs-cream/60 ml-2">bundled starting rate</span>
@@ -346,7 +346,7 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
 
               {/* Title & Subtitle */}
               <div className="space-y-1">
-                <h3 className="font-serif text-2xl font-bold text-white">
+                <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
                   {questions[step].title}
                 </h3>
                 <p className="text-xs text-fs-cream/70">
@@ -366,8 +366,8 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
                           onClick={() => (questions[step].setValue as any)(opt)}
                           className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                             isSel
-                              ? 'bg-fs-gold text-fs-navy font-bold shadow-md shadow-fs-gold/30 scale-[1.02]'
-                              : 'bg-white/5 border border-white/10 text-fs-cream/80 hover:bg-white/10 hover:border-fs-gold/30'
+                              ? 'bg-[#B38E36] text-white font-bold shadow-md scale-[1.02]'
+                              : 'bg-[#FBF9F5] border border-[#DDD5C7] text-[#474036] hover:bg-[#F3EDE2]'
                           }`}
                         >
                           {opt}
@@ -438,14 +438,14 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
                           key={t.id}
                           onClick={() => setTheme(t.id)}
                           className={`group relative rounded-xl overflow-hidden cursor-pointer border-2 transition-all p-1.5 ${
-                            isSel ? 'border-fs-gold bg-fs-gold/15 scale-105' : 'border-white/10 hover:border-fs-gold/40 bg-white/5'
+                            isSel ? 'border-fs-gold bg-fs-gold/15 scale-105' : 'border-[#E8E0D2] hover:border-[#B38E36]/40 bg-[#FAF8F5]'
                           }`}
                         >
                           <div
                             className="w-full h-20 rounded-lg bg-cover bg-center mb-1.5"
                             style={{ backgroundImage: `url('${t.img}')` }}
                           />
-                          <span className="text-xs font-serif font-semibold text-white block truncate">
+                          <span className="text-xs font-serif font-semibold text-[#1E1A16] block truncate">
                             {t.name}
                           </span>
                         </div>
@@ -475,7 +475,7 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
                           className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
                             budget === b.v
                               ? 'bg-fs-gold text-fs-navy font-bold'
-                              : 'bg-white/5 border border-white/10 text-fs-cream/80 hover:bg-white/10'
+                              : 'bg-[#FBF9F5] border border-[#DDD5C7] text-[#474036] hover:bg-[#F3EDE2]'
                           }`}
                         >
                           {b.label}
@@ -491,7 +491,7 @@ export const AiPlannerWizard: React.FC<AiPlannerWizardProps> = ({
 
         {/* Footer Navigation */}
         {!isCurating && !showResult && (
-          <div className="flex items-center justify-between px-6 py-4 border-t border-fs-gold/20 bg-fs-navy-dark/70">
+          <div className="flex items-center justify-between px-6 py-4 border-t border-[#E8E0D2] bg-[#FAF8F5]">
             <button
               onClick={() => setStep(Math.max(0, step - 1))}
               disabled={step === 0}

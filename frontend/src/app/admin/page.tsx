@@ -552,21 +552,21 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-fs-navy-dark text-fs-cream flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1E1A16] flex flex-col lg:flex-row font-sans">
       {/* SIDEBAR NAVIGATION */}
-      <aside className="w-full lg:w-72 bg-fs-navy border-r border-fs-gold/20 flex flex-col justify-between shrink-0">
+      <aside className="w-full lg:w-72 bg-white border-r border-[#E8E0D2] flex flex-col justify-between shrink-0 shadow-sm">
         <div>
           {/* Brand Logo */}
-          <div className="p-5 border-b border-fs-gold/20 flex items-center justify-between">
+          <div className="p-5 border-b border-[#E8E0D2] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-fs-gold flex items-center justify-center font-serif font-bold text-fs-navy text-lg shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-[#B38E36] flex items-center justify-center font-serif font-bold text-white text-lg shadow-md">
                 4S
               </div>
               <div>
-                <span className="font-serif font-bold text-base text-white block">
+                <span className="font-serif font-bold text-base text-[#1E1A16] block">
                   FOUR SEASONS
                 </span>
-                <span className="text-[9px] tracking-[0.2em] text-fs-gold block uppercase font-medium">
+                <span className="text-[9px] tracking-[0.2em] text-[#785E1A] block uppercase font-bold">
                   Atelier Enterprise
                 </span>
               </div>
@@ -574,14 +574,14 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* User Status */}
-          <div className="px-5 py-3 bg-fs-navy-dark/60 border-b border-white/5 flex items-center justify-between text-xs">
+          <div className="px-5 py-3 bg-[#F8F5EE] border-b border-[#E8E0D2] flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-fs-cream/90 font-medium truncate max-w-[140px]">
                 {user?.name || 'Administrator'}
               </span>
             </div>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-fs-gold/20 text-fs-gold-lighter uppercase">
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7] uppercase font-bold">
               {typeof user?.role === 'object' ? (user?.role?.name || user?.role?.slug || 'Admin') : (user?.role || 'Admin')}
             </span>
           </div>
@@ -597,8 +597,8 @@ export default function AdminDashboardPage() {
                   onClick={() => setActiveTab(mod.id)}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                     isActive
-                      ? 'bg-fs-gold text-fs-navy font-bold shadow-md'
-                      : 'text-fs-cream/70 hover:bg-white/5 hover:text-white'
+                      ? 'bg-[#B38E36] text-white font-bold shadow-md'
+                      : 'text-[#474036] hover:bg-[#F3EDE2] hover:text-[#1E1A16]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -608,7 +608,7 @@ export default function AdminDashboardPage() {
                   {mod.badge !== undefined && (
                     <span
                       className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
-                        isActive ? 'bg-fs-navy text-fs-gold' : 'bg-white/10 text-fs-cream'
+                        isActive ? 'bg-white/20 text-white' : 'bg-[#E8E0D2] text-[#474036]'
                       }`}
                     >
                       {mod.badge}
@@ -621,17 +621,17 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Footer info & Logout */}
-        <div className="p-4 border-t border-white/10 bg-fs-navy-dark/40 space-y-2">
+        <div className="p-4 border-t border-[#E8E0D2] bg-[#FAF8F5] space-y-2">
           <button
             onClick={() => window.open('/', '_blank')}
-            className="w-full py-2 px-3 rounded-xl border border-fs-gold/30 text-fs-gold-light hover:bg-fs-gold/10 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 px-3 rounded-xl border border-[#B38E36] text-[#785E1A] hover:bg-[#F6EED8] text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
           >
             <span>View Public Atelier</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={handleLogout}
-            className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-red-500/20 text-fs-cream/80 hover:text-red-300 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 px-3 rounded-xl bg-[#F3EDE2] hover:bg-rose-100 text-[#474036] hover:text-rose-700 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>
@@ -640,7 +640,7 @@ export default function AdminDashboardPage() {
       </aside>
 
       {/* MAIN ADMIN WORKSPACE */}
-      <main className="flex-1 p-4 sm:p-8 lg:p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-8 lg:p-10 overflow-y-auto bg-[#FAF8F5]">
         {/* Notification Banner */}
         {actionSuccessMsg && (
           <div className="mb-6 p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-200 text-xs font-semibold flex items-center gap-3 animate-fade-in shadow-xl">
@@ -654,12 +654,12 @@ export default function AdminDashboardPage() {
           <div className="space-y-8 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Operations Command Center</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Operations Command Center</h1>
                 <p className="text-xs text-fs-cream/60">Atelier Real-Time Metrics &amp; Key Performance Indicators</p>
               </div>
               <button
                 onClick={loadAllAdminData}
-                className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-medium flex items-center gap-2 self-start"
+                className="px-3.5 py-2 rounded-xl bg-white border border-[#DDD5C7] hover:bg-[#F5EFE6] text-[#474036] text-xs font-medium flex items-center gap-2 self-start shadow-sm"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
                 <span>Sync Data</span>
@@ -668,32 +668,32 @@ export default function AdminDashboardPage() {
 
             {/* KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-2">
+              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-2">
                 <span className="text-[10px] uppercase font-semibold text-fs-gold tracking-widest block">Total Inquiries</span>
-                <div className="text-3xl font-serif font-bold text-white">{inquiries.length}</div>
+                <div className="text-3xl font-serif font-bold text-[#1E1A16]">{inquiries.length}</div>
                 <span className="text-[10px] text-emerald-400 block font-medium">Live RFQ Submissions</span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-2">
+              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-2">
                 <span className="text-[10px] uppercase font-semibold text-fs-gold tracking-widest block">Rental Inventory</span>
-                <div className="text-3xl font-serif font-bold text-white">{inventoryItems.length}</div>
+                <div className="text-3xl font-serif font-bold text-[#1E1A16]">{inventoryItems.length}</div>
                 <span className="text-[10px] text-fs-cream/60 block font-medium">Real Catalog Specifications</span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-2">
+              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-2">
                 <span className="text-[10px] uppercase font-semibold text-fs-gold tracking-widest block">AI Generations</span>
-                <div className="text-3xl font-serif font-bold text-white">{aiGenerations.length}</div>
+                <div className="text-3xl font-serif font-bold text-[#1E1A16]">{aiGenerations.length}</div>
                 <span className="text-[10px] text-fs-gold-lighter block font-medium">4K Concepts &amp; Videos</span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-2">
+              <div className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-2">
                 <span className="text-[10px] uppercase font-semibold text-fs-gold tracking-widest block">Confirmed Bookings</span>
-                <div className="text-3xl font-serif font-bold text-white">{bookings.length}</div>
+                <div className="text-3xl font-serif font-bold text-[#1E1A16]">{bookings.length}</div>
                 <span className="text-[10px] text-emerald-400 block font-medium">Double-Booking Protected</span>
               </div>
             </div>
 
             {/* Recent Inquiries Quick Table */}
-            <div className="glass-panel rounded-3xl p-6 border border-white/10 space-y-4">
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-serif text-lg font-bold text-white">Recent Customer Requirements (RFQs)</h3>
+                <h3 className="font-serif text-lg font-bold text-[#1E1A16]">Recent Customer Requirements (RFQs)</h3>
                 <button onClick={() => setActiveTab('inquiries')} className="text-xs text-fs-gold hover:underline flex items-center gap-1">
                   <span>View All Inquiries</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -701,7 +701,7 @@ export default function AdminDashboardPage() {
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="text-[10px] uppercase text-fs-cream/50 tracking-wider border-b border-white/10">
+                  <thead className="text-[10px] uppercase text-fs-cream/50 tracking-wider border-b border-[#E8E0D2]">
                     <tr>
                       <th className="pb-3">Reference</th>
                       <th className="pb-3">Client</th>
@@ -713,12 +713,12 @@ export default function AdminDashboardPage() {
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {inquiries.slice(0, 5).map((inq) => (
-                      <tr key={inq.id} className="hover:bg-white/5">
+                      <tr key={inq.id} className="hover:bg-[#F8F5EE]">
                         <td className="py-3 font-mono font-bold text-fs-gold-light">{inq.referenceNo}</td>
-                        <td className="py-3 font-semibold text-white">{inq.customer?.name}</td>
+                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.customer?.name}</td>
                         <td className="py-3 text-fs-cream/80">{inq.eventType}</td>
                         <td className="py-3 text-fs-cream/70">{inq.guestsCount}</td>
-                        <td className="py-3 font-semibold text-white">{inq.budgetRange}</td>
+                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.budgetRange}</td>
                         <td className="py-3">
                           <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-emerald-500/20 text-emerald-300">
                             {inq.status}
@@ -737,13 +737,13 @@ export default function AdminDashboardPage() {
         {activeTab === 'inquiries' && (
           <div className="space-y-6 animate-fade-in">
             <div>
-              <h1 className="font-serif text-3xl font-bold text-white">Customer Inquiries &amp; RFQs</h1>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Customer Inquiries &amp; RFQs</h1>
               <p className="text-xs text-fs-cream/60">Manage wedding requests, review requirements, assign staff, and sync with Zoho CRM</p>
             </div>
-            <div className="glass-panel rounded-3xl p-6 border border-white/10">
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="text-[10px] uppercase text-fs-gold tracking-wider border-b border-white/10">
+                  <thead className="text-[10px] uppercase text-fs-gold tracking-wider border-b border-[#E8E0D2]">
                     <tr>
                       <th className="pb-3">Reference No</th>
                       <th className="pb-3">Customer</th>
@@ -757,13 +757,13 @@ export default function AdminDashboardPage() {
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {inquiries.map((inq) => (
-                      <tr key={inq.id} className="hover:bg-white/5">
+                      <tr key={inq.id} className="hover:bg-[#F8F5EE]">
                         <td className="py-3 font-mono font-bold text-fs-gold-light">{inq.referenceNo}</td>
-                        <td className="py-3 font-semibold text-white">{inq.customer?.name}</td>
+                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.customer?.name}</td>
                         <td className="py-3 text-fs-cream/90">{inq.eventType}</td>
                         <td className="py-3 text-fs-cream/70">{inq.eventDate ? new Date(inq.eventDate).toLocaleDateString() : 'TBA'}</td>
                         <td className="py-3 text-fs-cream/80">{inq.guestsCount}</td>
-                        <td className="py-3 font-semibold text-white">{inq.budgetRange}</td>
+                        <td className="py-3 font-semibold text-[#1E1A16]">{inq.budgetRange}</td>
                         <td className="py-3">
                           <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-emerald-500/20 text-emerald-300">
                             {inq.status}
@@ -792,7 +792,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Dynamic Rental Inventory</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Dynamic Rental Inventory</h1>
                 <p className="text-xs text-fs-cream/60">Add, edit, delete items, manage real specifications, stock quantities, and client rates</p>
               </div>
               <button
@@ -804,10 +804,10 @@ export default function AdminDashboardPage() {
               </button>
             </div>
 
-            <div className="glass-panel rounded-3xl p-6 border border-white/10">
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="text-[10px] uppercase text-fs-gold tracking-wider border-b border-white/10">
+                  <thead className="text-[10px] uppercase text-fs-gold tracking-wider border-b border-[#E8E0D2]">
                     <tr>
                       <th className="pb-3">Preview</th>
                       <th className="pb-3">SKU</th>
@@ -823,19 +823,19 @@ export default function AdminDashboardPage() {
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {inventoryItems.map((item) => (
-                      <tr key={item.id} className="hover:bg-white/5">
+                      <tr key={item.id} className="hover:bg-[#F8F5EE]">
                         <td className="py-2.5">
                           <img
                             src={item.coverImage || '/reference_assets/hero_mandap_red.jpg'}
                             alt={item.name}
-                            className="w-10 h-10 rounded-lg object-cover border border-white/10"
+                            className="w-10 h-10 rounded-lg object-cover border border-[#E8E0D2]"
                           />
                         </td>
                         <td className="py-2.5 font-mono text-fs-gold-light font-bold text-[11px]">{item.sku}</td>
-                        <td className="py-2.5 font-semibold text-white max-w-[200px] truncate">{item.name}</td>
+                        <td className="py-2.5 font-semibold text-[#1E1A16] max-w-[200px] truncate">{item.name}</td>
                         <td className="py-2.5 text-fs-cream/80">{typeof item.category === 'object' ? (item.category?.name || 'Décor') : (item.category || 'Décor')}</td>
                         <td className="py-2.5 text-fs-cream/70">{item.theme}</td>
-                        <td className="py-2.5 font-bold text-white">AED {item.price?.toLocaleString()}</td>
+                        <td className="py-2.5 font-bold text-[#1E1A16]">AED {item.price?.toLocaleString()}</td>
                         <td className="py-2.5 text-fs-gold-lighter">AED {item.tradePrice?.toLocaleString()}</td>
                         <td className="py-2.5 text-fs-cream/80">{item.totalQuantity} {item.unit}</td>
                         <td className="py-2.5">
@@ -852,14 +852,14 @@ export default function AdminDashboardPage() {
                         <td className="py-2.5 text-right space-x-2">
                           <button
                             onClick={() => handleOpenItemModal(item)}
-                            className="p-1.5 rounded-lg bg-white/5 text-fs-gold hover:bg-fs-gold/20 transition-colors"
+                            className="p-1.5 rounded-lg bg-[#F8F5EE] text-fs-gold hover:bg-fs-gold/20 transition-colors"
                             title="Edit Item"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => handleDeleteItem(item)}
-                            className="p-1.5 rounded-lg bg-white/5 text-red-400 hover:bg-red-500/20 transition-colors"
+                            className="p-1.5 rounded-lg bg-[#F8F5EE] text-red-400 hover:bg-red-500/20 transition-colors"
                             title="Delete Item"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -879,7 +879,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Inventory Categories</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Inventory Categories</h1>
                 <p className="text-xs text-fs-cream/60">Organize luxury stages, bars, mandaps, backdrops and decor components</p>
               </div>
               <button
@@ -893,29 +893,29 @@ export default function AdminDashboardPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {categories.map((c) => (
-                <div key={c.id} className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-3 flex flex-col justify-between">
+                <div key={c.id} className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-3 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between">
-                      <h3 className="font-serif font-bold text-base text-white">{c.name}</h3>
+                      <h3 className="font-serif font-bold text-base text-[#1E1A16]">{c.name}</h3>
                       <span className="text-[10px] px-2 py-0.5 rounded bg-fs-gold/20 text-fs-gold font-bold">
                         {c.subcategories?.length || 0} Subcategories
                       </span>
                     </div>
                     <p className="text-xs text-fs-cream/70 font-light mt-2 line-clamp-2">{c.description || 'Dynamic category for luxury event rentals.'}</p>
                   </div>
-                  <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-3 border-t border-[#E8E0D2] flex items-center justify-between">
                     <span className="text-[10px] text-fs-gold-light font-mono font-medium">{c.slug}</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => handleOpenCatModal(c)}
-                        className="p-1.5 rounded-lg bg-white/5 text-fs-gold hover:bg-fs-gold/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-fs-gold hover:bg-fs-gold/20"
                         title="Edit Category"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeleteCategory(c)}
-                        className="p-1.5 rounded-lg bg-white/5 text-red-400 hover:bg-red-500/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-red-400 hover:bg-red-500/20"
                         title="Delete Category"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -933,7 +933,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Dynamic Invitation Templates</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Dynamic Invitation Templates</h1>
                 <p className="text-xs text-fs-cream/60">Manage digital wedding invitation layouts, typography, and SVG/HTML canvas templates</p>
               </div>
               <button
@@ -949,26 +949,26 @@ export default function AdminDashboardPage() {
               {invitationTemplates.map((t) => (
                 <div key={t.id} className="glass-panel p-4 rounded-2xl border border-fs-gold/20 space-y-3 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <div className="h-44 rounded-xl overflow-hidden bg-cover bg-center border border-white/10" style={{ backgroundImage: `url('${t.previewImage || '/reference_assets/hero_mandap_red.jpg'}')` }} />
-                    <h3 className="font-serif font-bold text-sm text-white">{t.title}</h3>
+                    <div className="h-44 rounded-xl overflow-hidden bg-cover bg-center border border-[#E8E0D2]" style={{ backgroundImage: `url('${t.previewImage || '/reference_assets/hero_mandap_red.jpg'}')` }} />
+                    <h3 className="font-serif font-bold text-sm text-[#1E1A16]">{t.title}</h3>
                     <span className="text-[10px] px-2 py-0.5 rounded bg-fs-gold/20 text-fs-gold font-bold inline-block">
                       {typeof t.category === 'object' ? (t.category?.name || 'Wedding') : (t.category || 'Wedding')}
                     </span>
                     <p className="text-xs text-fs-cream/60 line-clamp-2">{t.description}</p>
                   </div>
-                  <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-2 border-t border-[#E8E0D2] flex items-center justify-between">
                     <span className="text-[10px] text-emerald-400 font-semibold">Active</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => handleOpenTemplateModal(t)}
-                        className="p-1.5 rounded-lg bg-white/5 text-fs-gold hover:bg-fs-gold/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-fs-gold hover:bg-fs-gold/20"
                         title="Edit Template"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeleteTemplate(t)}
-                        className="p-1.5 rounded-lg bg-white/5 text-red-400 hover:bg-red-500/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-red-400 hover:bg-red-500/20"
                         title="Delete Template"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -986,7 +986,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Portfolio &amp; Past Weddings</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Portfolio &amp; Past Weddings</h1>
                 <p className="text-xs text-fs-cream/60">Curate showcase projects, case studies, high-res photography, and AI concepts</p>
               </div>
               <button
@@ -1002,27 +1002,27 @@ export default function AdminDashboardPage() {
               {portfolioList.map((p) => (
                 <div key={p.id} className="glass-panel p-4 rounded-2xl border border-fs-gold/20 space-y-3 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <div className="h-44 rounded-xl overflow-hidden bg-cover bg-center border border-white/10" style={{ backgroundImage: `url('${p.coverImage || '/reference_assets/hero_mandap_red.jpg'}')` }} />
+                    <div className="h-44 rounded-xl overflow-hidden bg-cover bg-center border border-[#E8E0D2]" style={{ backgroundImage: `url('${p.coverImage || '/reference_assets/hero_mandap_red.jpg'}')` }} />
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-bold text-fs-gold uppercase tracking-wider">{p.eventType}</span>
                       <span className="text-[10px] text-fs-cream/60">{p.location}</span>
                     </div>
-                    <h3 className="font-serif font-bold text-base text-white">{p.title}</h3>
+                    <h3 className="font-serif font-bold text-base text-[#1E1A16]">{p.title}</h3>
                     <p className="text-xs text-fs-cream/70 line-clamp-2">{p.description}</p>
                   </div>
-                  <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-3 border-t border-[#E8E0D2] flex items-center justify-between">
                     <span className="text-[10px] text-fs-gold-lighter font-medium">{p.clientName}</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => handleOpenPortfolioModal(p)}
-                        className="p-1.5 rounded-lg bg-white/5 text-fs-gold hover:bg-fs-gold/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-fs-gold hover:bg-fs-gold/20"
                         title="Edit Project"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeletePortfolio(p)}
-                        className="p-1.5 rounded-lg bg-white/5 text-red-400 hover:bg-red-500/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-red-400 hover:bg-red-500/20"
                         title="Delete Project"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -1040,7 +1040,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">Turnkey Event Services</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Turnkey Event Services</h1>
                 <p className="text-xs text-fs-cream/60">Manage production offerings, turnkey packages, and pricing structures</p>
               </div>
               <button
@@ -1054,29 +1054,29 @@ export default function AdminDashboardPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {servicesList.map((srv) => (
-                <div key={srv.id} className="glass-panel p-5 rounded-2xl border border-fs-gold/20 space-y-3 flex flex-col justify-between">
+                <div key={srv.id} className="bg-white p-5 rounded-2xl border border-[#E8E0D2] shadow-sm space-y-3 flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-serif font-bold text-base text-white">{srv.name}</h3>
+                      <h3 className="font-serif font-bold text-base text-[#1E1A16]">{srv.name}</h3>
                       <span className="text-xs font-bold text-fs-gold">
                         From AED {srv.priceStarting?.toLocaleString()}
                       </span>
                     </div>
                     <p className="text-xs text-fs-cream/70 line-clamp-3">{srv.description}</p>
                   </div>
-                  <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-3 border-t border-[#E8E0D2] flex items-center justify-between">
                     <span className="text-[10px] text-emerald-400 font-semibold">Active Service</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => handleOpenServiceModal(srv)}
-                        className="p-1.5 rounded-lg bg-white/5 text-fs-gold hover:bg-fs-gold/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-fs-gold hover:bg-fs-gold/20"
                         title="Edit Service"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeleteService(srv)}
-                        className="p-1.5 rounded-lg bg-white/5 text-red-400 hover:bg-red-500/20"
+                        className="p-1.5 rounded-lg bg-[#F8F5EE] text-red-400 hover:bg-red-500/20"
                         title="Delete Service"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -1094,7 +1094,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-serif text-3xl font-bold text-white">SEO &amp; Open Graph Meta Manager</h1>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">SEO &amp; Open Graph Meta Manager</h1>
                 <p className="text-xs text-fs-cream/60">Configure organic Google search keywords, titles, descriptions, and social link preview tags</p>
               </div>
               <button
@@ -1110,7 +1110,7 @@ export default function AdminDashboardPage() {
             {/* LIVE PREVIEW CARDS */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Google Search Snippet Simulation */}
-              <div className="glass-panel p-5 rounded-2xl border border-white/10 space-y-3">
+              <div className="glass-panel p-5 rounded-2xl border border-[#E8E0D2] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-fs-gold uppercase tracking-wider">
                   <Globe className="w-4 h-4" />
                   <span>Google Search Live Snippet Preview</span>
@@ -1130,19 +1130,19 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Social Media & WhatsApp Card Simulation */}
-              <div className="glass-panel p-5 rounded-2xl border border-white/10 space-y-3">
+              <div className="glass-panel p-5 rounded-2xl border border-[#E8E0D2] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-fs-gold uppercase tracking-wider">
                   <Share2 className="w-4 h-4" />
                   <span>WhatsApp / Social Media Share Preview</span>
                 </div>
-                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-white/10 shadow-md">
+                <div className="bg-[#1e293b] rounded-xl overflow-hidden border border-[#E8E0D2] shadow-md">
                   <div
                     className="h-36 bg-cover bg-center"
                     style={{ backgroundImage: `url('${seoForm.og_image || '/reference_assets/hero_mandap_red.jpg'}')` }}
                   />
                   <div className="p-3 space-y-1">
                     <span className="text-[10px] text-fs-gold-light uppercase font-mono block">fourseasonsstudio.ae</span>
-                    <h5 className="font-serif font-bold text-xs text-white line-clamp-1">{seoForm.og_title || seoForm.meta_title}</h5>
+                    <h5 className="font-serif font-bold text-xs text-[#1E1A16] line-clamp-1">{seoForm.og_title || seoForm.meta_title}</h5>
                     <p className="text-[11px] text-fs-cream/70 line-clamp-2">{seoForm.og_description || seoForm.meta_description}</p>
                   </div>
                 </div>
@@ -1151,7 +1151,7 @@ export default function AdminDashboardPage() {
 
             {/* SEO Configuration Form */}
             <form onSubmit={handleSaveSeo} className="glass-panel p-6 rounded-3xl border border-fs-gold/20 space-y-5">
-              <h3 className="font-serif text-lg font-bold text-white border-b border-white/10 pb-3">Search Engine Meta Tags</h3>
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16] border-b border-[#E8E0D2] pb-3">Search Engine Meta Tags</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5 md:col-span-2">
@@ -1160,7 +1160,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={seoForm.meta_title || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, meta_title: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                     required
                   />
                 </div>
@@ -1171,7 +1171,7 @@ export default function AdminDashboardPage() {
                     rows={3}
                     value={seoForm.meta_description || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, meta_description: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                     required
                   />
                 </div>
@@ -1182,7 +1182,7 @@ export default function AdminDashboardPage() {
                     rows={2}
                     value={seoForm.meta_keywords || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, meta_keywords: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                   />
                 </div>
 
@@ -1192,7 +1192,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={seoForm.og_title || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, og_title: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                   />
                 </div>
 
@@ -1202,7 +1202,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={seoForm.og_image || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, og_image: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                   />
                 </div>
 
@@ -1212,7 +1212,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={seoForm.canonical_url || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, canonical_url: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                   />
                 </div>
 
@@ -1222,12 +1222,12 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={seoForm.robots || ''}
                     onChange={(e) => setSeoForm({ ...seoForm, robots: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white text-xs focus:border-fs-gold"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm text-xs focus:border-fs-gold"
                   />
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-white/10 flex justify-end">
+              <div className="pt-3 border-t border-[#E8E0D2] flex justify-end">
                 <button
                   type="submit"
                   disabled={savingSeo}
@@ -1244,12 +1244,12 @@ export default function AdminDashboardPage() {
         {/* 14. ZOHO CRM INTEGRATION */}
         {activeTab === 'zoho' && (
           <div className="space-y-6 animate-fade-in">
-            <h1 className="font-serif text-3xl font-bold text-white">Zoho CRM Integration</h1>
+            <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Zoho CRM Integration</h1>
             <p className="text-xs text-fs-cream/60">Configure OAuth credentials, Lead synchronization, and retry schedules</p>
             <div className="glass-panel p-6 rounded-3xl border border-fs-gold/20 space-y-4">
               <div className="flex items-center gap-3">
                 <span className="w-3 h-3 rounded-full bg-emerald-400" />
-                <span className="font-semibold text-sm text-white">OAuth Connectivity Status: ACTIVE</span>
+                <span className="font-semibold text-sm text-[#1E1A16]">OAuth Connectivity Status: ACTIVE</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div className="space-y-1">
@@ -1258,7 +1258,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-fs-cream/60 block">API Domain:</span>
-                  <span className="font-mono text-white block">{zohoConfig?.apiDomain || 'https://www.zohoapis.com'}</span>
+                  <span className="font-mono text-[#1E1A16] block">{zohoConfig?.apiDomain || 'https://www.zohoapis.com'}</span>
                 </div>
               </div>
             </div>
@@ -1268,10 +1268,10 @@ export default function AdminDashboardPage() {
         {/* 15. WHATSAPP BUSINESS API */}
         {activeTab === 'whatsapp' && (
           <div className="space-y-6 animate-fade-in">
-            <h1 className="font-serif text-3xl font-bold text-white">WhatsApp Business Cloud API</h1>
+            <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">WhatsApp Business Cloud API</h1>
             <p className="text-xs text-fs-cream/60">Manage direct client confirmations, templates, media sharing, and delivery webhooks</p>
             <div className="glass-panel p-6 rounded-3xl border border-fs-gold/20 space-y-4 max-w-xl">
-              <h3 className="font-serif font-bold text-base text-white">Dispatch Test WhatsApp Template</h3>
+              <h3 className="font-serif font-bold text-base text-[#1E1A16]">Dispatch Test WhatsApp Template</h3>
               <div className="space-y-3 text-xs">
                 <div>
                   <label className="text-fs-gold block mb-1">Recipient Mobile Number (with country code):</label>
@@ -1279,7 +1279,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={testPhone}
                     onChange={(e) => setTestPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
                 <div>
@@ -1288,7 +1288,7 @@ export default function AdminDashboardPage() {
                     rows={3}
                     value={testMsg}
                     onChange={(e) => setTestMsg(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
                 <button onClick={handleSendTestWhatsApp} className="gold-gradient-btn px-4 py-2.5 rounded-xl font-bold flex items-center gap-2">
@@ -1303,13 +1303,13 @@ export default function AdminDashboardPage() {
 
       {/* MODAL 1: ADD / EDIT INVENTORY ITEM */}
       {showItemModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-lg font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16]">
                 {editingItem ? `Edit Item: ${editingItem.name}` : 'Add New Inventory Asset'}
               </h3>
-              <button onClick={() => setShowItemModal(false)} className="text-fs-cream/60 hover:text-white">
+              <button onClick={() => setShowItemModal(false)} className="text-fs-cream/60 hover:text-[#1E1A16]">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1320,7 +1320,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={itemForm.name}
                   onChange={(e) => setItemForm({ ...itemForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1330,7 +1330,7 @@ export default function AdminDashboardPage() {
                   <select
                     value={itemForm.categoryId}
                     onChange={(e) => setItemForm({ ...itemForm, categoryId: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -1343,7 +1343,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={itemForm.theme}
                     onChange={(e) => setItemForm({ ...itemForm, theme: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
               </div>
@@ -1354,7 +1354,7 @@ export default function AdminDashboardPage() {
                     type="number"
                     value={itemForm.price}
                     onChange={(e) => setItemForm({ ...itemForm, price: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                     required
                   />
                 </div>
@@ -1364,7 +1364,7 @@ export default function AdminDashboardPage() {
                     type="number"
                     value={itemForm.tradePrice}
                     onChange={(e) => setItemForm({ ...itemForm, tradePrice: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
                 <div>
@@ -1373,7 +1373,7 @@ export default function AdminDashboardPage() {
                     type="number"
                     value={itemForm.totalQuantity}
                     onChange={(e) => setItemForm({ ...itemForm, totalQuantity: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                     required
                   />
                 </div>
@@ -1384,7 +1384,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={itemForm.coverImage}
                   onChange={(e) => setItemForm({ ...itemForm, coverImage: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div>
@@ -1393,14 +1393,14 @@ export default function AdminDashboardPage() {
                   rows={2}
                   value={itemForm.description}
                   onChange={(e) => setItemForm({ ...itemForm, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowItemModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/5 text-fs-cream hover:bg-white/10"
+                  className="px-4 py-2 rounded-xl bg-[#F8F5EE] text-fs-cream hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -1415,13 +1415,13 @@ export default function AdminDashboardPage() {
 
       {/* MODAL 2: ADD / EDIT CATEGORY */}
       {showCatModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-lg font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16]">
                 {editingCat ? `Edit Category: ${editingCat.name}` : 'Add Inventory Category'}
               </h3>
-              <button onClick={() => setShowCatModal(false)} className="text-fs-cream/60 hover:text-white">
+              <button onClick={() => setShowCatModal(false)} className="text-fs-cream/60 hover:text-[#1E1A16]">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1432,7 +1432,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={catForm.name}
                   onChange={(e) => setCatForm({ ...catForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1442,14 +1442,14 @@ export default function AdminDashboardPage() {
                   rows={3}
                   value={catForm.description}
                   onChange={(e) => setCatForm({ ...catForm, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowCatModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/5 text-fs-cream hover:bg-white/10"
+                  className="px-4 py-2 rounded-xl bg-[#F8F5EE] text-fs-cream hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -1464,13 +1464,13 @@ export default function AdminDashboardPage() {
 
       {/* MODAL 3: ADD / EDIT SERVICE */}
       {showServiceModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-lg font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16]">
                 {editingService ? `Edit Service: ${editingService.name}` : 'Add Turnkey Service'}
               </h3>
-              <button onClick={() => setShowServiceModal(false)} className="text-fs-cream/60 hover:text-white">
+              <button onClick={() => setShowServiceModal(false)} className="text-fs-cream/60 hover:text-[#1E1A16]">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1481,7 +1481,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={serviceForm.name}
                   onChange={(e) => setServiceForm({ ...serviceForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1491,7 +1491,7 @@ export default function AdminDashboardPage() {
                   type="number"
                   value={serviceForm.priceStarting}
                   onChange={(e) => setServiceForm({ ...serviceForm, priceStarting: Number(e.target.value) })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1501,7 +1501,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={serviceForm.features}
                   onChange={(e) => setServiceForm({ ...serviceForm, features: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div>
@@ -1510,7 +1510,7 @@ export default function AdminDashboardPage() {
                   rows={3}
                   value={serviceForm.description}
                   onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1518,7 +1518,7 @@ export default function AdminDashboardPage() {
                 <button
                   type="button"
                   onClick={() => setShowServiceModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/5 text-fs-cream hover:bg-white/10"
+                  className="px-4 py-2 rounded-xl bg-[#F8F5EE] text-fs-cream hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -1533,13 +1533,13 @@ export default function AdminDashboardPage() {
 
       {/* MODAL 4: ADD / EDIT PORTFOLIO PROJECT */}
       {showPortfolioModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-lg font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16]">
                 {editingPortfolio ? `Edit Project: ${editingPortfolio.title}` : 'Add Portfolio Project'}
               </h3>
-              <button onClick={() => setShowPortfolioModal(false)} className="text-fs-cream/60 hover:text-white">
+              <button onClick={() => setShowPortfolioModal(false)} className="text-fs-cream/60 hover:text-[#1E1A16]">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1550,7 +1550,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={portfolioForm.title}
                   onChange={(e) => setPortfolioForm({ ...portfolioForm, title: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1561,7 +1561,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={portfolioForm.eventType}
                     onChange={(e) => setPortfolioForm({ ...portfolioForm, eventType: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
                 <div>
@@ -1570,7 +1570,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={portfolioForm.location}
                     onChange={(e) => setPortfolioForm({ ...portfolioForm, location: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   />
                 </div>
               </div>
@@ -1580,7 +1580,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={portfolioForm.coverImage}
                   onChange={(e) => setPortfolioForm({ ...portfolioForm, coverImage: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1590,7 +1590,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={portfolioForm.tags}
                   onChange={(e) => setPortfolioForm({ ...portfolioForm, tags: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div>
@@ -1599,14 +1599,14 @@ export default function AdminDashboardPage() {
                   rows={3}
                   value={portfolioForm.description}
                   onChange={(e) => setPortfolioForm({ ...portfolioForm, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowPortfolioModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/5 text-fs-cream hover:bg-white/10"
+                  className="px-4 py-2 rounded-xl bg-[#F8F5EE] text-fs-cream hover:bg-white/10"
                 >
                   Cancel
                 </button>
@@ -1621,13 +1621,13 @@ export default function AdminDashboardPage() {
 
       {/* MODAL 5: ADD / EDIT INVITATION TEMPLATE */}
       {showTemplateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md bg-fs-navy-surface border border-fs-gold/30 rounded-3xl shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-lg font-bold text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-md bg-white border border-[#E8E0D2] rounded-3xl shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8E0D2]">
+              <h3 className="font-serif text-lg font-bold text-[#1E1A16]">
                 {editingTemplate ? `Edit Template: ${editingTemplate.title}` : 'Add Invitation Template'}
               </h3>
-              <button onClick={() => setShowTemplateModal(false)} className="text-fs-cream/60 hover:text-white">
+              <button onClick={() => setShowTemplateModal(false)} className="text-fs-cream/60 hover:text-[#1E1A16]">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -1638,7 +1638,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={templateForm.title}
                   onChange={(e) => setTemplateForm({ ...templateForm, title: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1648,7 +1648,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={templateForm.category}
                   onChange={(e) => setTemplateForm({ ...templateForm, category: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                   required
                 />
               </div>
@@ -1658,7 +1658,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={templateForm.previewImage}
                   onChange={(e) => setTemplateForm({ ...templateForm, previewImage: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div>
@@ -1667,14 +1667,14 @@ export default function AdminDashboardPage() {
                   rows={2}
                   value={templateForm.description}
                   onChange={(e) => setTemplateForm({ ...templateForm, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-fs-navy-dark border border-white/15 text-white"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:outline-none focus:border-[#B38E36] focus:bg-white shadow-sm"
                 />
               </div>
               <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowTemplateModal(false)}
-                  className="px-4 py-2 rounded-xl bg-white/5 text-fs-cream hover:bg-white/10"
+                  className="px-4 py-2 rounded-xl bg-[#F8F5EE] text-fs-cream hover:bg-white/10"
                 >
                   Cancel
                 </button>

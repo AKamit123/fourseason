@@ -89,16 +89,16 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-3xl bg-fs-navy-surface border border-fs-gold/40 rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[92vh] overflow-y-auto flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-3xl bg-white border border-[#E8E0D2] rounded-3xl p-6 sm:p-8 shadow-2xl max-h-[92vh] overflow-y-auto flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-fs-gold/20">
+        <div className="flex items-center justify-between pb-4 border-b border-[#E8E0D2]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-fs-gold flex items-center justify-center font-serif font-bold text-fs-navy text-lg shadow-lg">
               4S
             </div>
             <div>
-              <span className="font-serif font-bold text-xl text-white block">
+              <span className="font-serif font-bold text-xl text-[#1E1A16] block">
                 AI Visualizer Studio
               </span>
               <span className="text-[10px] text-fs-gold-lighter tracking-widest uppercase block">
@@ -129,7 +129,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                   {selectedItems.map((it) => (
                     <div
                       key={it.id}
-                      className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-fs-gold/20 text-xs text-white"
+                      className="flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E8E0D2] text-xs text-[#1E1A16]"
                     >
                       <img
                         src={it.coverImage || '/reference_assets/hero_mandap_red.jpg'}
@@ -178,7 +178,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                   <select
                     value={visualTheme}
                     onChange={(e) => setVisualTheme(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                    className="w-full px-3 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                   >
                     <option value="Red Bloom">Red Bloom (Crimson Dutch Roses &amp; Gold)</option>
                     <option value="Bling">Bling (Gold Mirrors, LED Shimmer &amp; Chandeliers)</option>
@@ -198,7 +198,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                     <select
                       value={aspectRatio}
                       onChange={(e) => setAspectRatio(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                      className="w-full px-3 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                     >
                       <option value="16:9">16:9 Landscape (Widescreen Ballroom)</option>
                       <option value="4:3">4:3 Architectural Frame</option>
@@ -214,7 +214,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                     <select
                       value={durationSeconds}
                       onChange={(e) => setDurationSeconds(Number(e.target.value))}
-                      className="w-full px-3 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                      className="w-full px-3 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                     >
                       <option value={5}>5 Seconds (Orbital Camera Sweep)</option>
                       <option value={10}>10 Seconds (Steadicam Walk-In)</option>
@@ -234,7 +234,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
                   placeholder="e.g. Ensure red roses are deep crimson Naomi shade, warm amber pinspot lighting on the mirror stage, and keep the floral arch symmetrical."
-                  className="w-full px-3 py-2.5 rounded-xl bg-fs-navy-dark border border-white/10 text-white placeholder-fs-cream/40 text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#FBF9F5] border border-[#DDD5C7] text-[#1E1A16] placeholder:text-[#A0988A] focus:border-[#B38E36] focus:bg-white placeholder-fs-cream/40 text-xs sm:text-sm focus:outline-none focus:border-fs-gold"
                 />
               </div>
 
@@ -263,7 +263,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                   <span className="w-2 h-2 rounded-full bg-fs-gold animate-ping" />
                   Status: {taskStatus}
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-white">
+                <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
                   Synthesizing {generationType === 'IMAGE' ? '4K Concept Image' : 'Cinematic Video'}
                 </h3>
                 <p className="text-xs text-fs-cream/70 max-w-md mx-auto">
@@ -328,7 +328,7 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
             /* Error State */
             <div className="py-12 text-center space-y-4">
               <AlertCircle className="w-12 h-12 text-rose-400 mx-auto" />
-              <h4 className="font-serif text-xl font-bold text-white">Generation Failed</h4>
+              <h4 className="font-serif text-xl font-bold text-[#1E1A16]">Generation Failed</h4>
               <p className="text-xs text-rose-300">{pollingError || 'An error occurred during processing.'}</p>
               <button
                 onClick={() => setTaskStatus('IDLE')}

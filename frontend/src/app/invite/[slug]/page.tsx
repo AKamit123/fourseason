@@ -89,20 +89,19 @@ export default function PublicInvitationPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden"
-      style={{ backgroundColor: '#070D20' }}
+      className="min-h-screen flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden bg-[#FAF8F5]"
     >
       {/* Background Ambience */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
+        className="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-multiply"
         style={{
           backgroundImage: `url('${invitation.template?.previewImage || '/reference_assets/hero_mandap_red.jpg'}')`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-fs-navy-dark/90 to-black/95 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/80 via-[#F5EFE6]/90 to-[#FAF8F5]/95 pointer-events-none" />
 
       {/* Main Card */}
-      <div className="relative z-10 w-full max-w-xl bg-fs-navy-surface border-2 border-fs-gold/40 rounded-[36px] overflow-hidden shadow-2xl">
+      <div className="relative z-10 w-full max-w-xl bg-white border-2 border-[#B38E36]/40 rounded-[36px] overflow-hidden shadow-2xl">
         <div
           className="p-8 sm:p-12 text-center space-y-8 relative"
           style={{ backgroundColor: primary, color: '#FFFFFF', fontFamily: invitation.fontFamily || 'Playfair Display' }}
