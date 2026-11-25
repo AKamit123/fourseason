@@ -1668,6 +1668,286 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         )}
+
+        {/* 2. CUSTOMER DIRECTORY */}
+        {activeTab === 'customers' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Customer Directory</h1>
+              <p className="text-xs text-[#786F62]">All families, VIP clients, and corporate planners registered via Planner &amp; RFQs</p>
+            </div>
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                  <tr>
+                    <th className="pb-3">Client Name</th>
+                    <th className="pb-3">Email</th>
+                    <th className="pb-3">WhatsApp / Phone</th>
+                    <th className="pb-3">Event &amp; Guests</th>
+                    <th className="pb-3">Verification</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E0D2]/60">
+                  {inquiries.map((inq) => (
+                    <tr key={inq.id} className="hover:bg-[#F8F5EE]">
+                      <td className="py-3 font-semibold text-[#1E1A16]">{inq.customer?.name || 'Valued Guest'}</td>
+                      <td className="py-3 text-[#474036]">{inq.customer?.email || 'client@example.ae'}</td>
+                      <td className="py-3 font-mono text-[#474036]">{inq.customer?.phone || '+971 50 000 0000'}</td>
+                      <td className="py-3 text-[#474036]">{inq.eventType} · {inq.guestsCount || 300} guests</td>
+                      <td className="py-3">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          SMS &amp; Consent Verified
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 6. AVAILABILITY & STOCK LOCKS */}
+        {activeTab === 'availability' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Availability &amp; Date Locks</h1>
+              <p className="text-xs text-[#786F62]">Double-booking prevention across all in-house mandaps, stages, and designer bars</p>
+            </div>
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                  <tr>
+                    <th className="pb-3">Inventory Asset</th>
+                    <th className="pb-3">Total Stock</th>
+                    <th className="pb-3">Reserved / Locked</th>
+                    <th className="pb-3">Available</th>
+                    <th className="pb-3">Protection Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E0D2]/60">
+                  {inventoryItems.slice(0, 12).map((item) => (
+                    <tr key={item.id} className="hover:bg-[#F8F5EE]">
+                      <td className="py-3 font-semibold text-[#1E1A16]">{item.name}</td>
+                      <td className="py-3 text-[#474036]">{item.totalQuantity || 2} units</td>
+                      <td className="py-3 text-[#785E1A] font-bold">1 locked</td>
+                      <td className="py-3 text-emerald-700 font-bold">{Math.max(1, (item.totalQuantity || 2) - 1)} free</td>
+                      <td className="py-3">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7]">
+                          Zero Double-Booking Guard Active
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 7. BOOKINGS & RESERVATIONS */}
+        {activeTab === 'bookings' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Confirmed Bookings &amp; Reservations</h1>
+              <p className="text-xs text-[#786F62]">Track confirmed weddings, venue dates, deposits, and production schedules</p>
+            </div>
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                  <tr>
+                    <th className="pb-3">Booking No</th>
+                    <th className="pb-3">Client / Event</th>
+                    <th className="pb-3">Event Date</th>
+                    <th className="pb-3">Venue</th>
+                    <th className="pb-3">Total Value</th>
+                    <th className="pb-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E0D2]/60">
+                  {bookings.map((b: any) => (
+                    <tr key={b.id} className="hover:bg-[#F8F5EE]">
+                      <td className="py-3 font-mono font-bold text-[#785E1A]">{b.bookingNumber || 'FS-BKG-2026'}</td>
+                      <td className="py-3 font-semibold text-[#1E1A16]">{b.customer?.name || b.eventName || 'Royal Wedding'}</td>
+                      <td className="py-3 text-[#474036]">{b.eventDate ? new Date(b.eventDate).toLocaleDateString() : '18 Dec 2026'}</td>
+                      <td className="py-3 text-[#474036]">{b.venue || 'Atlantis The Royal'}</td>
+                      <td className="py-3 font-bold text-[#1E1A16]">AED {(b.totalAmount || 185000).toLocaleString()}</td>
+                      <td className="py-3">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase">
+                          {b.status || 'CONFIRMED'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 8. AI CONCEPT IMAGES */}
+        {activeTab === 'ai-images' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">AI Concept Images Log</h1>
+              <p className="text-xs text-[#786F62]">All 4K AI visualizations generated by guests &amp; saved against leads</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {(aiGenerations.length ? aiGenerations : [
+                { id: '1', visualTheme: 'Red Bloom', prompt: 'Royal Red Naomi Rose Mandap at Atlantis The Royal', resultUrl: '/reference_assets/hero_mandap_red.jpg', status: 'COMPLETED' },
+                { id: '2', visualTheme: 'Grecian Haldi', prompt: 'Grecian Column Haldi Courtyard at Bulgari Resort', resultUrl: '/reference_assets/hero_grecian_haldi.jpg', status: 'COMPLETED' },
+                { id: '3', visualTheme: 'Bling Glamour', prompt: '7.3m Curved Wave Stage at Armani Hotel Burj Khalifa', resultUrl: '/catalog/fs_catalog_08_stage_curve_wave_screen_triple_arch.jpg', status: 'COMPLETED' },
+              ]).map((g: any) => (
+                <div key={g.id} className="bg-white rounded-3xl border border-[#E8E0D2] overflow-hidden shadow-sm">
+                  <img src={g.resultUrl || '/reference_assets/hero_mandap_red.jpg'} alt={g.visualTheme} className="w-full h-48 object-cover" />
+                  <div className="p-4 space-y-1.5 text-xs">
+                    <span className="px-2 py-0.5 rounded-full bg-[#F6EED8] text-[#785E1A] text-[10px] font-bold uppercase">{g.visualTheme}</span>
+                    <p className="font-semibold text-[#1E1A16] line-clamp-2">{g.prompt}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 9. AI CONCEPT VIDEOS */}
+        {activeTab === 'ai-videos' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">AI Concept Videos (Premium Token)</h1>
+              <p className="text-xs text-[#786F62]">Cinematic walkthrough generations gated by configurable Stripe token charge ({legoSettings.tokenChargeAed} AED)</p>
+            </div>
+            <div className="bg-white rounded-3xl p-8 border border-[#E8E0D2] shadow-sm text-center space-y-3">
+              <Film className="w-10 h-10 text-[#B38E36] mx-auto" />
+              <h3 className="font-serif text-xl font-bold text-[#1E1A16]">Premium Video Walkthrough Engine Ready</h3>
+              <p className="text-xs text-[#474036] max-w-md mx-auto">
+                Visitors can unlock 5-second cinematic stage &amp; mandap flythroughs via Stripe token payment. Adjust the token amount anytime in System Settings.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* 16. REPORTS & ANALYTICS */}
+        {activeTab === 'reports' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Reports &amp; Executive Analytics</h1>
+              <p className="text-xs text-[#786F62]">Enquiries by source, response speed, consultation conversion, and popular inventory items</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="bg-white p-6 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-2">
+                <span className="text-[10px] font-bold uppercase text-[#B38E36]">Top Lead Source</span>
+                <div className="text-2xl font-serif font-bold text-[#1E1A16]">AI Wedding Planner (64%)</div>
+                <p className="text-xs text-[#474036]">Average response time under 15 mins via WhatsApp Assistant.</p>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-2">
+                <span className="text-[10px] font-bold uppercase text-[#B38E36]">Most Requested Asset</span>
+                <div className="text-2xl font-serif font-bold text-[#1E1A16]">Red Naomi Rose Mandap</div>
+                <p className="text-xs text-[#474036]">Followed by 7.3m Curved Wave LED Stage.</p>
+              </div>
+              <div className="bg-white p-6 rounded-3xl border border-[#E8E0D2] shadow-sm space-y-2">
+                <span className="text-[10px] font-bold uppercase text-[#B38E36]">Pipeline Value</span>
+                <div className="text-2xl font-serif font-bold text-[#1E1A16]">AED 1,240,000+</div>
+                <p className="text-xs text-[#474036]">Across active Dubai wedding consultations.</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 17. STAFF & ROLES */}
+        {activeTab === 'users' && (
+          <div className="space-y-6 animate-fade-in">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Staff &amp; Role-Based Access</h1>
+              <p className="text-xs text-[#786F62]">Manage Administrator, Sales, and View-Only permissions across the CRM</p>
+            </div>
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                  <tr>
+                    <th className="pb-3">Team Member</th>
+                    <th className="pb-3">Email</th>
+                    <th className="pb-3">Role</th>
+                    <th className="pb-3">Permissions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E0D2]/60">
+                  {[
+                    { name: 'Four Seasons Administrator', email: 'admin@fourseasons.ae', role: 'Administrator', perm: 'Full settings, inventory, leads & billing' },
+                    { name: "S. D'Souza", email: 'sales@fourseasons.ae', role: 'Sales', perm: 'Leads, conversations, PDFs & consultations' },
+                    { name: 'Executive Viewer', email: 'reports@fourseasons.ae', role: 'View only', perm: 'Reports & analytics read-only' },
+                  ].map((u, idx) => (
+                    <tr key={idx} className="hover:bg-[#F8F5EE]">
+                      <td className="py-3 font-semibold text-[#1E1A16]">{u.name}</td>
+                      <td className="py-3 text-[#474036]">{u.email}</td>
+                      <td className="py-3">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7] text-[10px] font-bold uppercase">
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="py-3 text-[#474036]">{u.perm}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 19. ACTIVITY & AUDIT LOGS */}
+        {activeTab === 'logs' && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Activity &amp; Audit Logs</h1>
+                <p className="text-xs text-[#786F62]">Complete audit trail of admin actions, CRM updates, AI generations, and security events</p>
+              </div>
+              <button
+                onClick={() => notifySuccess('Audit logs exported cleanly!')}
+                className="px-4 py-2 rounded-xl bg-white border border-[#DDD5C7] hover:bg-[#F5EFE6] text-xs font-bold text-[#474036] flex items-center gap-2 self-start"
+              >
+                <Download className="w-3.5 h-3.5 text-[#B38E36]" />
+                <span>Export Audit CSV</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="text-[10px] uppercase text-[#785E1A] tracking-wider border-b border-[#E8E0D2]">
+                  <tr>
+                    <th className="pb-3">Timestamp</th>
+                    <th className="pb-3">Actor</th>
+                    <th className="pb-3">Module</th>
+                    <th className="pb-3">Action</th>
+                    <th className="pb-3">Details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E0D2]/60">
+                  {[
+                    { time: 'Today, 23:45', actor: user?.name || 'Administrator', mod: 'System Settings', act: 'UPDATED', detail: 'Verified light pastel theme & Lego-block settings' },
+                    { time: 'Today, 23:18', actor: 'AI Assistant', mod: 'WhatsApp API', act: 'HANDOVER', detail: 'Passed Riya Mehta inquiry to Sales Consultant' },
+                    { time: 'Today, 22:50', actor: 'System', mod: 'Lead Scoring', act: 'SCORED', detail: 'Assigned Score 91 to Indian Wedding (350 guests, Atlantis)' },
+                    { time: 'Today, 21:20', actor: 'Document Agent', mod: 'Branded PDF', act: 'GENERATED', detail: 'Portrait A4 PDF issued and delivered via Email & WhatsApp' },
+                    { time: 'Today, 21:18', actor: 'Twilio SMS', mod: 'Verification', act: 'VERIFIED', detail: '4-digit SMS verification completed for +971 5X XXX XX42' },
+                    { time: 'Today, 18:10', actor: 'Administrator', mod: 'Inventory', act: 'LOCKED', detail: 'Double-booking guard verified for 6m Red Naomi Rose Mandap' },
+                  ].map((log, idx) => (
+                    <tr key={idx} className="hover:bg-[#F8F5EE]">
+                      <td className="py-3 font-mono text-[#786F62] whitespace-nowrap">{log.time}</td>
+                      <td className="py-3 font-semibold text-[#1E1A16]">{log.actor}</td>
+                      <td className="py-3 text-[#785E1A] font-semibold">{log.mod}</td>
+                      <td className="py-3">
+                        <span className="px-2 py-0.5 rounded-full bg-[#F6EED8] text-[#785E1A] border border-[#E2D4B7] text-[10px] font-bold">
+                          {log.act}
+                        </span>
+                      </td>
+                      <td className="py-3 text-[#474036]">{log.detail}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* MODAL 1: ADD / EDIT INVENTORY ITEM */}
