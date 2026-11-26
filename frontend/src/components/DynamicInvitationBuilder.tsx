@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Sparkles, Download, Share2, Check, RefreshCw, Palette, Type, Calendar, MapPin, Users, Heart } from 'lucide-react';
 import { api } from '@/lib/api';
 import { DEMO_TEMPLATES } from '@/lib/demoData';
-import { AcrylicFloralArchCard } from '@/components/AcrylicFloralArchCard';
+import { AcrylicFloralArchCard, InvitationSuiteCard, InvitationVisualVariant } from '@/components/AcrylicFloralArchCard';
+
+const TEMPLATE_VARIANTS: InvitationVisualVariant[] = ['floral-arch', 'royal-gold', 'garden-wreath', 'velvet-palace'];
 
 export const DynamicInvitationBuilder: React.FC = () => {
   const [templates, setTemplates] = useState<any[]>([]);
@@ -24,6 +26,8 @@ export const DynamicInvitationBuilder: React.FC = () => {
   const [primaryColor, setPrimaryColor] = useState('#FAF6F0');
   const [secondaryColor, setSecondaryColor] = useState('#C8A24B');
   const [bloomRevealed, setBloomRevealed] = useState(true);
+  const [templateVariant, setTemplateVariant] = useState<InvitationVisualVariant>('floral-arch');
+  const [suiteCard, setSuiteCard] = useState<InvitationSuiteCard>('invitation');
 
   // Share state
   const [createdSlug, setCreatedSlug] = useState<string | null>(null);
@@ -62,8 +66,24 @@ export const DynamicInvitationBuilder: React.FC = () => {
     }
   };
 
-  const handleTemplateSelect = (t: any) => {
+  const handleTemplateSelect = (t: any, idx?: number) => {
     setSelectedTemplate(t);
+    const resolvedIdx = typeof idx === 'number' ? idx : Math.max(0, templates.findIndex((x) => x.id === t.id));
+    const nextVariant = TEMPLATE_VARIANTS[resolvedIdx % TEMPLATE_VARIANTS.length];
+    setTemplateVariant(nextVariant);
+    if (nextVariant === 'floral-arch') {
+      setPrimaryColor('#FAF6F0');
+      setSecondaryColor('#C8A24B');
+    } else if (nextVariant === 'garden-wreath') {
+      setPrimaryColor('#FDF2F4');
+      setSecondaryColor('#B77D84');
+    } else if (nextVariant === 'royal-gold') {
+      setPrimaryColor('#4A0E17');
+      setSecondaryColor('#E7C977');
+    } else if (nextVariant === 'velvet-palace') {
+      setPrimaryColor('#0E1B3A');
+      setSecondaryColor('#C8A24B');
+    }
     if (t.defaultSettings) {
       const s = t.defaultSettings;
       if (s.coupleNames) setCoupleNames(s.coupleNames);
@@ -74,8 +94,7 @@ export const DynamicInvitationBuilder: React.FC = () => {
       if (s.venueAddress) setVenueAddress(s.venueAddress);
       if (s.customMessage) setCustomMessage(s.customMessage);
       if (s.rsvpContact) setRsvpContact(s.rsvpContact);
-      if (s.primaryColor) setPrimaryColor(s.primaryColor);
-      if (s.secondaryColor) setSecondaryColor(s.secondaryColor);
+      if (s.fontFamily) setFontFamily(s.fontFamily);
     }
   };
 
@@ -149,27 +168,33 @@ export const DynamicInvitationBuilder: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {templates.map((tpl) => {
+            {templates.map((tpl, idx) => {
               const isSelected = selectedTemplate?.id === tpl.id;
+              const styleTag = ['Floral Arch Acrylic', 'Royal Gold Foil', 'Spring Garden Suite', 'Palace Arch'][idx % 4];
               return (
                 <div
                   key={tpl.id}
-                  onClick={() => handleTemplateSelect(tpl)}
-                  className={`group relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all p-2 ${
+                  onClick={() => handleTemplateSelect(tpl, idx)}
+                  className={`group relative rounded-2xl overflow-hidden cursor-pointer border-2 transition-all p-2.5 ${
                     isSelected
-                      ? 'border-[#B38E36] bg-[#FDF9F2] shadow-md scale-[1.02]'
+                      ? 'border-[#B38E36] bg-[#FDF9F2] shadow-lg scale-[1.02]'
                       : 'border-[#E8E0D2] hover:border-[#B38E36]/40 bg-white'
                   }`}
                 >
                   <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden mb-2">
                     <img
-                      src={tpl.previewImage || '/reference_assets/hero_mandap_red.jpg'}
+                      src={tpl.previewImage || '/reference_assets/luxury_mandap_twilight.jpg'}
                       alt={tpl.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                    {isSelected && (
+                      <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#B38E36] text-white text-[9px] font-bold uppercase shadow">
+                        Selected
+                      </span>
+                    )}
                     <span className="absolute bottom-2 left-2 text-[10px] font-bold text-white">
-                      {tpl.category}
+                      {styleTag}
                     </span>
                   </div>
                   <span className="font-serif font-semibold text-xs sm:text-sm text-[#1E1A16] block truncate">
@@ -386,9 +411,9 @@ export const DynamicInvitationBuilder: React.FC = () => {
 
           {/* RIGHT: Live Interactive Acrylic Floral Arch & Blooming Preview (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <div className="w-full max-w-[380px] flex items-center justify-between mb-3 px-1">
+            <div className="w-full max-w-[380px] flex items-center justify-between mb-2 px-1">
               <span className="text-xs uppercase font-bold text-[#785E1A] tracking-widest flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" /> Acrylic Arch Preview
+                <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" /> Suite Preview
               </span>
               <button
                 type="button"
@@ -397,6 +422,28 @@ export const DynamicInvitationBuilder: React.FC = () => {
               >
                 {bloomRevealed ? 'Test Blooming Seal' : 'Open Invitation'}
               </button>
+            </div>
+
+            {/* Suite Card Switcher (Main Invite / More Details / RSVP) */}
+            <div className="w-full max-w-[380px] flex gap-1.5 mb-3 p-1 rounded-full bg-white border border-[#E8E0D2] shadow-sm">
+              {[
+                { id: 'invitation' as InvitationSuiteCard, label: 'Main Invite' },
+                { id: 'details' as InvitationSuiteCard, label: 'More Details' },
+                { id: 'rsvp' as InvitationSuiteCard, label: 'RSVP Card' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => { setSuiteCard(tab.id); setBloomRevealed(true); }}
+                  className={`flex-1 py-1.5 rounded-full text-[11px] font-bold transition-all ${
+                    suiteCard === tab.id
+                      ? 'bg-[#B38E36] text-white shadow-sm'
+                      : 'text-[#474036] hover:bg-[#FAF8F5]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
 
             <div className="relative w-full max-w-[380px] rounded-[36px] p-4 sm:p-5 bg-gradient-to-b from-[#F9F3EB] via-[#F4EAE2] to-[#EFE5D8] border border-[#E2D4B7] shadow-2xl overflow-hidden min-h-[540px] flex items-center justify-center">
@@ -434,6 +481,8 @@ export const DynamicInvitationBuilder: React.FC = () => {
                   primaryColor={primaryColor}
                   secondaryColor={secondaryColor}
                   backgroundImage={selectedTemplate?.previewImage || '/reference_assets/luxury_mandap_twilight.jpg'}
+                  variant={templateVariant}
+                  suiteCard={suiteCard}
                   compact
                 />
               )}

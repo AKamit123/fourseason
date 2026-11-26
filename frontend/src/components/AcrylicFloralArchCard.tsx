@@ -3,6 +3,9 @@
 import React from 'react';
 import { Calendar, MapPin } from 'lucide-react';
 
+export type InvitationVisualVariant = 'floral-arch' | 'royal-gold' | 'garden-wreath' | 'velvet-palace';
+export type InvitationSuiteCard = 'invitation' | 'details' | 'rsvp';
+
 interface AcrylicFloralArchCardProps {
   coupleNames: string;
   eventName: string;
@@ -16,6 +19,8 @@ interface AcrylicFloralArchCardProps {
   primaryColor?: string;
   secondaryColor?: string;
   backgroundImage?: string;
+  variant?: InvitationVisualVariant;
+  suiteCard?: InvitationSuiteCard;
   compact?: boolean;
   children?: React.ReactNode;
 }
@@ -41,31 +46,36 @@ export const AcrylicFloralArchCard: React.FC<AcrylicFloralArchCardProps> = ({
   primaryColor = '#FAF6F0',
   secondaryColor = '#C8A24B',
   backgroundImage = '/reference_assets/luxury_mandap_twilight.jpg',
+  variant = 'floral-arch',
+  suiteCard = 'invitation',
   compact = false,
   children,
 }) => {
   const light = isLightColor(primaryColor);
   const textMain = light ? '#2B2118' : '#FFFFFF';
   const textMuted = light ? 'rgba(43,33,24,0.74)' : 'rgba(255,255,255,0.82)';
+  const isArchShape = variant === 'floral-arch' || variant === 'velvet-palace';
+  const cardRadius = isArchShape ? 'rounded-t-[180px] rounded-b-[28px]' : 'rounded-[24px]';
+  const innerRadius = isArchShape ? 'rounded-t-[166px] rounded-b-[20px]' : 'rounded-[18px]';
 
   return (
     <div className="relative w-full mx-auto">
       {/* Soft Sunlit Garden Backdrop Glow */}
       <div
-        className="absolute -inset-3 rounded-t-[200px] rounded-b-[40px] opacity-35 blur-xl pointer-events-none"
+        className={`absolute -inset-3 ${cardRadius} opacity-35 blur-xl pointer-events-none`}
         style={{
           background: `radial-gradient(circle at 50% 25%, ${secondaryColor}55, #F7DCE0 45%, transparent 75%)`,
         }}
       />
 
-      {/* Frosted Acrylic Arch Plate */}
+      {/* Frosted Acrylic / Stationery Plate */}
       <div
-        className={`relative overflow-hidden rounded-t-[180px] rounded-b-[28px] border-2 shadow-[0_24px_60px_-15px_rgba(88,68,42,0.28)] backdrop-blur-xl transition-all duration-500 ${
+        className={`relative overflow-hidden ${cardRadius} border-2 shadow-[0_24px_60px_-15px_rgba(88,68,42,0.28)] backdrop-blur-xl transition-all duration-500 ${
           compact ? 'px-5 pt-14 pb-6' : 'px-7 sm:px-10 pt-20 pb-10'
         }`}
         style={{
-          backgroundColor: light ? 'rgba(255, 252, 248, 0.84)' : `${primaryColor}E6`,
-          borderColor: light ? 'rgba(255,255,255,0.92)' : `${secondaryColor}70`,
+          backgroundColor: light ? 'rgba(255, 252, 248, 0.88)' : `${primaryColor}E8`,
+          borderColor: variant === 'royal-gold' ? secondaryColor : (light ? 'rgba(255,255,255,0.92)' : `${secondaryColor}70`),
           color: textMain,
           fontFamily,
         }}
@@ -77,13 +87,14 @@ export const AcrylicFloralArchCard: React.FC<AcrylicFloralArchCardProps> = ({
         />
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-white/15 pointer-events-none" />
 
-        {/* Delicate Inner Gold Hairline Arch */}
+        {/* Delicate Inner Gold Hairline Frame */}
         <div
-          className="absolute inset-3 rounded-t-[166px] rounded-b-[20px] border pointer-events-none"
-          style={{ borderColor: `${secondaryColor}66` }}
+          className={`absolute inset-3 ${innerRadius} ${variant === 'royal-gold' ? 'border-2' : 'border'} pointer-events-none`}
+          style={{ borderColor: `${secondaryColor}${variant === 'royal-gold' ? '99' : '66'}` }}
         />
 
-        {/* Dainty Watercolor Botanical Floral Arch SVG (Top Curve) */}
+        {/* Botanical Floral Arch (shown for floral-arch & garden-wreath) */}
+        {(variant === 'floral-arch' || variant === 'garden-wreath') && (
         <svg
           viewBox="0 0 400 175"
           className="absolute top-0 left-0 w-full h-auto pointer-events-none select-none opacity-95"
@@ -132,9 +143,43 @@ export const AcrylicFloralArchCard: React.FC<AcrylicFloralArchCardProps> = ({
           <circle cx="255" cy="34" r="3" fill={secondaryColor} />
           <circle cx="242" cy="29" r="2.2" fill={secondaryColor} />
         </svg>
+        )}
 
         {/* Invitation Content */}
         <div className="relative z-10 text-center space-y-4">
+          {suiteCard === 'details' ? (
+            <div className="py-4 space-y-4">
+              <span className="text-[10px] tracking-[0.28em] uppercase block font-sans font-bold" style={{ color: secondaryColor }}>
+                MORE DETAILS &amp; ACCOMMODATION
+              </span>
+              <h2 className={`${compact ? 'text-2xl' : 'text-3xl'} font-script`} style={{ color: textMain }}>
+                {coupleNames}
+              </h2>
+              <div className="rounded-2xl border p-4 text-xs font-sans space-y-2 text-left" style={{ borderColor: `${secondaryColor}45`, backgroundColor: light ? 'rgba(255,255,255,0.72)' : 'rgba(0,0,0,0.22)' }}>
+                <p><strong>Venue:</strong> {venueName}{venueAddress ? `, ${venueAddress}` : ''}</p>
+                <p><strong>Schedule:</strong> {eventDate || 'TBA'} · {eventTime || 'Evening'}</p>
+                <p><strong>Attire:</strong> Formal / Indian Couture &amp; Black Tie</p>
+                <p><strong>Concierge:</strong> {rsvpContact || 'Four Seasons Dubai'}</p>
+              </div>
+            </div>
+          ) : suiteCard === 'rsvp' ? (
+            <div className="py-6 space-y-4">
+              <span className="text-[10px] tracking-[0.28em] uppercase block font-sans font-bold" style={{ color: secondaryColor }}>
+                KINDLY REPLY
+              </span>
+              <h2 className={`${compact ? 'text-2xl' : 'text-3xl'} font-script`} style={{ color: textMain }}>
+                R.S.V.P
+              </h2>
+              <p className="text-xs font-sans px-4" style={{ color: textMuted }}>
+                We look forward to celebrating {eventName} with you. Please confirm your attendance via our digital invitation link.
+              </p>
+              <div className="rounded-2xl border p-4 text-xs font-sans space-y-1.5" style={{ borderColor: `${secondaryColor}45`, backgroundColor: light ? 'rgba(255,255,255,0.72)' : 'rgba(0,0,0,0.22)' }}>
+                <p className="font-semibold">{coupleNames}</p>
+                <p style={{ color: textMuted }}>{rsvpContact || 'concierge@fourseasons.com'}</p>
+              </div>
+            </div>
+          ) : (
+          <>
           <div className="space-y-1">
             <span
               className="text-[9px] tracking-[0.32em] uppercase block font-sans font-bold"
@@ -200,6 +245,8 @@ export const AcrylicFloralArchCard: React.FC<AcrylicFloralArchCardProps> = ({
             <p className="text-[10px] font-sans pt-1" style={{ color: textMuted }}>
               RSVP &amp; Concierge: {rsvpContact}
             </p>
+          )}
+          </>
           )}
 
           {children}
