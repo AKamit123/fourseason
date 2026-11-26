@@ -113,11 +113,20 @@ export const api = {
   updateBookingStatus: (id: string, status: string, paymentStatus?: string) =>
     fetchApi(`/bookings/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status, paymentStatus }) }),
 
-  // Analytics
+  // Analytics & Backup
   getDashboardKpis: () => fetchApi('/analytics/dashboard'),
+  getActivityLogs: () => fetchApi('/analytics/logs'),
+  exportBackup: () => fetchApi('/analytics/export-backup'),
 
-  // Auth
+  // Auth & Customer Portal
   login: (credentials: any) => fetchApi('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
+  register: (data: { name: string; email: string; phone: string; password?: string; company?: string }) =>
+    fetchApi('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+  forgotPassword: (email: string) =>
+    fetchApi('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+  resetPassword: (token: string, newPassword: string) =>
+    fetchApi('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, newPassword }) }),
+  getMyPlans: () => fetchApi('/auth/my-plans'),
   getProfile: () => fetchApi('/auth/profile'),
 
   // Services

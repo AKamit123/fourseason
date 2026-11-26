@@ -138,5 +138,96 @@ export class AuthService {
     const { passwordHash, ...result } = user;
     return result;
   }
+
+  async forgotPassword(email: string) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email: cleanEmail } });
+    if (!user) {
+      return {
+        success: true,
+        message: 'If an account exists for that email, a password reset token has been generated.',
+      };
+    }
+
+    const resetToken = this.jwtService.sign(
+      { sub: user.id, email: user.email, purpose: 'password-reset' },
+      { expiresIn: '15m' },
+    );
+
+    await this.prisma.activityLog.create({
+      data: {
+        userId: user.id,
+        action: 'PASSWORD_RESET_REQUESTED',
+        module: 'AUTH',
+        metadata: { email: user.email },
+      },
+    }).catch(() => {});
+
+    return {
+      success: true,
+      message: 'Password reset token generated (valid for 15 minutes).',
+      resetToken: process.env.NODE_ENV === 'production' ? undefined : resetToken,
+    };
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    if (!newPassword || newPassword.length < 6) {
+      throw new BadRequestException('Password must be at least 6 characters long');
+    }
+
+    let decoded: any;
+    try {
+      decoded = this.jwtService.verify(token);
+    } catch {
+      throw new BadRequestException('Invalid or expired reset token');
+    }
+
+    if (decoded?.purpose !== 'password-reset' || !decoded?.sub) {
+      throw new BadRequestException('Invalid password reset token');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(newPassword, salt);
+
+    await this.prisma.user.update({
+      where: { id: decoded.sub },
+      data: { passwordHash },
+    });
+
+    await this.prisma.activityLog.create({
+      data: {
+        userId: decoded.sub,
+        action: 'PASSWORD_RESET_COMPLETED',
+        module: 'AUTH',
+      },
+    }).catch(() => {});
+
+    return { success: true, message: 'Password has been reset successfully. You may now sign in.' };
+  }
+
+  async getMyPortalData(userId: string, email: string) {
+    const customers = await this.prisma.customer.findMany({
+      where: { email },
+      select: { id: true },
+    });
+    const customerIds = customers.map((c) => c.id);
+    if (customerIds.length === 0) {
+      return { inquiries: [], bookings: [] };
+    }
+
+    const [inquiries, bookings] = await Promise.all([
+      this.prisma.inquiry.findMany({
+        where: { customerId: { in: customerIds } },
+        include: { requirements: true },
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.booking.findMany({
+        where: { customerId: { in: customerIds } },
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    return { inquiries, bookings };
+  }
 }
 

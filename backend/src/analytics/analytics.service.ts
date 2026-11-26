@@ -86,5 +86,38 @@ export class AnalyticsService {
       popularItems,
     };
   }
+
+  async getActivityLogs(limit = 100) {
+    return this.prisma.activityLog.findMany({
+      take: Number(limit) || 100,
+      orderBy: { createdAt: 'desc' },
+      include: { user: { select: { name: true, email: true } } },
+    });
+  }
+
+  async exportFullBackup() {
+    const [categories, items, inquiries, bookings, services, portfolio, settings] = await Promise.all([
+      this.prisma.inventoryCategory.findMany({ include: { subcategories: true } }),
+      this.prisma.inventoryItem.findMany(),
+      this.prisma.inquiry.findMany({ include: { customer: true, requirements: true } }),
+      this.prisma.booking.findMany({ include: { items: true } }),
+      this.prisma.service.findMany(),
+      this.prisma.portfolioProject.findMany(),
+      this.prisma.systemSetting.findMany(),
+    ]);
+    return {
+      exportedAt: new Date().toISOString(),
+      platform: 'Four Seasons / Wedit',
+      counts: {
+        categories: categories.length,
+        items: items.length,
+        inquiries: inquiries.length,
+        bookings: bookings.length,
+        services: services.length,
+        portfolio: portfolio.length,
+      },
+      data: { categories, items, inquiries, bookings, services, portfolio, settings },
+    };
+  }
 }
 

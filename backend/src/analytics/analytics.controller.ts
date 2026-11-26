@@ -18,5 +18,23 @@ export class AnalyticsController {
   async getDashboard() {
     return this.analyticsService.getDashboardKpis();
   }
+
+  @Get('logs')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin', 'manager')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get real database audit & activity logs' })
+  async getActivityLogs() {
+    return this.analyticsService.getActivityLogs(100);
+  }
+
+  @Get('export-backup')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Export full platform database snapshot as JSON backup' })
+  async exportBackup() {
+    return this.analyticsService.exportFullBackup();
+  }
 }
 

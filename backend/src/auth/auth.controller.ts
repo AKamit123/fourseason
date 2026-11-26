@@ -21,6 +21,26 @@ export class AuthController {
     return this.authService.registerClient(body);
   }
 
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'Request a password reset token' })
+  async forgotPassword(@Body() body: { email: string }) {
+    return this.authService.forgotPassword(body.email);
+  }
+
+  @Post('reset-password')
+  @ApiOperation({ summary: 'Reset password using a valid reset token' })
+  async resetPassword(@Body() body: { token: string; newPassword: string }) {
+    return this.authService.resetPassword(body.token, body.newPassword);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('my-plans')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get authenticated customer own saved plans, inquiries and bookings (data isolated)' })
+  async getMyPlans(@Request() req: any) {
+    return this.authService.getMyPortalData(req.user.id, req.user.email);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   @ApiBearerAuth()

@@ -331,10 +331,21 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
               <h4 className="font-serif text-xl font-bold text-[#1E1A16]">Generation Failed</h4>
               <p className="text-xs text-rose-300">{pollingError || 'An error occurred during processing.'}</p>
               <button
-                onClick={() => setTaskStatus('IDLE')}
+                onClick={async () => {
+                  if (taskId) {
+                    try {
+                      setTaskStatus('PENDING');
+                      setPollingError(null);
+                      const regen = await api.regenerateAi(taskId);
+                      setTaskId(regen.id);
+                      return;
+                    } catch (_) {}
+                  }
+                  setTaskStatus('IDLE');
+                }}
                 className="gold-gradient-btn px-6 py-2 rounded-xl text-xs font-bold"
               >
-                Try Again
+                Retry Generation
               </button>
             </div>
           )}

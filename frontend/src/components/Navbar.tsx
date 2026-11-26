@@ -150,6 +150,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             <Link
+              href="/portal"
+              className="hidden sm:inline-flex px-2.5 py-1.5 rounded-xl text-[11px] font-semibold border border-[#E2D8C6] text-[#474036] bg-white hover:bg-[#F5EFE6] transition-colors whitespace-nowrap"
+            >
+              My Plans
+            </Link>
+
+            <Link
               href="/admin"
               className="p-1.5 sm:p-2 rounded-xl text-[#786F62] hover:text-[#1E1A16] hover:bg-[#F5EFE6] transition-colors border border-[#E8E0D2]"
               title="Admin Operations Suite"

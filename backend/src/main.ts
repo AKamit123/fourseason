@@ -9,6 +9,37 @@ async function bootstrap() {
   const logger = new Logger('FourSeasonsBootstrap');
   const app = await NestFactory.create(AppModule);
 
+  // Security Headers & Rate Limiting
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.disable('x-powered-by');
+
+  const rateStore = new Map<string, { count: number; resetAt: number }>();
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+    const p = req.path || '';
+    if (p.startsWith('/api/auth') || p.startsWith('/api/inquiries')) {
+      const ip = req.ip || req.socket.remoteAddress || 'unknown';
+      const key = `${ip}:${p.startsWith('/api/auth') ? 'auth' : 'inq'}`;
+      const now = Date.now();
+      const entry = rateStore.get(key);
+      if (!entry || now > entry.resetAt) {
+        rateStore.set(key, { count: 1, resetAt: now + 60_000 });
+      } else {
+        entry.count += 1;
+        if (entry.count > 40) {
+          res.status(429).json({ statusCode: 429, message: 'Too many requests. Please try again in a minute.' });
+          return;
+        }
+      }
+    }
+    next();
+  });
+
   // Global API Prefix
   app.setGlobalPrefix('api');
 
@@ -23,7 +54,12 @@ async function bootstrap() {
 
   // CORS Configuration
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001'],
+    origin: [
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      'http://localhost:3001',
+      /\.vercel\.app$/,
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

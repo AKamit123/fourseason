@@ -43,6 +43,7 @@ export default function AdminDashboardPage() {
   const [whatsAppConfig, setWhatsAppConfig] = useState<any | null>(null);
   const [whatsAppLogs, setWhatsAppLogs] = useState<any[]>([]);
   const [systemSettings, setSystemSettings] = useState<any[]>([]);
+  const [activityLogs, setActivityLogs] = useState<any[]>([]);
 
   // Action & Feedback States
   const [syncingZohoId, setSyncingZohoId] = useState<string | null>(null);
@@ -194,7 +195,7 @@ export default function AdminDashboardPage() {
       const [
         kpisRes, inqsRes, itemsRes, catsRes, bkgRes,
         aiRes, tplRes, srvRes, portRes, zohoRes,
-        waRes, waLogsRes, setRes, seoRes
+        waRes, waLogsRes, setRes, seoRes, logsRes
       ] = await Promise.all([
         api.getDashboardKpis().catch(() => null),
         api.getInquiries().catch(() => ({ inquiries: [] })),
@@ -210,6 +211,7 @@ export default function AdminDashboardPage() {
         api.getWhatsAppLogs().catch(() => []),
         api.getAllSettings().catch(() => []),
         api.getSeoSettings().catch(() => null),
+        api.getActivityLogs().catch(() => []),
       ]);
 
       setDashboardData(kpisRes || DEMO_KPIS);
@@ -225,6 +227,7 @@ export default function AdminDashboardPage() {
       setWhatsAppConfig(waRes || { isEnabled: true, autoReplyWelcome: true });
       setWhatsAppLogs(waLogsRes || []);
       setSystemSettings(setRes || []);
+      setActivityLogs(Array.isArray(logsRes) ? logsRes : []);
 
       if (seoRes) {
         setSeoForm((prev) => ({ ...prev, ...seoRes }));
@@ -1902,13 +1905,29 @@ export default function AdminDashboardPage() {
                 <h1 className="font-serif text-3xl font-bold text-[#1E1A16]">Activity &amp; Audit Logs</h1>
                 <p className="text-xs text-[#786F62]">Complete audit trail of admin actions, CRM updates, AI generations, and security events</p>
               </div>
-              <button
-                onClick={() => notifySuccess('Audit logs exported cleanly!')}
-                className="px-4 py-2 rounded-xl bg-white border border-[#DDD5C7] hover:bg-[#F5EFE6] text-xs font-bold text-[#474036] flex items-center gap-2 self-start"
-              >
-                <Download className="w-3.5 h-3.5 text-[#B38E36]" />
-                <span>Export Audit CSV</span>
-              </button>
+              <div className="flex flex-wrap gap-2 self-start">
+                <button
+                  onClick={async () => {
+                    try {
+                      const backup = await api.exportBackup();
+                      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `fourseasons_backup_${new Date().toISOString().slice(0, 10)}.json`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                      notifySuccess('Full Database JSON Backup downloaded!');
+                    } catch (err: any) {
+                      alert('Backup export requires live backend admin session: ' + err.message);
+                    }
+                  }}
+                  className="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-2"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download DB Backup (JSON)</span>
+                </button>
+              </div>
             </div>
 
             <div className="bg-white rounded-3xl p-6 border border-[#E8E0D2] shadow-sm overflow-x-auto">
@@ -1923,14 +1942,20 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E8E0D2]/60">
-                  {[
-                    { time: 'Today, 23:45', actor: user?.name || 'Administrator', mod: 'System Settings', act: 'UPDATED', detail: 'Verified light pastel theme & Lego-block settings' },
-                    { time: 'Today, 23:18', actor: 'AI Assistant', mod: 'WhatsApp API', act: 'HANDOVER', detail: 'Passed Riya Mehta inquiry to Sales Consultant' },
-                    { time: 'Today, 22:50', actor: 'System', mod: 'Lead Scoring', act: 'SCORED', detail: 'Assigned Score 91 to Indian Wedding (350 guests, Atlantis)' },
-                    { time: 'Today, 21:20', actor: 'Document Agent', mod: 'Branded PDF', act: 'GENERATED', detail: 'Portrait A4 PDF issued and delivered via Email & WhatsApp' },
-                    { time: 'Today, 21:18', actor: 'Twilio SMS', mod: 'Verification', act: 'VERIFIED', detail: '4-digit SMS verification completed for +971 5X XXX XX42' },
-                    { time: 'Today, 18:10', actor: 'Administrator', mod: 'Inventory', act: 'LOCKED', detail: 'Double-booking guard verified for 6m Red Naomi Rose Mandap' },
-                  ].map((log, idx) => (
+                  {(activityLogs.length > 0
+                    ? activityLogs.map((l) => ({
+                        time: l.createdAt ? new Date(l.createdAt).toLocaleString() : 'Recent',
+                        actor: l.user?.name || l.user?.email || 'System',
+                        mod: l.module || 'SYSTEM',
+                        act: l.action || 'EVENT',
+                        detail: l.metadata ? JSON.stringify(l.metadata) : 'Recorded in MySQL Audit Log',
+                      }))
+                    : [
+                        { time: 'Today, 23:45', actor: user?.name || 'Administrator', mod: 'System Settings', act: 'UPDATED', detail: 'Verified light pastel theme & Lego-block settings' },
+                        { time: 'Today, 23:18', actor: 'AI Assistant', mod: 'WhatsApp API', act: 'HANDOVER', detail: 'Passed inquiry to Sales Consultant' },
+                        { time: 'Today, 22:50', actor: 'System', mod: 'Lead Scoring', act: 'SCORED', detail: 'Assigned Score 91 to Indian Wedding (350 guests)' },
+                      ]
+                  ).map((log, idx) => (
                     <tr key={idx} className="hover:bg-[#F8F5EE]">
                       <td className="py-3 font-mono text-[#786F62] whitespace-nowrap">{log.time}</td>
                       <td className="py-3 font-semibold text-[#1E1A16]">{log.actor}</td>

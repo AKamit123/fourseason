@@ -13,6 +13,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
 import { SettingsModule } from './settings/settings.module';
 import { ServicesModule } from './services/services.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PortfolioModule } from './portfolio/portfolio.module';
     SettingsModule,
     ServicesModule,
     PortfolioModule,
+    UploadsModule,
   ],
 })
 export class AppModule {}

@@ -26,6 +26,7 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
 
   // Combination Builder / Cart State
   const [cart, setCart] = useState<Record<string, number>>({});
+  const [cartVariants, setCartVariants] = useState<Record<string, string>>({});
   const [activeItemDetail, setActiveItemDetail] = useState<any | null>(null);
 
   // Themes
@@ -74,14 +75,30 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
     });
   };
 
+  const updateCartQty = (itemId: string, delta: number) => {
+    setCart((prev) => {
+      const next = (prev[itemId] || 1) + delta;
+      if (next <= 0) {
+        const copy = { ...prev };
+        delete copy[itemId];
+        return copy;
+      }
+      return { ...prev, [itemId]: next };
+    });
+  };
+
   const cartItems = Object.entries(cart)
     .map(([id, qty]) => {
       const found = items.find((i) => i.id === id);
-      return found ? { ...found, cartQty: qty } : null;
+      return found ? { ...found, cartQty: qty, selectedVariant: cartVariants[id] || found.theme || 'Ivory & Gold' } : null;
     })
     .filter(Boolean) as any[];
 
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.cartQty || 1), 0);
+  const transportFee = cartItems.length > 0 ? 2500 : 0;
+  const installationFee = cartItems.length > 0 ? Math.max(3500, Math.round(cartTotal * 0.12)) : 0;
+  const vatAmount = Math.round((cartTotal + transportFee + installationFee) * 0.05);
+  const indicativeGrandTotal = cartTotal + transportFee + installationFee + vatAmount;
 
   return (
     <section id="studio" className="py-20 bg-[#FAF8F5] relative border-t border-[#E8E0D2]">
@@ -265,9 +282,23 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                             {item.name}
                           </span>
                           <div className="flex items-center justify-between text-xs text-[#474036] mt-1">
-                            <span className="text-[#8F6E22] font-semibold">AED {item.price?.toLocaleString()}</span>
-                            <span className="text-[10px] text-[#786F62]">Theme: {item.theme}</span>
+                            <span className="text-[#8F6E22] font-semibold">AED {(item.price * (item.cartQty || 1)).toLocaleString()}</span>
+                            <div className="flex items-center gap-1.5 bg-[#FAF8F5] border border-[#E2D8C6] rounded-lg px-1.5 py-0.5">
+                              <button onClick={() => updateCartQty(item.id, -1)} className="px-1 font-bold text-[#474036] hover:text-[#1E1A16]">-</button>
+                              <span className="text-[11px] font-bold">{item.cartQty}</span>
+                              <button onClick={() => updateCartQty(item.id, 1)} className="px-1 font-bold text-[#474036] hover:text-[#1E1A16]">+</button>
+                            </div>
                           </div>
+                          <select
+                            value={item.selectedVariant}
+                            onChange={(e) => setCartVariants((prev) => ({ ...prev, [item.id]: e.target.value }))}
+                            className="mt-2 w-full px-2 py-1 rounded-lg bg-[#FAF8F5] border border-[#E2D8C6] text-[10px] font-medium text-[#474036]"
+                          >
+                            <option value="Ivory & Gold">Variant: Ivory &amp; Gold</option>
+                            <option value="Crimson Naomi">Variant: Crimson Naomi</option>
+                            <option value="Blush Pastel">Variant: Blush Pastel</option>
+                            <option value="Emerald & Brass">Variant: Emerald &amp; Brass</option>
+                          </select>
                         </div>
                         <div className="pt-2 mt-2 border-t border-[#F0EBE1] flex items-center justify-between">
                           <button
@@ -285,6 +316,41 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                         </div>
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {cartItems.length > 0 && (
+                  <div className="mt-6 p-5 rounded-2xl bg-white border border-[#E2D8C6] grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-xs">
+                    <div className="space-y-1.5 text-[#474036]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#B38E36] block">
+                        Indicative Estimate &amp; Pricing Rules Breakdown
+                      </span>
+                      <div className="flex justify-between">
+                        <span>Rental Items Subtotal ({cartItems.reduce((s, i) => s + i.cartQty, 0)} units)</span>
+                        <strong>AED {cartTotal.toLocaleString()}</strong>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Transport &amp; Logistics Delivery (Dubai)</span>
+                        <strong>AED {transportFee.toLocaleString()}</strong>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Installation, Dismantling &amp; Manpower (12%)</span>
+                        <strong>AED {installationFee.toLocaleString()}</strong>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>UAE VAT (5%)</span>
+                        <strong>AED {vatAmount.toLocaleString()}</strong>
+                      </div>
+                    </div>
+                    <div className="md:border-l md:border-[#E8E0D2] md:pl-6 flex flex-col justify-between space-y-2">
+                      <span className="text-[10px] font-bold uppercase text-[#785E1A]">Indicative Grand Total</span>
+                      <div className="font-serif text-3xl font-bold text-[#1E1A16]">
+                        AED {indicativeGrandTotal.toLocaleString()}
+                      </div>
+                      <p className="text-[10px] text-[#786F62] italic">
+                        Subject to venue site survey, final floorplan dimensions &amp; availability confirmation. Valid for 14 days.
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
