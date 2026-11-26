@@ -15,11 +15,11 @@ const CEREMONY_SHOWCASE = [
   {
     id: 'mandap',
     label: 'Royal Mandap',
-    title: 'Red Naomi Rose Grand Mandap',
+    title: 'Twilight Palace Grand Mandap',
     venue: 'Atlantis The Royal, Palm Jumeirah',
     specs: '6.0m × 4.5m · Live-Fire Approved',
-    image: '/reference_assets/hero_mandap_red.jpg',
-    highlights: ['12,000+ Dutch Naomi Roses', 'Gold Mirror Reflection Aisle', 'Astera AX5 Pin-Spotting', 'Custom Brass Havan Kund'],
+    image: '/reference_assets/luxury_mandap_twilight.jpg',
+    highlights: ['Blush & Ivory Floral Canopy', 'Crystal Chandeliers & Brass Lanterns', 'Rose-Petal Ceremonial Aisle', 'Custom Brass Havan Kund'],
   },
   {
     id: 'haldi',
@@ -142,7 +142,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenPlanner, onExplo
 
           {/* Right Column: Interactive 4-Ceremony Editorial Showcase */}
           <div className="lg:col-span-6">
-            <div className="rounded-[32px] overflow-hidden border border-[#E2D8C6] shadow-2xl shadow-stone-300/40 bg-white">
+            <div className="p-1.5 rounded-[36px] bg-gradient-to-br from-[#E9D9B8] via-[#FAF6EE] to-[#DFC89A] shadow-2xl shadow-stone-300/50">
+            <div className="rounded-[30px] overflow-hidden border border-[#E2D8C6] bg-white">
               {/* Ceremony Selector Pills */}
               <div className="px-4 py-3 bg-[#FAF8F5] border-b border-[#E8E0D2] flex items-center justify-between gap-2 overflow-x-auto no-scrollbar">
                 <div className="flex items-center gap-1.5">
@@ -208,6 +209,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenPlanner, onExplo
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
+            </div>
             </div>
           </div>
         </div>

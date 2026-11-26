@@ -22,17 +22,17 @@ const INDIAN_WEDDING_CEREMONIES = [
   },
   {
     step: '02 · Afternoon',
-    title: 'Royal Silk Mehendi',
+    title: 'Editorial Silk Mehendi',
     venue: 'One&Only Royal Mirage',
-    image: '/catalog/fs_catalog_13_swing_jhoola_floral_magenta_royal.jpg',
-    desc: 'Hand-carved floral Jhoola swing, Persian carpets, and Moroccan lanterns.',
+    image: '/reference_assets/luxury_editorial_celebration.jpg',
+    desc: 'Sunlit courtyard hospitality, bespoke textiles, and lush tropical botanicals.',
   },
   {
     step: '03 · Sunset',
-    title: 'Sacred Fire Grand Mandap',
+    title: 'Twilight Palace Mandap',
     venue: 'Atlantis The Royal, Palm Jumeirah',
-    image: '/reference_assets/hero_mandap_red.jpg',
-    desc: 'Live-fire approved 6m Dutch Red Naomi rose mandap with gold mirror aisle.',
+    image: '/reference_assets/luxury_mandap_twilight.jpg',
+    desc: 'Live-fire approved blush & ivory floral pavilion with crystal chandeliers and rose-petal aisle.',
   },
   {
     step: '04 · Midnight',
@@ -230,6 +230,73 @@ export default function HomePage() {
 
       {/* 4. The Four Seasons Atelier Experience */}
       <AtelierExperienceSection onOpenPlanner={() => setPlannerOpen(true)} />
+
+      {/* 4.5 Private Dubai Bridal Atelier & Royal Stationery Editorial */}
+      <section className="py-20 bg-white border-t border-[#E8E0D2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="group rounded-[30px] overflow-hidden border border-[#E8E0D2] bg-[#FAF8F5] shadow-sm hover:shadow-xl transition-all flex flex-col">
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src="/reference_assets/luxury_atelier_suite.jpg"
+                  alt="Four Seasons Dubai Bridal & Design Atelier"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 border border-[#E2D4B7] text-[10px] font-bold uppercase tracking-widest text-[#785E1A]">
+                  Private Design Suite · Dubai
+                </span>
+              </div>
+              <div className="p-7 flex-1 flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
+                    The Champagne Atelier Lounge
+                  </h3>
+                  <p className="text-sm text-[#474036] leading-relaxed">
+                    Experience custom floral palettes, silk swatches, brass architectural samples, and live 4K AI ballroom previews with our senior wedding directors.
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleOpenRfq('Private Atelier Consultation')}
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#785E1A] hover:text-[#B38E36] transition-colors self-start"
+                >
+                  <span>Book Private Consultation</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            <div className="group rounded-[30px] overflow-hidden border border-[#E8E0D2] bg-[#FAF8F5] shadow-sm hover:shadow-xl transition-all flex flex-col">
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src="/reference_assets/luxury_royal_invite_box.jpg"
+                  alt="Heirloom Gold-Foil Wedding Invitations & Digital RSVP"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 border border-[#E2D4B7] text-[10px] font-bold uppercase tracking-widest text-[#785E1A]">
+                  Royal Stationery & Digital RSVP
+                </span>
+              </div>
+              <div className="p-7 flex-1 flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <h3 className="font-serif text-2xl font-bold text-[#1E1A16]">
+                    Gold-Foil Suites & Interactive Invites
+                  </h3>
+                  <p className="text-sm text-[#474036] leading-relaxed">
+                    Pair bespoke embossed wedding stationery with instant digital invitations, multi-ceremony itineraries, and live WhatsApp guest RSVP tracking.
+                  </p>
+                </div>
+                <Link
+                  href="/invitations"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#785E1A] hover:text-[#B38E36] transition-colors self-start"
+                >
+                  <span>Design Your Invitation</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 5. Menu Destinations Strip */}
       <section className="py-16 bg-[#FAF8F5] border-t border-[#E8E0D2]">
