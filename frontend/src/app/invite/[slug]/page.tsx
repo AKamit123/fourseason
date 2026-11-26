@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Calendar, MapPin, CheckCircle2, Clock, Mail, Share2, Heart } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle2, Clock, Mail, Share2, Heart, Sparkles } from 'lucide-react';
 import { api } from '@/lib/api';
+import { AcrylicFloralArchCard } from '@/components/AcrylicFloralArchCard';
 
 export default function PublicInvitationPage() {
   const params = useParams();
@@ -20,6 +21,7 @@ export default function PublicInvitationPage() {
   const [notes, setNotes] = useState('');
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [submittingRsvp, setSubmittingRsvp] = useState(false);
+  const [envelopeOpened, setEnvelopeOpened] = useState(false);
 
   useEffect(() => {
     if (slug) {
@@ -84,163 +86,145 @@ export default function PublicInvitationPage() {
     );
   }
 
-  const primary = invitation.primaryColor || '#0E1B3A';
+  const primary = invitation.primaryColor || '#FAF6F0';
   const secondary = invitation.secondaryColor || '#C8A24B';
+  const formattedDate = invitation.eventDate
+    ? new Date(invitation.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    : 'TBA';
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden bg-[#FAF8F5]"
-    >
-      {/* Background Ambience */}
+    <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 relative overflow-hidden bg-gradient-to-b from-[#FAF5EE] via-[#F7ECE6] to-[#FAF5EE]">
+      {/* Sunlit Garden Background Ambience */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-multiply"
+        className="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-multiply pointer-events-none"
         style={{
-          backgroundImage: `url('${invitation.template?.previewImage || '/reference_assets/hero_mandap_red.jpg'}')`,
+          backgroundImage: `url('${invitation.template?.previewImage || '/reference_assets/luxury_mandap_twilight.jpg'}')`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/80 via-[#F5EFE6]/90 to-[#FAF8F5]/95 pointer-events-none" />
+      <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-rose-200/35 blur-[120px] pointer-events-none" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-amber-200/30 blur-[120px] pointer-events-none" />
 
-      {/* Main Card */}
-      <div className="relative z-10 w-full max-w-xl bg-white border-2 border-[#B38E36]/40 rounded-[36px] overflow-hidden shadow-2xl">
-        <div
-          className="p-8 sm:p-12 text-center space-y-8 relative"
-          style={{ backgroundColor: primary, color: '#FFFFFF', fontFamily: invitation.fontFamily || 'Playfair Display' }}
-        >
-          {/* Header Monogram */}
-          <div className="space-y-2">
-            <div
-              className="w-12 h-12 rounded-full border-2 border-fs-gold mx-auto flex items-center justify-center font-serif font-bold text-lg"
-              style={{ color: secondary, borderColor: secondary }}
-            >
-              4S
+      <div className="relative z-10 w-full max-w-xl">
+        {!envelopeOpened ? (
+          <div className="rounded-[36px] bg-white/90 backdrop-blur-xl border-2 border-[#E2D4B7] p-8 sm:p-12 text-center shadow-2xl space-y-6">
+            <div className="w-20 h-20 rounded-full mx-auto bg-gradient-to-br from-[#DFBE6F] to-[#9E7822] text-white flex items-center justify-center shadow-xl animate-pulse">
+              <Mail className="w-9 h-9" />
             </div>
-            <span
-              className="text-[10px] tracking-[0.3em] uppercase block font-sans font-bold"
-              style={{ color: secondary }}
-            >
-              FOUR SEASONS EVENTS
-            </span>
-            <p className="text-xs sm:text-sm text-white/80 font-sans italic max-w-md mx-auto pt-2 leading-relaxed">
-              &ldquo;{invitation.customMessage || 'Together with their families, we request your presence and blessings.'}&rdquo;
-            </p>
-          </div>
-
-          {/* Couple Names */}
-          <div className="space-y-3 py-4">
-            <span
-              className="text-[11px] tracking-widest uppercase block font-sans font-semibold"
-              style={{ color: secondary }}
-            >
-              Cordially Request The Honor Of Your Presence At
-            </span>
-            <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
-              {invitation.coupleNames}
-            </h1>
-            <div
-              className="w-20 h-1 mx-auto rounded-full"
-              style={{ backgroundColor: secondary }}
-            />
-            <h3 className="font-serif text-lg sm:text-xl text-white/90">
-              {invitation.eventName}
-            </h3>
-          </div>
-
-          {/* Event Itinerary Info */}
-          <div className="glass-gold rounded-2xl p-5 border border-fs-gold/30 text-xs sm:text-sm font-sans space-y-3 text-white max-w-md mx-auto">
-            <div className="flex items-center justify-center gap-2">
-              <Calendar className="w-4 h-4 text-fs-gold flex-shrink-0" />
-              <span className="font-semibold">{invitation.eventDate ? new Date(invitation.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'TBA'}</span>
-              <span>•</span>
-              <span>{invitation.eventTime || 'Evening'}</span>
+            <div className="space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#B38E36] block">
+                Four Seasons Bespoke Invitation
+              </span>
+              <h1 className="font-script text-4xl sm:text-5xl text-[#2B2118]">
+                {invitation.coupleNames}
+              </h1>
+              <p className="text-sm text-[#474036] font-serif">
+                {invitation.eventName}
+              </p>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <MapPin className="w-4 h-4 text-fs-gold flex-shrink-0" />
-              <span>{invitation.venueName}, {invitation.venueAddress}</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => setEnvelopeOpened(true)}
+              className="gold-gradient-btn px-8 py-4 rounded-full text-sm font-bold text-white shadow-xl hover:scale-105 transition-transform inline-flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Tap to Bloom &amp; Open Invitation</span>
+            </button>
           </div>
+        ) : (
+          <div className="animate-fadeIn">
+            <AcrylicFloralArchCard
+              coupleNames={invitation.coupleNames}
+              eventName={invitation.eventName}
+              eventDate={formattedDate}
+              eventTime={invitation.eventTime || 'Evening'}
+              venueName={invitation.venueName}
+              venueAddress={invitation.venueAddress}
+              customMessage={invitation.customMessage || 'Together with their families, we request your presence and blessings.'}
+              rsvpContact={invitation.contactDetails}
+              fontFamily={invitation.fontFamily || 'Playfair Display'}
+              primaryColor={primary}
+              secondaryColor={secondary}
+              backgroundImage={invitation.template?.previewImage || '/reference_assets/luxury_mandap_twilight.jpg'}
+            >
+              {/* RSVP Form */}
+              <div className="pt-5 mt-4 border-t border-[#E2D4B7]/60 font-sans text-left max-w-md mx-auto">
+                {rsvpSubmitted ? (
+                  <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-2">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
+                    <h4 className="font-serif text-xl font-bold text-[#1E1A16]">RSVP Received with Gratitude</h4>
+                    <p className="text-xs text-[#474036]">Thank you, {guestName}. We look forward to celebrating together!</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleRsvp} className="p-5 sm:p-6 rounded-2xl bg-white/85 border border-[#E2D4B7] shadow-sm space-y-4 text-[#1E1A16]">
+                    <div className="text-center pb-1">
+                      <h4 className="font-serif text-lg font-bold text-[#1E1A16]">Confirm Your Attendance</h4>
+                      <p className="text-[11px] text-[#786F62]">Kindly RSVP to assist us with guest seating &amp; protocol.</p>
+                    </div>
 
-          {/* RSVP Form */}
-          <div className="pt-4 border-t border-white/10 font-sans text-left max-w-md mx-auto">
-            {rsvpSubmitted ? (
-              <div className="glass-panel p-6 rounded-2xl border border-emerald-500/40 text-center space-y-2">
-                <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-                <h4 className="font-serif text-xl font-bold text-white">RSVP Received with Gratitude</h4>
-                <p className="text-xs text-fs-cream/80">Thank you, {guestName}. We look forward to celebrating together!</p>
+                    <div>
+                      <label className="text-xs font-semibold text-[#474036] block mb-1">Your Full Name</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Tariq Al Mansoor"
+                        value={guestName}
+                        onChange={(e) => setGuestName(e.target.value)}
+                        className="w-full px-3 py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-[#1E1A16] text-xs focus:outline-none focus:border-[#B38E36]"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-semibold text-[#474036] block mb-1">Total Guests</label>
+                        <select
+                          value={guestCount}
+                          onChange={(e) => setGuestCount(Number(e.target.value))}
+                          className="w-full px-3 py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-[#1E1A16] text-xs focus:outline-none focus:border-[#B38E36]"
+                        >
+                          <option value={1}>1 Guest</option>
+                          <option value={2}>2 Guests (Couple)</option>
+                          <option value={3}>3 Guests</option>
+                          <option value={4}>4 Guests (Family)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-semibold text-[#474036] block mb-1">Will You Attend?</label>
+                        <select
+                          value={attending ? 'yes' : 'no'}
+                          onChange={(e) => setAttending(e.target.value === 'yes')}
+                          className="w-full px-3 py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-[#1E1A16] text-xs focus:outline-none focus:border-[#B38E36]"
+                        >
+                          <option value="yes">Joyfully Attend</option>
+                          <option value="no">Regretfully Decline</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-semibold text-[#474036] block mb-1">Special Dietary / Wishes (Optional)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Vegetarian, congratulations!"
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className="w-full px-3 py-2 rounded-xl bg-[#FAF8F5] border border-[#DDD5C7] text-[#1E1A16] text-xs focus:outline-none focus:border-[#B38E36]"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={submittingRsvp}
+                      className="gold-gradient-btn w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-white shadow-md"
+                    >
+                      {submittingRsvp ? 'Submitting…' : 'Submit RSVP Confirmation'}
+                    </button>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form onSubmit={handleRsvp} className="glass-panel p-6 rounded-2xl border border-white/10 space-y-4">
-                <div className="text-center pb-2">
-                  <h4 className="font-serif text-lg font-bold text-white">Confirm Your Attendance</h4>
-                  <p className="text-[11px] text-fs-cream/60">Kindly RSVP to assist us with guest seating &amp; protocol.</p>
-                </div>
-
-                <div>
-                  <label className="text-xs text-fs-cream/80 block mb-1">Your Full Name</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Tariq Al Mansoor"
-                    value={guestName}
-                    onChange={(e) => setGuestName(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs focus:outline-none focus:border-fs-gold"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs text-fs-cream/80 block mb-1">Total Guests</label>
-                    <select
-                      value={guestCount}
-                      onChange={(e) => setGuestCount(Number(e.target.value))}
-                      className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs focus:outline-none focus:border-fs-gold"
-                    >
-                      <option value={1}>1 Guest</option>
-                      <option value={2}>2 Guests (Couple)</option>
-                      <option value={3}>3 Guests</option>
-                      <option value={4}>4 Guests (Family)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-fs-cream/80 block mb-1">Will You Attend?</label>
-                    <select
-                      value={attending ? 'yes' : 'no'}
-                      onChange={(e) => setAttending(e.target.value === 'yes')}
-                      className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs focus:outline-none focus:border-fs-gold"
-                    >
-                      <option value="yes">Joyfully Attend</option>
-                      <option value="no">Regretfully Decline</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs text-fs-cream/80 block mb-1">Special Dietary / Wishes (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Vegetarian, congratulations!"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/15 text-white text-xs focus:outline-none focus:border-fs-gold"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={submittingRsvp}
-                  className="gold-gradient-btn w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider"
-                >
-                  {submittingRsvp ? 'Submitting…' : 'Submit RSVP Confirmation'}
-                </button>
-              </form>
-            )}
+            </AcrylicFloralArchCard>
           </div>
-
-          {/* Footer note */}
-          <div className="pt-2 text-[10px] text-white/50 font-sans">
-            <span>Official Four Seasons Events Atelier</span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

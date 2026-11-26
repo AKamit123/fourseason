@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Sparkles, Download, Share2, Check, RefreshCw, Palette, Type, Calendar, MapPin, Users, Heart } from 'lucide-react';
 import { api } from '@/lib/api';
 import { DEMO_TEMPLATES } from '@/lib/demoData';
+import { AcrylicFloralArchCard } from '@/components/AcrylicFloralArchCard';
 
 export const DynamicInvitationBuilder: React.FC = () => {
   const [templates, setTemplates] = useState<any[]>([]);
@@ -20,8 +21,9 @@ export const DynamicInvitationBuilder: React.FC = () => {
   const [customMessage, setCustomMessage] = useState('Together with their families, we invite you to celebrate our union.');
   const [rsvpContact, setRsvpContact] = useState('+971 4 398 2211 | concierge@fourseasons.com');
   const [fontFamily, setFontFamily] = useState('Playfair Display');
-  const [primaryColor, setPrimaryColor] = useState('#0E1B3A');
+  const [primaryColor, setPrimaryColor] = useState('#FAF6F0');
   const [secondaryColor, setSecondaryColor] = useState('#C8A24B');
+  const [bloomRevealed, setBloomRevealed] = useState(true);
 
   // Share state
   const [createdSlug, setCreatedSlug] = useState<string | null>(null);
@@ -324,10 +326,10 @@ export const DynamicInvitationBuilder: React.FC = () => {
                   </label>
                   <div className="flex gap-2">
                     {[
-                      { name: 'Royal Gold', p: '#0E1B3A', s: '#C8A24B' },
+                      { name: 'Spring Acrylic', p: '#FAF6F0', s: '#C8A24B' },
+                      { name: 'Blush Garden', p: '#FDF2F4', s: '#B77D84' },
+                      { name: 'Royal Navy', p: '#0E1B3A', s: '#C8A24B' },
                       { name: 'Crimson Silk', p: '#4A0E17', s: '#E7C977' },
-                      { name: 'Mediterranean', p: '#16264E', s: '#E0BC66' },
-                      { name: 'Noir Glamour', p: '#070D20', s: '#F0D88A' },
                     ].map((preset) => (
                       <button
                         key={preset.name}
@@ -382,90 +384,59 @@ export const DynamicInvitationBuilder: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT: Live Interactive Preview Canvas (5 Cols) */}
+          {/* RIGHT: Live Interactive Acrylic Floral Arch & Blooming Preview (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <span className="text-xs uppercase font-bold text-[#785E1A] tracking-widest mb-3 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" /> Live Mobile &amp; Canvas Preview
-            </span>
-
-            {/* Phone Bezel Frame */}
-            <div className="relative w-full max-w-[340px] aspect-[9/16] rounded-[42px] p-3.5 bg-[#1E1A16] border-4 border-[#B38E36] shadow-2xl overflow-hidden">
-              {/* Dynamic Invitation Card Canvas */}
-              <div
-                className="w-full h-full rounded-[30px] overflow-hidden flex flex-col justify-between p-6 text-center relative border border-white/20"
-                style={{
-                  backgroundColor: primaryColor,
-                  color: '#FFFFFF',
-                  fontFamily: fontFamily,
-                }}
+            <div className="w-full max-w-[380px] flex items-center justify-between mb-3 px-1">
+              <span className="text-xs uppercase font-bold text-[#785E1A] tracking-widest flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#B38E36]" /> Acrylic Arch Preview
+              </span>
+              <button
+                type="button"
+                onClick={() => setBloomRevealed((v) => !v)}
+                className="text-[11px] font-bold px-3 py-1 rounded-full bg-white border border-[#E2D4B7] text-[#785E1A] hover:bg-[#F6EED8] transition-colors shadow-sm"
               >
-                {/* Background Artwork */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-overlay pointer-events-none"
-                  style={{
-                    backgroundImage: `url('${selectedTemplate?.previewImage || '/reference_assets/hero_mandap_red.jpg'}')`,
-                  }}
+                {bloomRevealed ? 'Test Blooming Seal' : 'Open Invitation'}
+              </button>
+            </div>
+
+            <div className="relative w-full max-w-[380px] rounded-[36px] p-4 sm:p-5 bg-gradient-to-b from-[#F9F3EB] via-[#F4EAE2] to-[#EFE5D8] border border-[#E2D4B7] shadow-2xl overflow-hidden min-h-[540px] flex items-center justify-center">
+              {!bloomRevealed ? (
+                <button
+                  type="button"
+                  onClick={() => setBloomRevealed(true)}
+                  className="group relative w-full py-16 px-6 rounded-[28px] bg-white/90 border border-[#E2D4B7] shadow-xl text-center space-y-5 transition-all hover:scale-[1.02]"
+                >
+                  <div className="w-16 h-16 rounded-full mx-auto bg-gradient-to-br from-[#DFBE6F] to-[#9E7822] text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Mail className="w-7 h-7" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B38E36] block">
+                      You Are Cordially Invited
+                    </span>
+                    <h3 className="font-script text-3xl text-[#2B2118]">{coupleNames}</h3>
+                    <p className="text-xs text-[#786F62]">{eventName}</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full gold-gradient-btn text-white text-xs font-bold shadow-md">
+                    <Sparkles className="w-3.5 h-3.5" /> Tap to Bloom Invitation
+                  </span>
+                </button>
+              ) : (
+                <AcrylicFloralArchCard
+                  coupleNames={coupleNames}
+                  eventName={eventName}
+                  eventDate={eventDate}
+                  eventTime={eventTime}
+                  venueName={venueName}
+                  venueAddress={venueAddress}
+                  customMessage={customMessage}
+                  rsvpContact={rsvpContact}
+                  fontFamily={fontFamily}
+                  primaryColor={primaryColor}
+                  secondaryColor={secondaryColor}
+                  backgroundImage={selectedTemplate?.previewImage || '/reference_assets/luxury_mandap_twilight.jpg'}
+                  compact
                 />
-
-                {/* Decorative Floral Crest */}
-                <div className="relative z-10 pt-2 space-y-1">
-                  <div
-                    className="w-8 h-8 rounded-full border border-fs-gold mx-auto flex items-center justify-center text-xs font-serif font-bold"
-                    style={{ color: secondaryColor }}
-                  >
-                    4S
-                  </div>
-                  <span
-                    className="text-[9px] tracking-[0.3em] uppercase block font-sans font-semibold"
-                    style={{ color: secondaryColor }}
-                  >
-                    FOUR SEASONS ATELIER
-                  </span>
-                  <p className="text-[10px] text-white/80 font-sans italic mt-1 px-4 leading-tight">
-                    {customMessage}
-                  </p>
-                </div>
-
-                {/* Main Couple Names */}
-                <div className="relative z-10 my-auto space-y-2 py-4">
-                  <span
-                    className="text-[10px] tracking-widest uppercase block font-sans font-medium"
-                    style={{ color: secondaryColor }}
-                  >
-                    Together With Their Families
-                  </span>
-                  <h2
-                    className="text-2xl sm:text-3xl font-bold leading-tight drop-shadow-md"
-                    style={{ color: '#FFFFFF' }}
-                  >
-                    {coupleNames}
-                  </h2>
-                  <div
-                    className="w-12 h-0.5 mx-auto rounded-full"
-                    style={{ backgroundColor: secondaryColor }}
-                  />
-                  <span className="text-xs font-medium text-white/90 block font-sans">
-                    {eventName}
-                  </span>
-                </div>
-
-                {/* Ceremony Details */}
-                <div className="relative z-10 space-y-2 pb-2 text-[11px] font-sans">
-                  <div className="flex items-center justify-center gap-1.5 font-semibold text-white">
-                    <Calendar className="w-3.5 h-3.5" style={{ color: secondaryColor }} />
-                    <span>{eventDate} · {eventTime}</span>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-1.5 text-white/80">
-                    <MapPin className="w-3.5 h-3.5" style={{ color: secondaryColor }} />
-                    <span className="line-clamp-1">{venueName}, {venueAddress}</span>
-                  </div>
-
-                  <div className="pt-2 border-t border-white/10 text-[9px] text-white/60">
-                    <span>RSVP: {rsvpContact}</span>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
 
             {createdSlug && (
