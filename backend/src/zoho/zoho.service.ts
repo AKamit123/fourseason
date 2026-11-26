@@ -77,9 +77,39 @@ export class ZohoService {
         zohoLeadId = `zoho_lead_${Math.floor(1000000000 + Math.random() * 9000000000)}`;
         this.logger.log(`Zoho lead synced (simulated/offline mode): ${zohoLeadId} for Inquiry ${inquiry.referenceNo}`);
       } else {
-        // In live mode with credentials: POST to Zoho CRM API
-        // https://www.zohoapis.com/crm/v2/Leads
-        zohoLeadId = `zoho_live_${Date.now()}`;
+        // Real Zoho OAuth Token Refresh + CRM v2 Leads Upsert
+        const accountsUrl = (config.apiDomain || 'https://www.zohoapis.com').includes('.eu')
+          ? 'https://accounts.zoho.eu/oauth/v2/token'
+          : (config.apiDomain || '').includes('.in')
+          ? 'https://accounts.zoho.in/oauth/v2/token'
+          : 'https://accounts.zoho.com/oauth/v2/token';
+
+        const tokenParams = new URLSearchParams({
+          refresh_token: config.refreshToken!,
+          client_id: config.clientId!,
+          client_secret: config.clientSecret || '',
+          grant_type: 'refresh_token',
+        });
+
+        const tokenRes = await fetch(`${accountsUrl}?${tokenParams.toString()}`, { method: 'POST' });
+        const tokenJson: any = await tokenRes.json();
+        if (!tokenRes.ok || !tokenJson.access_token) {
+          throw new Error(`Zoho OAuth refresh failed: ${tokenJson.error || tokenRes.status}`);
+        }
+
+        const crmRes = await fetch(`${config.apiDomain || 'https://www.zohoapis.com'}/crm/v2/Leads/upsert`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Zoho-oauthtoken ${tokenJson.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: [leadPayload], duplicate_check_fields: ['Email'] }),
+        });
+        const crmJson: any = await crmRes.json();
+        if (!crmRes.ok) {
+          throw new Error(`Zoho CRM API error: ${JSON.stringify(crmJson)}`);
+        }
+        zohoLeadId = crmJson?.data?.[0]?.details?.id || `zoho_live_${Date.now()}`;
       }
 
       await this.prisma.inquiry.update({

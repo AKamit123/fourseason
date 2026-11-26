@@ -438,6 +438,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
           location: initialData?.location || 'Preferred Luxury Venue',
           theme: preferredTheme,
           budgetRange,
+          pricingBreakdown: initialData?.pricingBreakdown,
           isVerified: phoneVerified,
           chosenItems: initialData?.cartItems?.map((i: any) => ({
             category: i.category?.name || 'Atelier Item',

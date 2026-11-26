@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Patch, Body, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Body, Param, Query, UseGuards, Request, ForbiddenException } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
@@ -47,8 +47,12 @@ export class BookingsController {
   @Roles('admin', 'manager', 'customer')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get booking details by ID or reference' })
-  async getBooking(@Param('id') id: string) {
-    return this.bookingsService.getBookingById(id);
+  async getBooking(@Param('id') id: string, @Request() req: any) {
+    const booking = await this.bookingsService.getBookingById(id);
+    if (req.user?.role === 'customer' && booking.customer?.email !== req.user.email) {
+      throw new ForbiddenException('Access denied: You may only view your own bookings');
+    }
+    return booking;
   }
 
   @Patch(':id/status')

@@ -18,7 +18,7 @@ export default function StudioPage() {
               setAiSelectedItems(items);
               setAiGenOpen(true);
             }}
-            onOpenRfqWithCart={(cartItems) => openRfq({ cartItems })}
+            onOpenRfqWithCart={(cartItems, pricingBreakdown) => openRfq({ cartItems, pricingBreakdown })}
           />
           <AiGenerationModal
             isOpen={aiGenOpen}

@@ -58,7 +58,13 @@ export class WhatsAppService {
     const config = await this.getConfig();
     const isMock = !config || !config.isEnabled || !config.apiToken || !config.phoneNumberId;
 
-    const messageId = `wamid.HBgM${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+    let messageId = `wamid.HBgM${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+    let deliveryStatus: 'DELIVERED' | 'FAILED' = 'DELIVERED';
+    let providerResponse: any = {
+      messageId,
+      status: 'DELIVERED',
+      mode: isMock ? 'DEMO_SANDBOX' : 'OFFICIAL_META_WABA',
+    };
 
     // Format WhatsApp message
     let payloadContent = dto.textBody;
@@ -66,6 +72,31 @@ export class WhatsAppService {
       payloadContent = `Hello ${dto.customerName || 'Valued Guest'}! ✨ Your personalized luxury digital invitation is ready to view and share: ${dto.mediaUrl}. Concierge: +971 4 398 2211.`;
     } else if (dto.messageType === 'IMAGE') {
       payloadContent = `Hello ${dto.customerName || 'Valued Guest'}! ✨ Here is your AI-generated creative concept render: ${dto.mediaUrl}. Four Seasons.`;
+    }
+
+    if (!isMock) {
+      const cleanPhone = dto.recipientPhone.replace(/[^0-9]/g, '');
+      const metaRes = await fetch(`https://graph.facebook.com/v19.0/${config.phoneNumberId}/messages`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${config.apiToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messaging_product: 'whatsapp',
+          to: cleanPhone,
+          type: 'text',
+          text: { body: payloadContent || '' },
+        }),
+      });
+      const metaJson: any = await metaRes.json();
+      if (!metaRes.ok) {
+        deliveryStatus = 'FAILED';
+        providerResponse = { error: metaJson, mode: 'OFFICIAL_META_WABA' };
+      } else {
+        messageId = metaJson?.messages?.[0]?.id || messageId;
+        providerResponse = { ...metaJson, messageId, mode: 'OFFICIAL_META_WABA' };
+      }
     }
 
     const logEntry = await this.prisma.communicationLog.create({
@@ -81,21 +112,17 @@ export class WhatsAppService {
           body: payloadContent,
           mediaUrl: dto.mediaUrl,
         },
-        responsePayload: {
-          messageId,
-          status: 'DELIVERED',
-          mode: isMock ? 'DEMO_SANDBOX' : 'OFFICIAL_META_WABA',
-        },
-        status: 'DELIVERED',
+        responsePayload: providerResponse,
+        status: deliveryStatus,
       },
     });
 
-    this.logger.log(`WhatsApp message dispatched to ${dto.recipientPhone} (ID: ${messageId})`);
+    this.logger.log(`WhatsApp message ${deliveryStatus} to ${dto.recipientPhone} (ID: ${messageId})`);
 
     return {
-      success: true,
+      success: deliveryStatus === 'DELIVERED',
       messageId,
-      status: 'DELIVERED',
+      status: deliveryStatus,
       logId: logEntry.id,
       mode: isMock ? 'DEMO_SANDBOX' : 'OFFICIAL_META_WABA',
     };

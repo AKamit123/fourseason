@@ -7,7 +7,7 @@ import { DEMO_CATEGORIES, DEMO_ITEMS } from '@/lib/demoData';
 
 interface InventoryStudioProps {
   onTriggerAiGeneration: (selectedItems: any[]) => void;
-  onOpenRfqWithCart: (cartItems: any[]) => void;
+  onOpenRfqWithCart: (cartItems: any[], pricingBreakdown?: any) => void;
 }
 
 export const InventoryStudio: React.FC<InventoryStudioProps> = ({
@@ -238,11 +238,17 @@ export const InventoryStudio: React.FC<InventoryStudioProps> = ({
                   </button>
 
                   <button
-                    onClick={() => onOpenRfqWithCart(cartItems)}
+                    onClick={() => onOpenRfqWithCart(cartItems, {
+                      subtotal: cartTotal,
+                      transportFee,
+                      installationFee,
+                      vatAmount,
+                      grandTotal: indicativeGrandTotal,
+                    })}
                     disabled={cartItems.length === 0}
                     className="px-5 py-3.5 rounded-xl border border-[#B38E36]/40 bg-white text-[#785E1A] hover:bg-[#FAF5E8] font-semibold text-xs sm:text-sm transition-colors shadow-sm"
                   >
-                    Request Quote (AED {cartTotal.toLocaleString()})
+                    Request Quote (AED {indicativeGrandTotal.toLocaleString()})
                   </button>
                 </div>
               </div>

@@ -280,9 +280,14 @@ export const AiGenerationModal: React.FC<AiGenerationModalProps> = ({
                   alt="AI Generated Concept"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+                  <span className="text-white/35 font-serif text-3xl font-bold tracking-[0.35em] -rotate-12 uppercase drop-shadow">
+                    FOUR SEASONS
+                  </span>
+                </div>
                 <div className="absolute top-3 left-3 px-3 py-1 rounded-lg bg-fs-navy/90 text-xs font-bold text-emerald-400 border border-emerald-500/40 backdrop-blur-md flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  AI Render Completed
+                  AI Conceptual Visual
                 </div>
                 <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-fs-navy-dark/85 backdrop-blur-md border border-fs-gold/20 text-xs">
                   <span className="text-[10px] text-fs-gold-light uppercase font-bold block mb-0.5">

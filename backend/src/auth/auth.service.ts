@@ -186,6 +186,15 @@ export class AuthService {
       throw new BadRequestException('Invalid password reset token');
     }
 
+    // Enforce single-use reset token: reject if password was already reset after token was issued
+    const userRecord = await this.prisma.user.findUnique({ where: { id: decoded.sub } });
+    if (!userRecord) {
+      throw new BadRequestException('User account no longer exists');
+    }
+    if (decoded.iat && userRecord.updatedAt.getTime() > decoded.iat * 1000 + 1500) {
+      throw new BadRequestException('This password reset token has already been used');
+    }
+
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(newPassword, salt);
 

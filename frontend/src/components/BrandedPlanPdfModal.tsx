@@ -17,6 +17,13 @@ export interface BrandedPlanData {
   pictureUrl?: string;
   isVerified?: boolean;
   budgetRange?: string;
+  pricingBreakdown?: {
+    subtotal: number;
+    transportFee: number;
+    installationFee: number;
+    vatAmount: number;
+    grandTotal: number;
+  };
   notes?: string;
 }
 
@@ -220,7 +227,36 @@ export const BrandedPlanPdfModal: React.FC<BrandedPlanPdfModalProps> = ({
             </div>
           </div>
 
-          {/* 5. How We Work */}
+          {/* 5. Pricing Breakdown (if calculated from Studio) */}
+          {plan.pricingBreakdown && (
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E0D2] text-xs space-y-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#B38E36] block">
+                Indicative Estimate Breakdown (Valid 14 Days)
+              </span>
+              <div className="flex justify-between">
+                <span>Items Subtotal</span>
+                <strong>AED {plan.pricingBreakdown.subtotal.toLocaleString()}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span>Transport &amp; Logistics Delivery</span>
+                <strong>AED {plan.pricingBreakdown.transportFee.toLocaleString()}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span>Installation, Dismantling &amp; Manpower (12%)</span>
+                <strong>AED {plan.pricingBreakdown.installationFee.toLocaleString()}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span>UAE VAT (5%)</span>
+                <strong>AED {plan.pricingBreakdown.vatAmount.toLocaleString()}</strong>
+              </div>
+              <div className="pt-2 border-t border-[#E8E0D2] flex justify-between text-sm font-bold text-[#1E1A16]">
+                <span>Indicative Grand Total</span>
+                <span>AED {plan.pricingBreakdown.grandTotal.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+
+          {/* 6. How We Work */}
           <div className="p-4 rounded-2xl bg-[#F8F5EE] border border-[#E8E0D2] space-y-1.5">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#785E1A] block">
               How Four Seasons Delivers Your Event

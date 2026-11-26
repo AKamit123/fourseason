@@ -909,12 +909,33 @@ export default function AdminDashboardPage() {
                             <td className="py-3 text-[#474036]">{inq.guestsCount}</td>
                             <td className="py-3 font-semibold text-[#1E1A16]">{inq.budgetRange}</td>
                             <td className="py-3 flex items-center gap-2">
+                              <select
+                                value={inq.status || 'NEW'}
+                                onChange={async (e) => {
+                                  const nextStatus = e.target.value;
+                                  try {
+                                    await api.updateInquiryStatus(inq.id, nextStatus);
+                                    setInquiries((prev) => prev.map((x) => (x.id === inq.id ? { ...x, status: nextStatus } : x)));
+                                    notifySuccess(`Inquiry ${inq.referenceNo} updated to ${nextStatus}`);
+                                  } catch (err: any) {
+                                    alert('Failed to update status: ' + err.message);
+                                  }
+                                }}
+                                className="px-2 py-1 rounded-lg bg-[#FAF8F5] border border-[#DDD5C7] text-[10px] font-bold text-[#1E1A16]"
+                              >
+                                <option value="NEW">NEW</option>
+                                <option value="CONTACTED">CONTACTED</option>
+                                <option value="PROPOSAL_SENT">PROPOSAL_SENT</option>
+                                <option value="UNDER_REVIEW">UNDER_REVIEW</option>
+                                <option value="CONFIRMED">CONFIRMED</option>
+                                <option value="CANCELLED">CANCELLED</option>
+                              </select>
                               <button
                                 onClick={() => setSelectedLead(inq)}
                                 className="px-2.5 py-1 rounded-lg bg-[#B38E36] text-white text-[10px] font-bold hover:bg-[#8F6E22] flex items-center gap-1"
                               >
                                 <Eye className="w-3 h-3" />
-                                <span>Lead Profile</span>
+                                <span>Profile</span>
                               </button>
                               <button
                                 onClick={() => handleSyncZoho(inq.id)}
@@ -1635,7 +1656,20 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <button
-                    onClick={() => notifySuccess('Lego-Block platform settings saved live!')}
+                    onClick={async () => {
+                      try {
+                        await api.updateSettings([
+                          { key: 'brand_name', value: legoSettings.brandName, group: 'platform', isPublic: true },
+                          { key: 'watermark_strength', value: legoSettings.watermarkStrength, group: 'platform', isPublic: false },
+                          { key: 'free_picture_limit', value: String(legoSettings.freePictureLimit), group: 'platform', isPublic: false },
+                          { key: 'token_charge_aed', value: String(legoSettings.tokenChargeAed), group: 'platform', isPublic: true },
+                          { key: 'ai_model', value: legoSettings.aiModel, group: 'platform', isPublic: false },
+                        ]);
+                        notifySuccess('Lego-Block platform settings persisted to MySQL!');
+                      } catch (err: any) {
+                        alert('Failed to persist settings: ' + err.message);
+                      }
+                    }}
                     className="gold-gradient-btn px-5 py-2.5 rounded-xl font-bold text-white"
                   >
                     Save Platform Settings
@@ -1776,9 +1810,26 @@ export default function AdminDashboardPage() {
                       <td className="py-3 text-[#474036]">{b.venue || 'Atlantis The Royal'}</td>
                       <td className="py-3 font-bold text-[#1E1A16]">AED {(b.totalAmount || 185000).toLocaleString()}</td>
                       <td className="py-3">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase">
-                          {b.status || 'CONFIRMED'}
-                        </span>
+                        <select
+                          value={b.status || 'CONFIRMED'}
+                          onChange={async (e) => {
+                            const nextStatus = e.target.value;
+                            try {
+                              await api.updateBookingStatus(b.id, nextStatus);
+                              setBookings((prev) => prev.map((x) => (x.id === b.id ? { ...x, status: nextStatus } : x)));
+                              notifySuccess(`Booking ${b.bookingReference || b.bookingNumber || b.id} updated to ${nextStatus}`);
+                            } catch (err: any) {
+                              alert('Failed to update booking: ' + err.message);
+                            }
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-[#FAF8F5] border border-[#DDD5C7] text-[10px] font-bold text-[#1E1A16]"
+                        >
+                          <option value="PENDING">PENDING</option>
+                          <option value="CONFIRMED">CONFIRMED</option>
+                          <option value="IN_PROGRESS">IN_PROGRESS</option>
+                          <option value="COMPLETED">COMPLETED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                        </select>
                       </td>
                     </tr>
                   ))}

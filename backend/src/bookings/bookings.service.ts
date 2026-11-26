@@ -38,7 +38,7 @@ export class BookingsService {
 
     const itemIds = dto.items.map(i => i.itemId);
 
-    // Run within a Prisma transaction
+    // Run within a Serializable Prisma transaction to prevent concurrent double-booking
     return this.prisma.$transaction(async (tx) => {
       // 1. Fetch all items with lock/consistency
       const inventoryItems = await tx.inventoryItem.findMany({
@@ -191,7 +191,7 @@ export class BookingsService {
       }
 
       return booking;
-    });
+    }, { isolationLevel: 'Serializable' });
   }
 
   async getBookings(params: { status?: BookingStatus; customerId?: string; search?: string }) {
